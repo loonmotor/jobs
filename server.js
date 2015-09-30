@@ -12,7 +12,7 @@ var
 	, redisClient  = require('./setup/redisClient')
 	, fs           = require('fs')
 	, path         = require('path')
-	, staticPath   = require('./config').staticPath
+	, config       = require('./config')
 	, rootRoute    = require('./routes/root')
 	, authRoute    = require('./routes/auth')
 	, passport     = require('passport')
@@ -47,11 +47,11 @@ app.use(function (err, req, res, next) {
 	console.log(err);
 	next(err);
 });
-if (!fs.existsSync(path.join(__dirname, staticPath))) { // check and create static directory
-	fs.mkdirSync(path.join(__dirname, staticPath));
+if (!fs.existsSync(path.join(__dirname, config.staticPath))) { // check and create static directory
+	fs.mkdirSync(path.join(__dirname, config.staticPath));
 }
-app.use(express.static(path.join(__dirname, staticPath), {
-	maxAge : 604800000
+app.use(express.static(path.join(__dirname, config.staticPath), {
+	maxAge : config.staticMaxAge
 })); // serve static files
 
 
