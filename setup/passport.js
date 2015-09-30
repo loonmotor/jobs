@@ -7,16 +7,17 @@ var
 	, LocalStrategy = require('passport-local').Strategy
 	, db = require('./mongojs')
 	, logger = require('../modules/logger')
-	, bcrypt = require('bcrypt-nodejs');
+	, bcrypt = require('bcrypt-nodejs')
+	, config = require('../config');
 
 module.exports = function () {
 	passport.serializeUser(function (user, done) { done(null, user) });
 	passport.deserializeUser(function (user, done) { done(null, user) });
 
 	passport.use(new GoogleStrategy({
-		clientID          : '1088557290877-k1h93vl0kvdjkrn3rurc50dbt66g8gbr.apps.googleusercontent.com',
-		clientSecret      : 'spv_ZDhNRvQhMcKTdgYYQcES',
-		callbackURL       : [require('../config').host, '/auth/google/return'].join(''),
+		clientID          : config['auth.google.clientID'],
+		clientSecret      : config['auth.google.clientSecret'],
+		callbackURL       : [config['host'], config['auth.google.callbackURL']].join(''),
 		passReqToCallback : true
 	}, function (req, accessToken, refreshToken, profile, done) {
 		if (req.user) {
@@ -54,9 +55,9 @@ module.exports = function () {
 	}));
 
 	passport.use(new FacebookStrategy({
-		clientID          : '1139553276073524',
-		clientSecret      : 'cb02a0964ec1891c2d6a743dba0d30ec',
-		callbackURL       : [require('../config').host, '/auth/facebook/return'].join(''),
+		clientID          : config['auth.facebook.clientID'],
+		clientSecret      : config['auth.facebook.clientSecret'],
+		callbackURL       : [config['host'], config['auth.facebook.callbackURL']].join(''),
 		profileFields     : ['email'],
 		passReqToCallback : true
 	}, function (req, accessToken, refreshToken, profile, done) {

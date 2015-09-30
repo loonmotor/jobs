@@ -50,7 +50,9 @@ app.use(function (err, req, res, next) {
 if (!fs.existsSync(path.join(__dirname, staticPath))) { // check and create static directory
 	fs.mkdirSync(path.join(__dirname, staticPath));
 }
-app.use(express.static(path.join(__dirname, staticPath))); // serve static files
+app.use(express.static(path.join(__dirname, staticPath), {
+	maxAge : 604800000
+})); // serve static files
 
 
 app.use(function (req, res, next) { // 404 catcher

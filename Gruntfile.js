@@ -7,6 +7,7 @@ module.exports = function (grunt) {
 		watch : {
 			development : {
 				files : [
+					'public/html/**/*.html',
 					'public/less/**/*.less'
 				],
 				options : {
