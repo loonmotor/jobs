@@ -45,7 +45,6 @@ module.exports = function () {
 			}, function (err, doc) {
 				if (err) {
 					logger.error(err);
-					console.log(err);
 					throw err;
 				}
 				done(null, doc);
@@ -86,8 +85,6 @@ module.exports = function () {
 			}, function (err, doc) {
 				if (err) {
 					logger.error(err);
-					console.log(err);
-					console.log('testing');
 					throw err;
 				}
 				done(null, doc);
