@@ -1,4 +1,6 @@
-const
+'use strict';
+
+var
 	winston   = require('winston')
 	, logPath = require('../config').logPath
 	, logFile = require('../config').logFile

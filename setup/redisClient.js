@@ -1,3 +1,5 @@
+'use strict';
+
 var
 	redisClient = require('redis').createClient()
 	, logger = require('../modules/logger');
