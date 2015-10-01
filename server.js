@@ -16,24 +16,29 @@ var
 	, rootRoute    = require('./routes/root')
 	, authRoute    = require('./routes/auth')
 	, passport     = require('passport')
-	, favicon      = require('serve-favicon');
+	, favicon      = require('serve-favicon')
+	// , cors         = require('cors');
 
 require('./setup/passport')(); // passport
 
-app.engine('ejs', require('ejs').__express);
+app.engine('ejs', require('ejs').__express); // use ejs templating engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// app.use(cors());
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(restLogger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended : false }));
 app.use(bodyParser.json());
-app.use(session({
+app.use(session({ //
 	name              : 'pips',
 	resave            : false,
 	saveUninitialized : false,
-	secret            : '1FRlUu7Jledo1JOp6otFhCIFddUHEY2m',
+	secret            : config['session.secret'],
+	cookie            : {
+		maxAge : config['session.maxAge']
+	},
 	client : new RedisStore({
 		client : redisClient
 	})

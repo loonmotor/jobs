@@ -11,5 +11,7 @@ module.exports = {
 	"auth.google.callbackURL"  : "/auth/google/return",
 	"auth.facebook.clientID"     : "1139553276073524",
 	"auth.facebook.clientSecret" : "cb02a0964ec1891c2d6a743dba0d30ec",
-	"auth.facebook.callbackURL"  : "/auth/facebook/return"
+	"auth.facebook.callbackURL"  : "/auth/facebook/return",
+	"session.secret" : "1FRlUu7Jledo1JOp6otFhCIFddUHEY2m",
+	"session.maxAge" : 604800000
 };
