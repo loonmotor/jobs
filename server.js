@@ -20,6 +20,7 @@ var
 	// , cors         = require('cors');
 
 require('./setup/passport')(); // passport
+require('./setup/restfulApi'); // restful api
 
 app.engine('ejs', require('ejs').__express); // use ejs templating engine
 app.set('view engine', 'ejs');
