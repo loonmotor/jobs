@@ -4,6 +4,8 @@
 
 Collections and Their Schemas
 
+<br>
+
 User
 ```
 {
@@ -24,6 +26,8 @@ User
 	}
 }
 ```
+
+<br>
 
 Profile
 ```
@@ -62,6 +66,8 @@ Profile
 }
 ```
 
+<br>
+
 Company
 ```
 {
@@ -77,6 +83,8 @@ Company
 	userId      : ObjectId
 }
 ```
+
+<br>
 
 Job
 ```
@@ -100,6 +108,8 @@ Job
 	companyLocation : String
 }
 ```
+
+<br>
 
 Interest
 ```
