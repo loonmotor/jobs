@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="jobs" ng-controller="rootCtrl">
 <head>
 	<meta charset="UTF-8">
-	<title>Jobs</title>
+	<title>{{ root.title || 'Jobs' }}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/css/bootstrap-social.css">
 </head>
 <body>
 
@@ -15,10 +17,17 @@
 			<div class="col-sm-3">hello</div>
 		</div>
 
-		<div class="row col-sm-3">bye</div>
+		<a ui-sref="signin">fdsf</a>
+
+		<a ui-sref="home">fdsf</a>
+
+		<div ui-view="main"></div>
 
 	</div>	
 
 	<script src="/js/external/angular.min.js"></script>
+	<script src="/js/external/angular-ui-router.min.js"></script>
+	<script src="/js/main.js"></script>
+	<script src="/js/controllers.js"></script>
 </body>
 </html>
