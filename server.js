@@ -1,22 +1,23 @@
 'use strict';
 
 var
-	express        = require('express')
-	, app          = express()
-	, logger       = require('./modules/logger')
-	, restLogger   = require('morgan')
-	, cookieParser = require('cookie-parser')
-	, bodyParser   = require('body-parser')
-	, session      = require('express-session')
-	, RedisStore   = require('connect-redis')(session)
-	, redisClient  = require('./setup/redisClient')
-	, fs           = require('fs')
-	, path         = require('path')
-	, config       = require('./config')
-	, rootRoute    = require('./routes/root')
-	, authRoute    = require('./routes/auth')
-	, passport     = require('passport')
-	, favicon      = require('serve-favicon')
+	express         = require('express')
+	, app           = express()
+	, logger        = require('./modules/logger')
+	, restLogger    = require('morgan')
+	, cookieParser  = require('cookie-parser')
+	, bodyParser    = require('body-parser')
+	, session       = require('express-session')
+	, RedisStore    = require('connect-redis')(session)
+	, redisClient   = require('./setup/redisClient')
+	, fs            = require('fs')
+	, path          = require('path')
+	, config        = require('./config')
+	, rootRoute     = require('./routes/root')
+	, authRoute     = require('./routes/auth')
+	, templateRoute = require('./routes/template')
+	, passport      = require('passport')
+	, favicon       = require('serve-favicon')
 	// , cors         = require('cors');
 
 require('./setup/passport')(); // passport
@@ -49,6 +50,7 @@ app.use(passport.session()); // passport
 
 app.use('/', rootRoute); // define root route
 app.use('/auth', authRoute); // define auth route
+app.use('/template', templateRoute); // define template route
 app.use(function (err, req, res, next) {
 	console.log(err);
 	next(err);

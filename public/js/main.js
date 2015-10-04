@@ -24,4 +24,15 @@ angular
 				}
 			});
 
+	}])
+	.run(['$http', '$rootScope', 'pubsub', function ($http, $rootScope, pubsub) {
+		$http.defaults.transformResponse.push(function (data, headers) {
+			if (headers('content-type') &&
+				headers('content-type').indexOf('application/json') > -1) {
+				if (data.error) {
+					pubsub.publish('ajaxResponse', data);
+				}
+			}
+			return data;
+		});
 	}]);

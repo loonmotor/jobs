@@ -12,9 +12,7 @@ router.get('/', function (req, res) {
 
 router.get('/hei/:id?', restfulApi.restful('User', function (err, res) {
 	if (err) {
-		res.json({
-			error : err
-		});
+		res.json(err);
 	}
 }));
 

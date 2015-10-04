@@ -47,7 +47,7 @@ apis.restful = function (resourceName, callback) {
 			} catch (err) {
 				resourceMethod = resources['default'][req.method]; // when failed, use default resource method for that HTTP method
 			}
-			resourceMethod(resourceName, res, next);
+			resourceMethod(resourceName, req, res, next);
 		});
 	}
 };

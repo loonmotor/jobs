@@ -8,6 +8,7 @@ module.exports = function (grunt) {
 			development : {
 				files : [
 					'public/html/**/*.html',
+					'public/js/**/*.js',
 					'public/less/**/*.less'
 				],
 				options : {

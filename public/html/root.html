@@ -12,14 +12,16 @@
 <body>
 
 	<div class="container">
-		
+
 		<div class="row">
-			<div class="col-sm-3">hello</div>
+			<div class="col-sm-12">
+				<div ng-include="root.loggedInState"></div>
+			</div>
 		</div>
 
-		<a ui-sref="signin">fdsf</a>
-
-		<a ui-sref="home">fdsf</a>
+		<a ui-sref="home">Home</a>
+		
+		<a ui-sref="signin">Sign In</a>
 
 		<div ui-view="main"></div>
 
@@ -28,7 +30,10 @@
 	<script src="/js/external/angular.min.js"></script>
 	<script src="/js/external/angular-ui-router.min.js"></script>
 	<script src="/js/external/ui-bootstrap-tpls-0.13.4.min.js"></script>
+	<script src="/js/external/async.min.js"></script>
 	<script src="/js/main.js"></script>
+	<script src="/js/config.js"></script>
 	<script src="/js/controllers.js"></script>
+	<script src="/js/pubsub.js"></script>
 </body>
 </html>
