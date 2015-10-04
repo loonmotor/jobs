@@ -1,6 +1,7 @@
 var
 	restfulApi = require('../modules/restfulApi')
-	, db = require('./mongojs');
+	, db = require('./mongojs')
+	, behaviorStates = require('../modules/behaviorStates');
 
 restfulApi.setResourcePermission('default', 'GET', function (req, done) {
 	if (!req.isAuthenticated()) {
@@ -9,7 +10,6 @@ restfulApi.setResourcePermission('default', 'GET', function (req, done) {
 			msg  : 'Not Authenticated'
 		}});
 	}
-	console.log('passing done');
 	return done();
 });
 
@@ -28,7 +28,7 @@ restfulApi.setResourceMethod('default', 'GET', function (resourceName, req, res,
 
 restfulApi.setResourceMethod('LoggedInState', 'GET', function (resourceName, req, res, next) {
 	if (!req.isAuthenticated()) {
-		return res.render('not-logged-in', {});
+		return behaviorStates.run('getLoggedInStateTemplate', 'guest', req, res);
 	}
-	res.render('logged-in', { user : req.user });
+	return behaviorStates.run('getLoggedInStateTemplate', 'user', req, res);
 });

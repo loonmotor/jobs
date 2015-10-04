@@ -22,6 +22,7 @@ var
 
 require('./setup/passport')(); // passport
 require('./setup/restfulApi'); // restful api
+require('./setup/behaviorStates'); // behavior states
 
 app.engine('ejs', require('ejs').__express); // use ejs templating engine
 app.set('view engine', 'ejs');
