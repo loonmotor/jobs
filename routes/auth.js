@@ -23,17 +23,13 @@ router.post('/local-signup', function (req, res, next) {
 
 	passport.authenticate('local-signup', function (err, user, info) {
 		if (err) {
-			return res.json({
-				error : err
-			});
+			return res.status(500).json(err);
 		}
 		req.login(user, function (err) {
 			if (err) {
-				return res.json({
-					error : err
-				});
+				return res.status(500).json(err);
 			}
-			return res.json(user);
+			return res.json({ code : 'successSignUp', msg : 'Sign up is successful' });
 		});
 	})(req, res, next);
 });
@@ -44,18 +40,16 @@ router.get('/local-signin', function (req, res) {
 
 router.post('/local-signin', function (req, res, next) {
 	passport.authenticate('local-signin', function (err, user, info) {
+		console.log('a');
 		if (err) {
-			return res.json({
-				error : err
-			});
+			console.log('b');
+			return res.status(500).json(err);
 		}
 		req.login(user, function (err) {
 			if (err) {
-				return res.json({
-					error : err
-				});
+				return res.status(500).json(err);
 			}
-			return res.json(user);
+			return res.json({ code : 'successSignIn', user : user });
 		});
 	})(req, res, next);
 });

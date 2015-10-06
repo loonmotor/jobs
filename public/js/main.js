@@ -1,6 +1,6 @@
 angular
-	.module('jobs', ['ui.router', 'ui.bootstrap'])
-	.config(['$urlRouterProvider', '$stateProvider', '$locationProvider', function ($urlRouterProvider, $stateProvider) {
+	.module('jobs', ['ui.router', 'ui.bootstrap', 'ngToast'])
+	.config(['$urlRouterProvider', '$stateProvider', 'ngToastProvider', function ($urlRouterProvider, $stateProvider, ngToastProvider) {
 
 		$urlRouterProvider.otherwise('/');
 
@@ -18,8 +18,7 @@ angular
 				url : '/sign-in',
 				views : {
 					'main' : {
-						templateUrl : '/html/root-sign-in.html',
-						controller  : 'signInCtrl'
+						templateUrl : '/html/root-sign-in.html'
 					}
 				}
 			})
@@ -58,14 +57,16 @@ angular
 				}
 			});
 
+		ngToastProvider.configure({
+			dismissButton : true
+		});
+
 	}])
 	.run(['$http', '$rootScope', 'pubsub', function ($http, $rootScope, pubsub) {
 		$http.defaults.transformResponse.push(function (data, headers) {
 			if (headers('content-type') &&
 				headers('content-type').indexOf('application/json') > -1) {
-				if (data.error) {
 					pubsub.publish('ajaxResponse', data);
-				}
 			}
 			return data;
 		});

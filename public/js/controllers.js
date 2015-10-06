@@ -14,22 +14,76 @@ angular
 			});
 
 		pubsub.subscribe('ajaxResponse', 'to check authentication state', function (args, done) {
-			if (args.error.code == 'notauthenticated') {
+			if (args.code == 'notauthenticated'
+				|| args.code == 'successSignIn'
+				|| args.code == 'successSignUp') {
 				$scope.root.loggedInState = config.loggedInStateUrl + '?time=' + Date.now();
 			}
 			done();
 		});
-
 	}])
-	.controller('signInCtrl', ['$scope', '$http', 'config', function ($scope, $http, config) {
+	.controller('signInCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', '$timeout', 'pubsub', function ($scope, $http, config, ngToast, $location, $timeout, pubsub) {
 		$scope.root.title = ['Sign In', config.siteName].join(' | ');
 		$http
 			.get('/hei')
 			.success(function (data) {
 				// console.log(data);
 			});
+		$scope.signIn = function ($event, formData) {
+			if ($scope.signInForm.$invalid) {
+				$scope.displayValidation = true;
+				return;
+			}
+			$http
+				.post('/auth/local-signin', formData)
+				.success(function (user) {
+					ngToast.success({
+						content : 'Sign in is successful',
+						timeout : 3000
+					});
+					ngToast.success({
+						content : 'Redirecting...',
+						timeout : 3000
+					});
+					$timeout(function () {
+						$location.path('/');
+					}, 3000);
 
+				})
+				.error(function (err) {
+					ngToast.danger({
+						content : err.msg,
+					});
+				});
+		}
 	}])
-	.controller('signUpCtrl', ['$scope', '$http', 'config', function ($scope, $http, config) {
+	.controller('signUpCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', 'pubsub', '$timeout', function ($scope, $http, config, ngToast, $location, pubsub, $timeout) {
 		$scope.root.title = ['Sign Up', config.siteName].join(' | ');
+		$scope.signUp = function ($event, formData) {
+			if ($scope.signUpForm.$invalid) {
+				$scope.displayValidation = true;
+				return;
+			}
+			$http
+				.post('/auth/local-signup', formData)
+				.success(function (data) {
+					ngToast.success({
+						content : data.msg,
+						timeout : 3000
+					});
+					ngToast.success({
+						content : 'Redirecting...',
+						timeout : 3000
+					});
+					$timeout(function () {
+						$location.path('/');
+					}, 3000);
+
+				})
+				.error(function (err) {
+					ngToast.danger({
+						content : err.msg,
+					});
+				});
+		}
 	}]);

@@ -27,7 +27,7 @@ module.exports = function () {
 			db.User.findOne({ 'google.id' : profile.id }, function (err, user) {
 				if (err) {
 					logger.error(err);
-					return done(err);
+					return done({ code : 'mongoError', msg : err });
 				}
 				var $set = {
 					'email'        : profile.emails.length > 0 && profile.emails[0].value,
@@ -69,7 +69,7 @@ module.exports = function () {
 			db.User.findOne({ 'facebook.id' : profile.id }, function (err, user) {
 				if (err) {
 					logger.error(err);
-					return done(err);
+					return done({ code : 'mongoError', msg : err });
 				}
 				var $set = {
 					'email'          : profile.emails.length > 0 && profile.emails[0].value,
@@ -108,15 +108,17 @@ module.exports = function () {
 			db.User.findOne({ 'local.email' : email }, function (err, user) {
 				if (err) {
 					logger.error(err);
-					return done(err);
+					return done({ code : 'mongoError', msg : err });
 				}
 				if (user) {
 					if (bcrypt.compareSync(password, user.local.password)) {
 						delete user.local.password;
 						return done(null, user);
+					} else {
+						return done({ code : 'signInError', msg : 'Invalid username or password' });
 					}
 				}
-				return done(null, false);
+				return done({ code : 'signInError', msg : 'Invalid username or password' });
 			});
 		});
 	}));
@@ -134,14 +136,14 @@ module.exports = function () {
 			db.User.findOne({ 'local.email' : email }, { 'local.password' : 0 }, function (err, user) {
 				if (err) {
 					logger.error(err);
-					return done(err);
+					return done({ code : 'mongoError', msg : err });
 				}
 				if (user) {
-					console.log('dfsfsdf');
-					return done('User exists');
+					return done({ code : 'userExists', msg : 'User exists' });
 				}
 
 				var newUser = {
+					email : email,
 					local : {
 						email : email,
 						password : bcrypt.hashSync(password)

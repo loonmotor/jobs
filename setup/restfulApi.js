@@ -5,10 +5,7 @@ var
 
 restfulApi.setResourcePermission('default', 'GET', function (req, done) {
 	if (!req.isAuthenticated()) {
-		return done({ error : {
-			code : 'notauthenticated',
-			msg  : 'Not Authenticated'
-		}});
+		return done({ code : 'notauthenticated', msg : 'Not Authenticated' });
 	}
 	return done();
 });
