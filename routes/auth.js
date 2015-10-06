@@ -60,4 +60,9 @@ router.post('/local-signin', function (req, res, next) {
 	})(req, res, next);
 });
 
+router.get('/sign-out', function (req, res) {
+	req.logout();
+	res.redirect('/');
+});
+
 module.exports = router;

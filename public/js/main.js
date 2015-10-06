@@ -14,12 +14,46 @@ angular
 					}
 				}
 			})
-			.state('signin', {
-				url : '/signin',
+			.state('rootSignIn', {
+				url : '/sign-in',
 				views : {
 					'main' : {
-						templateUrl : '/html/signin.html',
-						controller  : 'signinCtrl'
+						templateUrl : '/html/root-sign-in.html',
+						controller  : 'signInCtrl'
+					}
+				}
+			})
+			.state('rootSignIn.signIn', {
+				url : '/',
+				views : {
+					'main' : {
+						templateUrl : '/html/sign-in-form.html',
+						controller  : 'signInCtrl'
+					}
+				}
+			})
+			.state('rootSignIn.signUp', {
+				url : '/sign-up',
+				views : {
+					'main' : {
+						templateUrl : '/html/sign-up-form.html',
+						controller  : 'signUpCtrl'
+					}
+				}
+			})
+			.state('rootControl', {
+				url : '/control',
+				views : {
+					'main' : {
+						templateUrl : '/html/root-control.html'
+					}
+				}
+			})
+			.state('rootControl.profile', {
+				url : '/profile',
+				views : {
+					'main' : {
+						templateUrl : '/html/profile.html'
 					}
 				}
 			});

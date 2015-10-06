@@ -1,1 +1,5 @@
-<a ui-sref="signin">Please log in</a>
+<ul class="nav nav-pills" role="tablist">
+  <li role="presentation" ng-class="$state.includes('home') ? 'active' : ''"><a ui-sref="home">Home <span class="badge"></span></a></li>
+  <li role="presentation" ng-class="$state.includes('rootSignIn.signIn') ? 'active' : ''"><a ui-sref="rootSignIn.signIn">Sign In</a></li>
+  <li role="presentation" ng-class="$state.includes('rootSignIn.signUp') ? 'active' : ''"><a ui-sref="rootSignIn.signUp">Sign Up</a></li>
+</ul>

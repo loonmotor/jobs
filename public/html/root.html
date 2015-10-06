@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/css/bootstrap-social.css">
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
@@ -16,12 +17,9 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div ng-include="root.loggedInState"></div>
+				<br>
 			</div>
 		</div>
-
-		<a ui-sref="home">Home</a>
-		
-		<a ui-sref="signin">Sign In</a>
 
 		<div ui-view="main"></div>
 

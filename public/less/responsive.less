@@ -1,0 +1,75 @@
+/* ==========================================================================
+								> Responsive Modes
+   ========================================================================== */
+
+/* 								>> 	Large Device Only
+									(>= 1200px)
+   ========================================================================== */
+	.large-device (@css) {
+		@media (min-width: 1200px) {
+			@css();
+		}
+	}
+
+/* 								>> Medium Device Only
+								   (>= 992px and <1200px)
+   ========================================================================== */
+   .medium-device (@css) {
+   		@media (min-width: 992px) and (max-width: 1199px) {
+   			@css();
+   		}
+   }
+
+/* 								>> Small Device Only
+								   (>= 768px and <992px)
+   ========================================================================== */
+   .small-device (@css) {
+   		@media (min-width: 768px) and (max-width: 991px) {
+   			@css();
+   		}
+   }
+
+/* 								>> Extra Small Device Only
+								   (<768px)
+   ========================================================================== */
+   .extra-small-device (@css) {
+   		@media (max-width : 767px) {
+   			@css();
+   		}
+   }
+
+/* 								>> Medium Device And Higher
+								   (>= 992px)
+   ========================================================================== */
+   .medium-device-and-higher (@css) {
+   		@media (min-width: 992px) {
+   			@css();
+   		}
+   }
+
+/* 								>> Small Device And Higher
+								   (>= 992px)
+   ========================================================================== */
+   .small-device-and-higher (@css) {
+   		@media (min-width: 768px) {
+   			@css();
+   		}
+   }
+
+/* 								>> Medium Device And Lower
+								   (< 1200px)
+   ========================================================================== */
+   .medium-device-and-lower (@css) {
+   		@media (max-width: 1199px) {
+   			@css();
+   		}
+   }
+
+/* 								>> Small Device And Lower
+								   (< 992px)
+   ========================================================================== */
+   .small-device-and-lower (@css) {
+   		@media (max-width: 991px) {
+   			@css();
+   		}
+   }
