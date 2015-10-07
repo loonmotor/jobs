@@ -3,6 +3,7 @@ angular
 	.factory('config', [function () {
 		return {
 			'siteName' : 'Jobs',
-			'loggedInStateUrl' : '/template/logged-in-state'
+			'templateUrl.loggedInState' : '/template/logged-in-state',
+			'templateUrl.profile' : '/template/profile'
 		};
 	}]);

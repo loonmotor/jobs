@@ -2,7 +2,9 @@ angular
 	.module('jobs')
 	.controller('rootCtrl', ['$scope', '$http', 'pubsub', 'config', '$state', function ($scope, $http, pubsub, config, $state) {
 		$scope.root = {};
-		$scope.root.loggedInState = config.loggedInStateUrl;
+		$scope.root.templateUrl = {};
+		$scope.root.templateUrl.loggedInState = config['templateUrl.loggedInState'];
+		$scope.root.templateUrl.profile = config['templateUrl.profile'];
 		$scope.$state = $state;
 	}])
 	.controller('homeCtrl', ['$scope', '$http', 'pubsub', 'config', function ($scope, $http, pubsub, config) {
@@ -17,7 +19,7 @@ angular
 			if (args.code == 'notauthenticated'
 				|| args.code == 'successSignIn'
 				|| args.code == 'successSignUp') {
-				$scope.root.loggedInState = config.loggedInStateUrl + '?time=' + Date.now();
+				$scope.root.loggedInState = config['templateUrl.loggedInState'] + '?time=' + Date.now();
 			}
 			done();
 		});
@@ -85,5 +87,15 @@ angular
 						content : err.msg,
 					});
 				});
+		}
+	}])
+	.controller('profileCtrl', ['$scope', function ($scope) {
+		$scope.embeddedJsonData = JSON.parse(document.getElementById('embeddedJsonData').text);
+
+		$scope.profile = function ($event, formData) {
+			if ($scope.profileForm.$invalid) {
+				$scope.displayValidation = true;
+				return;
+			}
 		}
 	}]);

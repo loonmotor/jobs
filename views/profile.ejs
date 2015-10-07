@@ -1,0 +1,165 @@
+<form method="POST" name="profileForm" id="profile-form" ng-submit="profile($event, form)" ng-class='displayValidation ? "display-validation" : ""' novalidate ng-controller="profileCtrl">
+
+	<h1>Profile</h1>
+
+	<br>
+
+	<h3>What are you looking for?</h3>
+	<hr>
+	
+	<div class="form-group">
+		<label for="role">Role *</label>
+		<select name="role" id="role" class="form-control" ng-model="role" ng-options="role.name group by role.group for role in embeddedJsonData.roles" required>
+			<option value="">Please select a role</option>
+		</select>
+		<span class="validation-message" ng-show="profileForm.role.$error.required">This selection is required</span>
+	</div>
+
+	<div class="form-group">
+		<label for="jobType">Job Type *</label>
+		<select name="jobType" id="jobType" class="form-control" ng-model="jobType" ng-options="jobType for jobType in embeddedJsonData.jobTypes" required>
+			<option value="">Please select a job type</option>
+		</select>
+		<span class="validation-message" ng-show="profileForm.jobType.$error.required">This selection is required</span>
+	</div>
+
+	<div class="form-group">
+		<label for="location">Location *</label>
+		<input type="text" name="location" id="location" class="form-control" ng-model="form.location" placeholder="Your current city, state or country" required>
+		<span class="validation-message" ng-show="profileForm.location.$error.required">This field is required</span>
+	</div>
+
+	<div class="checkbox">
+		<label>
+			<input type="checkbox" name="canRemote" id="canRemote" ng-model="form.canRemote">
+			Can Work Remotely
+		</label>
+	</div>
+	<br>
+
+	<div class="form-group">
+		<label for="canRelocate">Can Relocate To</label>
+		<input type="text" name="canRelocate" id="canRelocate" class="form-control" ng-model="form.canRelocate" placeholder="e.g. London">
+	</div>
+
+	<div class="form-group">
+		<label for="salaryCurrency">Desired Salary Currency</label>
+		<select name="salaryCurrency" id="salaryCurrency" class="form-control" ng-model="form.salaryCurrency" ng-options="salaryCurrency.value as salaryCurrency.name for salaryCurrency in embeddedJsonData.salaryCurrencies">
+			<option value="">Please select a currency type</option>
+		</select>
+	</div>
+
+	<div class="form-group">
+		<label for="desiredSalary">Desired Salary</label>
+		<div class="input-group">
+		     <div class="input-group-addon" ng-bind-template="{{ form.salaryCurrency }}"></div>
+		     <input type="number" class="form-control" id="desiredSalary" placeholder="Amount" ng-model="form.desiredSalary" ng-disabled="!form.salaryCurrency">
+		     <div class="input-group-addon">,000</div>
+		   </div>
+	</div>
+
+	<br>
+	<h3>About you</h3>
+	<hr>
+
+	<div class="form-group">
+		<label for="name">Name *</label>
+		<input type="text" name="name" id="name" class="form-control" ng-model="form.name" required>
+		<span class="validation-message" ng-show="profileForm.name.$error.required">This field is required</span>
+	</div>
+
+	<div class="form-group">
+		<label for="photo">Photo</label>
+		<input type="file" name="photo" id="photo">
+	</div>
+
+	<div class="form-group">
+		<label for="profileSummary">Profile Summary *</label>
+		<textarea name="profileSummary" id="profileSummary" class="form-control" ng-model="form.profileSummary" required></textarea>
+		<span class="validation-message" ng-show="profileForm.profileSummary.$error.required">This field is required</span>
+	</div>
+
+	<div class="form-group">
+		<label for="accomplishment">Most Impressive Accomplishment *</label>
+		<textarea name="accomplishment" id="accomplishment" class="form-control" ng-model="form.accomplishment" field-character-count maxlength="<%= accomplishmentMaxLength %>" required></textarea>
+		<span>{{ characterCount || 0 }}/<%= accomplishmentMaxLength %></span><br>
+		<span class="validation-message" ng-show="profileForm.accomplishment.$error.required">This field is required</span>
+	</div>
+
+	<br>
+	<h3>Links</h3>
+	<hr>
+
+	<div class="form-group">
+		<label for="resume">Resume</label>
+		<input type="text" name="resume" id="resume" class="form-control" ng-model="form.links.resume" placeholder="http://resume.com/myresume.pdf">
+	</div>
+	<div class="form-group">
+		<label for="website">Website</label>
+		<input type="text" name="website" id="website" class="form-control" ng-model="form.links.website" placeholder="http://mypersonalwebsite.com">
+	</div>
+	<div class="form-group">
+		<label for="linkedin">LinkedIn</label>
+		<input type="text" name="linkedin" id="linkedin" class="form-control" ng-model="form.links.linkedin" placeholder="http://www.linkedin.com/in/my_username">
+	</div>
+	<div class="form-group">
+		<label for="twitter">Twitter</label>
+		<input type="text" name="twitter" id="twitter" class="form-control" ng-model="form.links.twitter" placeholder="http://twitter.com/my_username">
+	</div>
+	<div class="form-group">
+		<label for="blog">Blog</label>
+		<input type="text" name="blog" id="blog" class="form-control" ng-model="form.links.blog" placeholder="http://myblog.com">
+	</div>
+	<div class="form-group">
+		<label for="github">Github</label>
+		<input type="text" name="github" id="github" class="form-control" ng-model="form.links.github" placeholder="http://github.com/my_projects">
+	</div>
+	<div class="form-group">
+		<label for="facebook">Facebook</label>
+		<input type="text" name="facebook" id="facebook" class="form-control" ng-model="form.links.facebook" placeholder="https://www.facebook.com/my_username">
+	</div>
+	<div class="form-group">
+		<label for="dribbble">Dribbble</label>
+		<input type="text" name="dribbble" id="dribbble" class="form-control" ng-model="form.links.dribbble" placeholder="http://dribbble.com/my_portfolio">
+	</div>
+	<div class="form-group">
+		<label for="behance">Behance</label>
+		<input type="text" name="behance" id="behance" class="form-control" ng-model="form.links.behance" placeholder="http://behance.net/my_portfolio">
+	</div>
+
+	<br>
+	<h3>Experience & Education</h3>
+	<hr>
+
+
+	<div class="form-group">
+		<label for="experience">Experience</label>
+		<input type="text" name="experience" id="experience" class="form-control" ng-model="form.experience">
+	</div>
+
+
+	<div class="form-group">
+		<label for="education">Education</label>
+		<input type="text" name="education" id="education" class="form-control" ng-model="form.education">
+	</div>
+
+	<div class="form-group">
+		<label for="skills">Skills</label>
+		<input type="text" name="skills" id="skills" class="form-control" ng-model="form.skills">
+	</div>
+
+
+
+
+
+	<input type="submit" value="Save Profile" id="submit" class="btn btn-default" ng-disabled="displayValidation && profileForm.$invalid" ng-trim="false">
+	<span class="validation-message" ng-show="profileForm.$invalid">There are invalid fields</span>
+</form>
+
+<script type="application/json" id="embeddedJsonData">
+	{
+		"roles" : <%- JSON.stringify(roles) %>,
+		"jobTypes" : <%- JSON.stringify(jobTypes) %>,
+		"salaryCurrencies" : <%- JSON.stringify(salaryCurrencies) %>
+	}
+</script>

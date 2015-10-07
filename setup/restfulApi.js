@@ -23,9 +23,22 @@ restfulApi.setResourceMethod('default', 'GET', function (resourceName, req, res,
 	});
 });
 
-restfulApi.setResourceMethod('LoggedInState', 'GET', function (resourceName, req, res, next) {
+restfulApi.setResourceMethod('template.LoggedInState', 'GET', function (resourceName, req, res, next) {
 	if (!req.isAuthenticated()) {
 		return behaviorStates.run('getLoggedInStateTemplate', 'guest', req, res);
 	}
 	return behaviorStates.run('getLoggedInStateTemplate', 'user', req, res);
+});
+
+restfulApi.setResourceMethod('template.Profile', 'GET', function (resourceName, req, res, next) {
+	console.log(req.user);
+	db.Profile.findOne({ userId : req.user._id }, function (err, profile) {
+		if (err) {
+			return res.json({ code : 'profileLookUpError', msg : 'Profile look up error' });
+		}
+		if (!profile) {
+			return behaviorStates.run('getProfileTemplate', 'guest', req, res);
+		}
+		return behaviorStates.run('getProfileTemplate', 'user', profile, req, res);
+	});
 });

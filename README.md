@@ -37,11 +37,12 @@ Profile
 	type 			: String,
 	location 		: String,
 	canRemote 		: Boolean,
-	canRelocate 	: Boolean,
+	canRelocate 	: String,
 	salaryCurrency 	: String,
+	desiredSalary   : Number
 	photo : String,
-	miniResume : String,
-	accomplishment : String,
+	profileSummary  : String,
+	accomplishment  : String,
 	links : {
 		resume 		: String,
 		website 	: String,
@@ -50,7 +51,7 @@ Profile
 		blog 		: String,
 		github 		: String,
 		facebook 	: String,
-		dribble 	: String,
+		dribbble 	: String,
 		behance 	: String
 	},
 	experience 	: Array,
@@ -61,8 +62,7 @@ Profile
 			level : String
 		}
 	],
-	userId 	: ObjectId,
-	userName: String
+	userId 	: ObjectId
 }
 ```
 

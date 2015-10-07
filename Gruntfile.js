@@ -9,7 +9,8 @@ module.exports = function (grunt) {
 				files : [
 					'public/html/**/*.html',
 					'public/js/**/*.js',
-					'public/less/**/*.less'
+					'public/less/**/*.less',
+					'views/**/*.ejs'
 				],
 				options : {
 					livereload : true,
