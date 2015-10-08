@@ -24,7 +24,7 @@ angular
 			done();
 		});
 	}])
-	.controller('signInCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', '$timeout', 'pubsub', function ($scope, $http, config, ngToast, $location, $timeout, pubsub) {
+	.controller('signInCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', '$timeout', function ($scope, $http, config, ngToast, $location, $timeout) {
 		$scope.root.title = ['Sign In', config.siteName].join(' | ');
 		$http
 			.get('/hei')
@@ -59,7 +59,7 @@ angular
 				});
 		}
 	}])
-	.controller('signUpCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', 'pubsub', '$timeout', function ($scope, $http, config, ngToast, $location, pubsub, $timeout) {
+	.controller('signUpCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', '$timeout', function ($scope, $http, config, ngToast, $location, $timeout) {
 		$scope.root.title = ['Sign Up', config.siteName].join(' | ');
 		$scope.signUp = function ($event, formData) {
 			if ($scope.signUpForm.$invalid) {
@@ -92,10 +92,12 @@ angular
 	.controller('profileCtrl', ['$scope', function ($scope) {
 		$scope.embeddedJsonData = JSON.parse(document.getElementById('embeddedJsonData').text);
 
-		$scope.profile = function ($event, formData) {
+		$scope.saveProfile = function ($event, formData) {
 			if ($scope.profileForm.$invalid) {
 				$scope.displayValidation = true;
 				return;
 			}
+			console.log(formData);
 		}
+
 	}]);

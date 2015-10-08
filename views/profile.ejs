@@ -1,4 +1,4 @@
-<form method="POST" name="profileForm" id="profile-form" ng-submit="profile($event, form)" ng-class='displayValidation ? "display-validation" : ""' novalidate ng-controller="profileCtrl">
+<form method="POST" name="profileForm" id="profile-form" ng-submit="saveProfile($event, form)" ng-class='displayValidation ? "display-validation" : ""' novalidate ng-controller="profileCtrl">
 
 	<h1>Profile</h1>
 
@@ -9,24 +9,30 @@
 	
 	<div class="form-group">
 		<label for="role">Role *</label>
-		<select name="role" id="role" class="form-control" ng-model="role" ng-options="role.name group by role.group for role in embeddedJsonData.roles" required>
+		<select name="role" id="role" class="form-control" ng-model="form.role" ng-options="role.name group by role.group for role in embeddedJsonData.roles" required>
 			<option value="">Please select a role</option>
 		</select>
-		<span class="validation-message" ng-show="profileForm.role.$error.required">This selection is required</span>
+		<div ng-messages="profileForm.role.$error">
+			<span class="validation-message" ng-message="required">This selection is required</span>
+		</div>
 	</div>
 
 	<div class="form-group">
 		<label for="jobType">Job Type *</label>
-		<select name="jobType" id="jobType" class="form-control" ng-model="jobType" ng-options="jobType for jobType in embeddedJsonData.jobTypes" required>
+		<select name="jobType" id="jobType" class="form-control" ng-model="form.jobType" ng-options="jobType for jobType in embeddedJsonData.jobTypes" required>
 			<option value="">Please select a job type</option>
 		</select>
-		<span class="validation-message" ng-show="profileForm.jobType.$error.required">This selection is required</span>
+		<div ng-messages="profileForm.jobType.$error">
+			<span class="validation-message" ng-message="required">This selection is required</span>
+		</div>
 	</div>
 
 	<div class="form-group">
 		<label for="location">Location *</label>
 		<input type="text" name="location" id="location" class="form-control" ng-model="form.location" placeholder="Your current city, state or country" required>
-		<span class="validation-message" ng-show="profileForm.location.$error.required">This field is required</span>
+		<div ng-messages="profileForm.location.$error">
+			<span class="validation-message" ng-message="required">This field is required</span>
+		</div>
 	</div>
 
 	<div class="checkbox">
@@ -37,7 +43,7 @@
 	</div>
 	<br>
 
-	<div class="form-group">
+	<div class="form-group"> 
 		<label for="canRelocate">Can Relocate To</label>
 		<input type="text" name="canRelocate" id="canRelocate" class="form-control" ng-model="form.canRelocate" placeholder="e.g. London">
 	</div>
@@ -65,25 +71,34 @@
 	<div class="form-group">
 		<label for="name">Name *</label>
 		<input type="text" name="name" id="name" class="form-control" ng-model="form.name" required>
-		<span class="validation-message" ng-show="profileForm.name.$error.required">This field is required</span>
+		<div ng-messages="profileForm.name.$error">
+			<span class="validation-message" ng-message="required">This field is required</span>
+		</div>
 	</div>
 
 	<div class="form-group">
 		<label for="photo">Photo</label>
-		<input type="file" name="photo" id="photo">
+		<input type="file" name="photo" id="photo" ng-model="form.photo" read-file valid-file-types="image/png|image/jpg|image/jpeg">
+		<div ng-messages="profileForm.photo.$error">
+			<span class="validation-message" ng-message="fileType">Not a valid image type</span>
+		</div>
 	</div>
 
 	<div class="form-group">
 		<label for="profileSummary">Profile Summary *</label>
 		<textarea name="profileSummary" id="profileSummary" class="form-control" ng-model="form.profileSummary" required></textarea>
-		<span class="validation-message" ng-show="profileForm.profileSummary.$error.required">This field is required</span>
+		<div ng-messages="profileForm.profileSummary.$error">
+			<span class="validation-message" ng-message="required">This field is required</span>
+		</div>
 	</div>
 
 	<div class="form-group">
 		<label for="accomplishment">Most Impressive Accomplishment *</label>
 		<textarea name="accomplishment" id="accomplishment" class="form-control" ng-model="form.accomplishment" field-character-count maxlength="<%= accomplishmentMaxLength %>" required></textarea>
 		<span>{{ characterCount || 0 }}/<%= accomplishmentMaxLength %></span><br>
-		<span class="validation-message" ng-show="profileForm.accomplishment.$error.required">This field is required</span>
+		<div ng-messages="profileForm.accomplishment.$error">
+			<span class="validation-message" ng-message="required">This field is required</span>
+		</div>
 	</div>
 
 	<br>
