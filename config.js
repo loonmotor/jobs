@@ -3,7 +3,7 @@ module.exports = {
 	"logPath" : "logs",
 	"logFile" : "logs.log",
 	"staticPath" : "public",
-	"staticMaxAge" : 604800000,
+	"staticMaxAge" : 0,
 	"mongodb.databaseUrl"  : "mongodb://127.0.0.1:27017/jobs",
 	"mongodb.databaseName" : "jobs",
 	"auth.google.clientID"     : "1088557290877-k1h93vl0kvdjkrn3rurc50dbt66g8gbr.apps.googleusercontent.com",

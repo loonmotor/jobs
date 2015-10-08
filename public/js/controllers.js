@@ -18,8 +18,8 @@ angular
 		pubsub.subscribe('ajaxResponse', 'to check authentication state', function (args, done) {
 			if (args.code == 'notauthenticated'
 				|| args.code == 'successSignIn'
-				|| args.code == 'successSignUp') {
-				$scope.root.loggedInState = config['templateUrl.loggedInState'] + '?time=' + Date.now();
+				|| args.code == 'successSignUp') {	
+			$scope.root.templateUrl.loggedInState = config['templateUrl.loggedInState'] + '?time=' + Date.now();
 			}
 			done();
 		});
