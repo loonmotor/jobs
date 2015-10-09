@@ -15,7 +15,8 @@
 	  margin: 0 8px 0 0;
 	}
 
-	.display-validation .validation-message {
+	.display-validation .validation-message,
+	.display-validation.validation-message {
 	  display: inline-block;
 	}
 
@@ -23,4 +24,35 @@
    ========================================================================== */
   	form label {
   		text-transform: uppercase;
+  	}
+
+/* ==========================================================================
+   								> Section
+   ========================================================================== */
+
+/* 								>> Experience Form
+   ========================================================================== */
+ 	.experience-form .validation-message {
+ 		display: none;
+ 	}
+ 	.experience-form.display-validation .validation-message {
+		display: inline-block;
+ 	}
+
+/* 								>> Education Form
+   ========================================================================== */
+  	.education-form .validation-message {
+  		display: none;
+  	}
+  	.education-form.display-validation .validation-message {
+  		display: inline-block;
+  	}
+
+/* 								>> Skill Form
+   ========================================================================== */
+  	.skill-form .validation-message {
+  		display: none;
+  	}
+  	.skill-form.display-validation .validation-message {
+  		display: inline-block;
   	}

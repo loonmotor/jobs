@@ -92,12 +92,38 @@ angular
 	.controller('profileCtrl', ['$scope', function ($scope) {
 		$scope.embeddedJsonData = JSON.parse(document.getElementById('embeddedJsonData').text);
 
+		$scope.displayValidation = {};
+
 		$scope.saveProfile = function ($event, formData) {
 			if ($scope.profileForm.$invalid) {
-				$scope.displayValidation = true;
+				$scope.displayValidation.form = true;
 				return;
 			}
 			console.log(formData);
 		}
+		$scope.saveExperience = function ($event, formData) {
+			if ($scope.experienceForm.$invalid) {
+				$scope.displayValidation.experienceForm = true;
+				return;
+			}
+			console.log(formData);
+		}
+
+		$scope.saveEducation = function ($event, formData) {
+			if ($scope.educationForm.$invalid) {
+				$scope.displayValidation.educationForm = true;
+				return;
+			}
+			console.log(formData);
+		}
+
+		$scope.saveSkill = function ($event, formData) {
+			if ($scope.skillForm.$invalid) {
+				$scope.displayValidation.skillForm = true;
+				return;
+			}
+			console.log(formData);
+		}
+
 
 	}]);

@@ -1,180 +1,267 @@
-<form method="POST" name="profileForm" id="profile-form" ng-submit="saveProfile($event, form)" ng-class='displayValidation ? "display-validation" : ""' novalidate ng-controller="profileCtrl">
+<div ng-controller="profileCtrl">
+	<form method="POST" name="profileForm" id="profile-form" ng-class='displayValidation.form ? "display-validation" : ""' novalidate>
 
-	<h1>Profile</h1>
-
-	<br>
-
-	<h3>What are you looking for?</h3>
-	<hr>
-	
-	<div class="form-group">
-		<label for="role">Role *</label>
-		<select name="role" id="role" class="form-control" ng-model="form.role" ng-options="role.name group by role.group for role in embeddedJsonData.roles" required>
-			<option value="">Please select a role</option>
-		</select>
-		<div ng-messages="profileForm.role.$error">
-			<span class="validation-message" ng-message="required">This selection is required</span>
+		<h3>What are you looking for?</h3>
+		<hr>
+		
+		<div class="form-group">
+			<label for="role">Role *</label>
+			<select name="role" id="role" class="form-control" ng-model="form.role" ng-options="role.name group by role.group for role in embeddedJsonData.roles" required>
+				<option value="">Please select a role</option>
+			</select>
+			<div ng-messages="profileForm.role.$error">
+				<span class="validation-message" ng-message="required">This selection is required</span>
+			</div>
 		</div>
-	</div>
 
-	<div class="form-group">
-		<label for="jobType">Job Type *</label>
-		<select name="jobType" id="jobType" class="form-control" ng-model="form.jobType" ng-options="jobType for jobType in embeddedJsonData.jobTypes" required>
-			<option value="">Please select a job type</option>
-		</select>
-		<div ng-messages="profileForm.jobType.$error">
-			<span class="validation-message" ng-message="required">This selection is required</span>
+		<div class="form-group">
+			<label for="jobType">Job Type *</label>
+			<select name="jobType" id="jobType" class="form-control" ng-model="form.jobType" ng-options="jobType for jobType in embeddedJsonData.jobTypes" required>
+				<option value="">Please select a job type</option>
+			</select>
+			<div ng-messages="profileForm.jobType.$error">
+				<span class="validation-message" ng-message="required">This selection is required</span>
+			</div>
 		</div>
-	</div>
 
-	<div class="form-group">
-		<label for="location">Location *</label>
-		<input type="text" name="location" id="location" class="form-control" ng-model="form.location" placeholder="Your current city, state or country" required>
-		<div ng-messages="profileForm.location.$error">
-			<span class="validation-message" ng-message="required">This field is required</span>
+		<div class="form-group">
+			<label for="location">Location *</label>
+			<input type="text" name="location" id="location" class="form-control" ng-model="form.location" placeholder="Your current city, state or country" required>
+			<div ng-messages="profileForm.location.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
 		</div>
-	</div>
 
-	<div class="checkbox">
-		<label>
-			<input type="checkbox" name="canRemote" id="canRemote" ng-model="form.canRemote">
-			Can Work Remotely
-		</label>
-	</div>
-	<br>
-
-	<div class="form-group"> 
-		<label for="canRelocate">Can Relocate To</label>
-		<input type="text" name="canRelocate" id="canRelocate" class="form-control" ng-model="form.canRelocate" placeholder="e.g. London">
-	</div>
-
-	<div class="form-group">
-		<label for="salaryCurrency">Desired Salary Currency</label>
-		<select name="salaryCurrency" id="salaryCurrency" class="form-control" ng-model="form.salaryCurrency" ng-options="salaryCurrency.value as salaryCurrency.name for salaryCurrency in embeddedJsonData.salaryCurrencies">
-			<option value="">Please select a currency type</option>
-		</select>
-	</div>
-
-	<div class="form-group">
-		<label for="desiredSalary">Desired Salary</label>
-		<div class="input-group">
-		     <div class="input-group-addon" ng-bind-template="{{ form.salaryCurrency }}"></div>
-		     <input type="number" class="form-control" id="desiredSalary" placeholder="Amount" ng-model="form.desiredSalary" ng-disabled="!form.salaryCurrency">
-		     <div class="input-group-addon">,000</div>
-		   </div>
-	</div>
-
-	<br>
-	<h3>About you</h3>
-	<hr>
-
-	<div class="form-group">
-		<label for="name">Name *</label>
-		<input type="text" name="name" id="name" class="form-control" ng-model="form.name" required>
-		<div ng-messages="profileForm.name.$error">
-			<span class="validation-message" ng-message="required">This field is required</span>
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" name="canRemote" id="canRemote" ng-model="form.canRemote">
+				Can Work Remotely
+			</label>
 		</div>
-	</div>
+		<br>
 
-	<div class="form-group">
-		<label for="photo">Photo</label>
-		<input type="file" name="photo" id="photo" ng-model="form.photo" read-file valid-file-types="image/png|image/jpg|image/jpeg">
-		<div ng-messages="profileForm.photo.$error">
-			<span class="validation-message" ng-message="fileType">Not a valid image type</span>
+		<div class="form-group"> 
+			<label for="canRelocate">Can Relocate To</label>
+			<input type="text" name="canRelocate" id="canRelocate" class="form-control" ng-model="form.canRelocate" placeholder="e.g. London">
 		</div>
-	</div>
 
-	<div class="form-group">
-		<label for="profileSummary">Profile Summary *</label>
-		<textarea name="profileSummary" id="profileSummary" class="form-control" ng-model="form.profileSummary" required></textarea>
-		<div ng-messages="profileForm.profileSummary.$error">
-			<span class="validation-message" ng-message="required">This field is required</span>
+		<div class="form-group">
+			<label for="salaryCurrency">Desired Salary Currency</label>
+			<select name="salaryCurrency" id="salaryCurrency" class="form-control" ng-model="form.salaryCurrency" ng-options="salaryCurrency.value as salaryCurrency.name for salaryCurrency in embeddedJsonData.salaryCurrencies">
+				<option value="">Please select a currency type</option>
+			</select>
 		</div>
-	</div>
 
-	<div class="form-group">
-		<label for="accomplishment">Most Impressive Accomplishment *</label>
-		<textarea name="accomplishment" id="accomplishment" class="form-control" ng-model="form.accomplishment" field-character-count maxlength="<%= accomplishmentMaxLength %>" required></textarea>
-		<span>{{ characterCount || 0 }}/<%= accomplishmentMaxLength %></span><br>
-		<div ng-messages="profileForm.accomplishment.$error">
-			<span class="validation-message" ng-message="required">This field is required</span>
+		<div class="form-group">
+			<label for="desiredSalary">Desired Salary</label>
+			<div class="input-group">
+			     <div class="input-group-addon" ng-bind-template="{{ form.salaryCurrency }}"></div>
+			     <input type="number" class="form-control" id="desiredSalary" placeholder="Amount" ng-model="form.desiredSalary" ng-disabled="!form.salaryCurrency">
+			     <div class="input-group-addon">,000</div>
+			   </div>
 		</div>
-	</div>
 
-	<br>
-	<h3>Links</h3>
-	<hr>
+		<br>
+		<h3>About you</h3>
+		<hr>
 
-	<div class="form-group">
-		<label for="resume">Resume</label>
-		<input type="text" name="resume" id="resume" class="form-control" ng-model="form.links.resume" placeholder="http://resume.com/myresume.pdf">
-	</div>
-	<div class="form-group">
-		<label for="website">Website</label>
-		<input type="text" name="website" id="website" class="form-control" ng-model="form.links.website" placeholder="http://mypersonalwebsite.com">
-	</div>
-	<div class="form-group">
-		<label for="linkedin">LinkedIn</label>
-		<input type="text" name="linkedin" id="linkedin" class="form-control" ng-model="form.links.linkedin" placeholder="http://www.linkedin.com/in/my_username">
-	</div>
-	<div class="form-group">
-		<label for="twitter">Twitter</label>
-		<input type="text" name="twitter" id="twitter" class="form-control" ng-model="form.links.twitter" placeholder="http://twitter.com/my_username">
-	</div>
-	<div class="form-group">
-		<label for="blog">Blog</label>
-		<input type="text" name="blog" id="blog" class="form-control" ng-model="form.links.blog" placeholder="http://myblog.com">
-	</div>
-	<div class="form-group">
-		<label for="github">Github</label>
-		<input type="text" name="github" id="github" class="form-control" ng-model="form.links.github" placeholder="http://github.com/my_projects">
-	</div>
-	<div class="form-group">
-		<label for="facebook">Facebook</label>
-		<input type="text" name="facebook" id="facebook" class="form-control" ng-model="form.links.facebook" placeholder="https://www.facebook.com/my_username">
-	</div>
-	<div class="form-group">
-		<label for="dribbble">Dribbble</label>
-		<input type="text" name="dribbble" id="dribbble" class="form-control" ng-model="form.links.dribbble" placeholder="http://dribbble.com/my_portfolio">
-	</div>
-	<div class="form-group">
-		<label for="behance">Behance</label>
-		<input type="text" name="behance" id="behance" class="form-control" ng-model="form.links.behance" placeholder="http://behance.net/my_portfolio">
-	</div>
+		<div class="form-group">
+			<label for="name">Name *</label>
+			<input type="text" name="name" id="name" class="form-control" ng-model="form.name" required>
+			<div ng-messages="profileForm.name.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
 
-	<br>
-	<h3>Experience & Education</h3>
-	<hr>
+		<div class="form-group">
+			<label for="photo">Photo</label>
+			<input type="file" name="photo" id="photo" ng-model="form.photo" read-file valid-file-types="image/png|image/jpg|image/jpeg">
+			<div ng-messages="profileForm.photo.$error">
+				<span class="validation-message" ng-message="fileType">Not a valid image type</span>
+			</div>
+		</div>
 
+		<div class="form-group">
+			<label for="profileSummary">Profile Summary *</label>
+			<textarea name="profileSummary" id="profileSummary" class="form-control" ng-model="form.profileSummary" required></textarea>
+			<div ng-messages="profileForm.profileSummary.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
 
-	<div class="form-group">
+		<div class="form-group">
+			<label for="accomplishment">Most Impressive Accomplishment *</label>
+			<textarea name="accomplishment" id="accomplishment" class="form-control" ng-model="form.accomplishment" field-character-count="characterCount" maxlength="<%= config['profile.accomplishment.maxLength'] %>" required></textarea>
+			<span>{{ characterCount || 0 }}/<%= config['profile.accomplishment.maxLength'] %></span><br>
+			<div ng-messages="profileForm.accomplishment.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
+
+		<br>
+		<h3>Links</h3>
+		<hr>
+
+		<div class="form-group">
+			<label for="resume">Resume</label>
+			<input type="text" name="resume" id="resume" class="form-control" ng-model="form.links.resume" placeholder="http://resume.com/myresume.pdf">
+		</div>
+		<div class="form-group">
+			<label for="website">Website</label>
+			<input type="text" name="website" id="website" class="form-control" ng-model="form.links.website" placeholder="http://mypersonalwebsite.com">
+		</div>
+		<div class="form-group">
+			<label for="linkedin">LinkedIn</label>
+			<input type="text" name="linkedin" id="linkedin" class="form-control" ng-model="form.links.linkedin" placeholder="http://www.linkedin.com/in/my_username">
+		</div>
+		<div class="form-group">
+			<label for="twitter">Twitter</label>
+			<input type="text" name="twitter" id="twitter" class="form-control" ng-model="form.links.twitter" placeholder="http://twitter.com/my_username">
+		</div>
+		<div class="form-group">
+			<label for="blog">Blog</label>
+			<input type="text" name="blog" id="blog" class="form-control" ng-model="form.links.blog" placeholder="http://myblog.com">
+		</div>
+		<div class="form-group">
+			<label for="github">Github</label>
+			<input type="text" name="github" id="github" class="form-control" ng-model="form.links.github" placeholder="http://github.com/my_projects">
+		</div>
+		<div class="form-group">
+			<label for="facebook">Facebook</label>
+			<input type="text" name="facebook" id="facebook" class="form-control" ng-model="form.links.facebook" placeholder="https://www.facebook.com/my_username">
+		</div>
+		<div class="form-group">
+			<label for="dribbble">Dribbble</label>
+			<input type="text" name="dribbble" id="dribbble" class="form-control" ng-model="form.links.dribbble" placeholder="http://dribbble.com/my_portfolio">
+		</div>
+		<div class="form-group">
+			<label for="behance">Behance</label>
+			<input type="text" name="behance" id="behance" class="form-control" ng-model="form.links.behance" placeholder="http://behance.net/my_portfolio">
+		</div>
+
+		<br>
+		<h3>E & E</h3>
+		<hr>
+	</form>
+
+	<form name="experienceForm" class="experience-form" ng-class="displayValidation.experienceForm ? 'display-validation' : ''" novalidate>
 		<label for="experience">Experience</label>
-		<input type="text" name="experience" id="experience" class="form-control" ng-model="form.experience">
-	</div>
+		<br>
+		<!-- <input type="text" name="experience" id="experience" class="form-control" ng-model="form.experience"> -->
+		<button ng-model="toggle.experience" ng-click="toggle.experience = true; $event.preventDefault()" ng-show="!toggle.experience" class="btn btn-default" ng-class="displayValidation.experienceForm ? 'display-validation' : ''" focus-on-click="companyName">+ Add a position</button>
+		<div ng-if="toggle.experience">
+			<br>
+			<div class="form-group">
+				<input type="text" name="companyName" id="companyName" class="form-control" ng-model="experience.companyName" placeholder="Company Name" required>
+				<div ng-messages="experienceForm.companyName.$error">
+					<span ng-message="required" class="validation-message">This field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<input type="text" name="positionTitle" id="positionTitle" class="form-control" ng-model="experience.title" placeholder="Title" required>
+				<div ng-messages="experienceForm.positionTitle.$error">
+					<span ng-message="required" class="validation-message">This field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<input type="text" name="positionStartDate" id="positionStartDate" class="form-control" ng-model="experience.startDate" placeholder="Start Date" required>
+				<div ng-messages="experienceForm.positionStartDate.$error">
+					<span ng-message="required" class="validation-message">This field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<input type="text" name="positionEndDate" id="positionEndDate" class="form-control" ng-model="experience.endDate" placeholder="End Date" required>
+				<div ng-messages="experienceForm.positionEndDate.$error">
+					<span ng-message="required" class="validation-message">This field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<textarea id="positionDescription" class="form-control" ng-model="experience.description" field-character-count="descriptionCharacterCount" maxlength="<%= config['profile.positionDescription.maxLength'] %>" ng-trim="false" placeholder="Description"></textarea>
+				<span>{{ descriptionCharacterCount || 0 }}/<%= config['profile.positionDescription.maxLength'] %></span>
+			</div>
+			<button class="btn btn-default" ng-disabled="displayValidation.experienceForm && experienceForm.$invalid" ng-click="saveExperience($event, experience)">Add</button>
+			<button class="btn btn-default" ng-click="toggle.experience = false; displayValidation.experienceForm = false">Cancel</button>
+			<span class="validation-message" ng-show="experienceForm.$invalid">There are invalid fields</span>
+		</div>
+	</form>
 
+	<br>
 
-	<div class="form-group">
+	<form name="educationForm" class="education-form" ng-class="displayValidation.educationForm ? 'display-validation' : ''" novalidate>
 		<label for="education">Education</label>
-		<input type="text" name="education" id="education" class="form-control" ng-model="form.education">
-	</div>
+		<br>
+		<button ng-model="toggle.education" ng-click="toggle.education = true" ng-show="!toggle.education" class="btn btn-default" focus-on-click="collegeUniName">+ Add a school</button>
+		<div ng-if="toggle.education">
+			<br>
+			<div class="form-group">
+				<input type="text" name="collegeUniName" id="collegeUniName" class="form-control" ng-model="education.collegeUniName" placeholder="College / University Name" required>
+				<div ng-messages="educationForm.collegeUniName.$error">
+					<span ng-message="required" class="validation-message">This field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<input type="text" name="level" id="level" class="form-control" ng-model="education.level" placeholder="Level (Degree)" required>
+				<div ng-messages="educationForm.level.$error">
+					<span ng-message="required" class="validation-message">This field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<input type="text" name="major" id="major" class="form-control" ng-model="education.major" placeholder="Major / Field of Study" required>
+				<div ng-messages="educationForm.major.$error">
+					<span ng-message="required" class="validation-message">This field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<input type="text" name="year" id="year" class="form-control" ng-model="education.year" placeholder="Year" required>
+				<div ng-messages="educationForm.year.$error">
+					<span ng-message="required" class="validation-message">This field is required</span>
+				</div>
+			</div>
+			<button class="btn btn-default" ng-disabled="displayValidation.educationForm && educationForm.$invalid" ng-click="saveEducation($event, education)">Add</button>
+			<button class="btn btn-default" ng-click="toggle.education = false; displayValidation.educationForm = false">Cancel</button>
+			<span class="validation-message" ng-show="educationForm.$invalid">There are invalid fields</span>
+		</div>
+	</form>
 
-	<div class="form-group">
-		<label for="skills">Skills</label>
-		<input type="text" name="skills" id="skills" class="form-control" ng-model="form.skills">
-	</div>
+	<br>
+
+	<form name="skillForm" class="skill-form" ng-class="displayValidation.skillForm ? 'display-validation' : ''" novalidate>
+		<label for="skill">Skills</label>
+		<br>
+		<button ng-model="toggle.skill" ng-click="toggle.skill = true" ng-show="!toggle.skill" class="btn btn-default" focus-on-click="skillName">+ Add a skill</button>
+		<div ng-if="toggle.skill">
+			<br>
+			<div class="form-group">
+				<input type="text" name="skillName" id="skillName" class="form-control" ng-model="skill.name" placeholder="Skill" required>
+				<div ng-messages="skillForm.skillName.$error">
+					<span ng-message="required" class="validation-message">This field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<input type="text" name="skillLevel" id="skillLevel" class="form-control" ng-model="skill.level" placeholder="Skill Level (Beginner, Intermediate, Expert)" required>
+				<div ng-messages="skillForm.skillLevel.$error">
+					<span ng-message="required" class="validation-message">This field is required</span>
+				</div>
+			</div>
+			<button class="btn btn-default" ng-disabled="displayValidation.skillForm && skillForm.$invalid" ng-click="saveSkill($event, skill)">Add</button>
+			<button class="btn btn-default" ng-click="toggle.skill = false; displayValidation.skillForm = false">Cancel</button>
+			<span class="validation-message" ng-show="skillForm.$invalid">There are invalid fields</span>
+		</div>
+	</form>
+
+	<br>
 
 
 
+	<input type="button" value="Save Profile" id="submit" class="btn btn-default" ng-disabled="displayValidation.form && profileForm.$invalid" ng-click="saveProfile($event, form)">
+	<span class="validation-message" ng-class='displayValidation.form ? "display-validation" : ""' ng-show="profileForm.$invalid">There are invalid fields</span>
 
-
-	<input type="submit" value="Save Profile" id="submit" class="btn btn-default" ng-disabled="displayValidation && profileForm.$invalid" ng-trim="false">
-	<span class="validation-message" ng-show="profileForm.$invalid">There are invalid fields</span>
-</form>
+</div>
 
 <script type="application/json" id="embeddedJsonData">
 	{
-		"roles" : <%- JSON.stringify(roles) %>,
-		"jobTypes" : <%- JSON.stringify(jobTypes) %>,
-		"salaryCurrencies" : <%- JSON.stringify(salaryCurrencies) %>
+		"roles" : <%- JSON.stringify(config['profile.roles']) %>,
+		"jobTypes" : <%- JSON.stringify(config['profile.jobTypes']) %>,
+		"salaryCurrencies" : <%- JSON.stringify(config['profile.salaryCurrencies']) %>
 	}
 </script>

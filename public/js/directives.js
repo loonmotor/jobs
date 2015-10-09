@@ -7,9 +7,24 @@ angular
 		}
 		return ddo;
 	}])
+	.directive('focusOnClick', [function () {
+		var ddo = {};
+		ddo.link = function (scope, element, attrs) {
+			if (!attrs['focusOnClick']) {
+				return;
+			}
+			element.on('click', function () {
+				document.getElementById(attrs['focusOnClick']).focus();
+			});
+		};
+		return ddo;
+	}])
 	.directive('fieldCharacterCount', [function () {
 		var ddo = {};
 		ddo.require = 'ngModel';
+		ddo.scope = {
+			characterCount : '=fieldCharacterCount'
+		};
 		ddo.link = function (scope, element, attrs, ctrl) {
 			ctrl.$viewChangeListeners.push(function () {
 				scope.characterCount = ctrl.$viewValue.length;

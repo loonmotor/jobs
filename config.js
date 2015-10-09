@@ -48,5 +48,6 @@ module.exports = {
 		{ "name" : "Indian Rupees (₹)", "symbol" : "₹", value : "INR" },
 		{ "name" : "Singapore Dollars ($)", "symbol" : "$", value : "SGD" }
 	],
-	"profile.accomplishment.maxLength" : 1000
+	"profile.accomplishment.maxLength" : 1000,
+	"profile.positionDescription.maxLength" : 500
 };

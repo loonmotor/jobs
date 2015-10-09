@@ -9,11 +9,8 @@ behaviorStates.register('getLoggedInStateTemplate', 'user', function (req, res) 
 	res.render('logged-in', { user : req.user });
 });
 behaviorStates.register('getProfileTemplate', 'guest', function (req, res) {
-	res.render('profile', { 
-		roles : config['profile.roles'],
-		jobTypes : config['profile.jobTypes'],
-		salaryCurrencies : config['profile.salaryCurrencies'],
-		accomplishmentMaxLength : config['profile.accomplishment.maxLength']
+	res.render('profile', {
+		config : config
 	});
 });
 behaviorStates.register('getProfileTemplate', 'user', function (profile, req, res) {

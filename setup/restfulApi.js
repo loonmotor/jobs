@@ -32,13 +32,15 @@ restfulApi.setResourceMethod('template.LoggedInState', 'GET', function (resource
 
 restfulApi.setResourceMethod('template.Profile', 'GET', function (resourceName, req, res, next) {
 	console.log(req.user);
-	db.Profile.findOne({ userId : req.user._id }, function (err, profile) {
-		if (err) {
-			return res.json({ code : 'profileLookUpError', msg : 'Profile look up error' });
-		}
-		if (!profile) {
-			return behaviorStates.run('getProfileTemplate', 'guest', req, res);
-		}
-		return behaviorStates.run('getProfileTemplate', 'user', profile, req, res);
-	});
+	return behaviorStates.run('getProfileTemplate', 'guest', req, res);
+	
+	// db.Profile.findOne({ userId : req.user._id }, function (err, profile) {
+	// 	if (err) {
+	// 		return res.json({ code : 'profileLookUpError', msg : 'Profile look up error' });
+	// 	}
+	// 	if (!profile) {
+	// 		return behaviorStates.run('getProfileTemplate', 'guest', req, res);
+	// 	}
+	// 	return behaviorStates.run('getProfileTemplate', 'user', profile, req, res);
+	// });
 });
