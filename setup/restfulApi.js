@@ -24,6 +24,17 @@ restfulApi.use('template.Profile', 'GET', function (resourceName, req, res, done
 	// });
 });
 
-restfulApi.use('Profile', 'GET', function (resourceName, req, res, done) {
-	return res.send('miao');
+restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
+	if (!req.isAuthenticated()) {
+		return done({
+			code : 'notauthenticated',
+			msg  : 'Not authenticated'
+		});
+	}
+	done();
+});
+
+restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
+	console.log(req.body);
+	res.json('okay');
 });

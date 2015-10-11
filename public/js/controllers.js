@@ -31,12 +31,10 @@ angular
 				.post('/auth/local-signin', formData)
 				.success(function (user) {
 					ngToast.success({
-						content : 'Sign in is successful',
-						timeout : 3000
+						content : 'Sign in is successful'
 					});
 					ngToast.success({
-						content : 'Redirecting...',
-						timeout : 3000
+						content : 'Redirecting...'
 					});
 					$timeout(function () {
 						$location.path('/');
@@ -61,12 +59,10 @@ angular
 				.post('/auth/local-signup', formData)
 				.success(function (data) {
 					ngToast.success({
-						content : data.msg,
-						timeout : 3000
+						content : data.msg
 					});
 					ngToast.success({
-						content : 'Redirecting...',
-						timeout : 3000
+						content : 'Redirecting...'
 					});
 					$timeout(function () {
 						$location.path('/');
@@ -80,7 +76,7 @@ angular
 				});
 		}
 	}])
-	.controller('profileCtrl', ['$scope', 'config', '$resource', function ($scope, config, $resource) {
+	.controller('profileCtrl', ['$scope', 'config', 'resources', 'ngToast', function ($scope, config, resources, ngToast) {
 		$scope.root.title = ['Profile', config.siteName].join(' | ');
 		$scope.embeddedJsonData = JSON.parse(document.getElementById('embeddedJsonData').text);
 
@@ -92,6 +88,20 @@ angular
 				return;
 			}
 			console.log(formData);
+			resources.Profile
+				.save(formData)
+				.$promise
+				.then(function (err, data) {
+					if (err) {
+						return console.log(err);
+					}
+					console.log(data);
+				}, function (err) {
+					console.log(err);
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
 		}
 		$scope.saveExperience = function ($event, formData) {
 			if ($scope.experienceForm.$invalid) {

@@ -28,8 +28,10 @@ apis.restful = function (resourceName) {
 		} catch (err) {
 			next(err);
 		};
-		async.each(resourceMiddlewares, function (resourceMiddleware, done) { // run permission check
+		async.eachSeries(resourceMiddlewares, function (resourceMiddleware, done) { // run permission check
 			resourceMiddleware(resourceName, req, res, done);
+		}, function (err) {
+			res.status(500).json(err);
 		});
 	}
 };

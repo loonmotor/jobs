@@ -58,7 +58,8 @@ angular
 			});
 
 		ngToastProvider.configure({
-			dismissButton : true
+			dismissButton : true,
+			timeout : 3000
 		});
 
 	}])
