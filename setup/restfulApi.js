@@ -36,5 +36,41 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 
 restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 	console.log(req.body);
-	res.json('okay');
+	console.log(req.user._id);
+	var updateCommand;
+	if (req.body.experience) {
+		updateCommand = {
+			'$push' : {
+				'experience' : {
+					'companyName' : req.body.experience.companyName,
+					'title' : req.body.experience.title,
+					'startDate' : req.body.experience.startDate,
+					'endDate' : req.body.experience.endDate,
+					'description' : req.body.experience.description
+				}
+			}
+		};
+	} else if (req.body.education) {
+		updateCommand = {
+			'$push' : {
+				'education' : {
+					'collegeUniName' : req.body.education.collegeUniName,
+					'level' : req.body.education.level,
+					'major' : req.body.education.major,
+					'year' : req.body.education.year
+				}
+			}
+		};
+	}
+	db.Profile.update({ userId : req.user._id }, updateCommand, { upsert : true }, function (err, results) {
+		if (err) {
+			return done(err);
+		}
+		console.log(results);
+		res.json({
+			code : 'updatesuccess',
+			msg  : 'Saved successfully'
+		})
+		done();
+	});
 });

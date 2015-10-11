@@ -205,7 +205,7 @@
 				<textarea id="positionDescription" class="form-control" ng-model="profile.experience.description" field-character-count="descriptionCharacterCount" maxlength="<%= config['profile.positionDescription.maxLength'] %>" ng-trim="false" placeholder="Description"></textarea>
 				<span>{{ descriptionCharacterCount || 0 }}/<%= config['profile.positionDescription.maxLength'] %></span>
 			</div>
-			<button class="btn btn-default" ng-disabled="displayValidation.experienceForm && experienceForm.$invalid" ng-click="saveExperience($event, profile.experience)">Add</button>
+			<button class="btn btn-default" ng-disabled="displayValidation.experienceForm && experienceForm.$invalid" ng-click="saveExperience($event, profile)">Add</button>
 			<button class="btn btn-default" ng-click="toggle.experience = false; displayValidation.experienceForm = false">Cancel</button>
 			<span class="validation-message" ng-show="experienceForm.$invalid">There are invalid fields</span>
 		</div>
@@ -243,7 +243,7 @@
 					<span ng-message="required" class="validation-message">This field is required</span>
 				</div>
 			</div>
-			<button class="btn btn-default" ng-disabled="displayValidation.educationForm && educationForm.$invalid" ng-click="saveEducation($event, profile.education)">Add</button>
+			<button class="btn btn-default" ng-disabled="displayValidation.educationForm && educationForm.$invalid" ng-click="saveEducation($event, profile)">Add</button>
 			<button class="btn btn-default" ng-click="toggle.education = false; displayValidation.educationForm = false">Cancel</button>
 			<span class="validation-message" ng-show="educationForm.$invalid">There are invalid fields</span>
 		</div>
@@ -269,7 +269,7 @@
 					<span ng-message="required" class="validation-message">This field is required</span>
 				</div>
 			</div>
-			<button class="btn btn-default" ng-disabled="displayValidation.skillForm && skillForm.$invalid" ng-click="saveSkill($event, profile.skill)">Add</button>
+			<button class="btn btn-default" ng-disabled="displayValidation.skillForm && skillForm.$invalid" ng-click="saveSkill($event, profile)">Add</button>
 			<button class="btn btn-default" ng-click="toggle.skill = false; displayValidation.skillForm = false">Cancel</button>
 			<span class="validation-message" ng-show="skillForm.$invalid">There are invalid fields</span>
 		</div>

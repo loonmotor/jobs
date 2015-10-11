@@ -109,6 +109,18 @@ angular
 				return;
 			}
 			console.log(formData);
+			resources.Profile
+				.save(formData)
+				.$promise
+				.then(function (data) {
+					ngToast.success({
+						content : data.msg
+					});
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
 		}
 
 		$scope.saveEducation = function ($event, formData) {
@@ -117,6 +129,18 @@ angular
 				return;
 			}
 			console.log(formData);
+			resources.Profile
+				.save(formData)
+				.$promise
+				.then(function (data) {
+					ngToast.success({
+						content : data.msg
+					});
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
 		}
 
 		$scope.saveSkill = function ($event, formData) {
