@@ -16,6 +16,7 @@ var
 	, rootRoute     = require('./routes/root')
 	, authRoute     = require('./routes/auth')
 	, templateRoute = require('./routes/template')
+	, dataRoute     = require('./routes/data')
 	, passport      = require('passport')
 	, favicon       = require('serve-favicon')
 	// , cors         = require('cors');
@@ -52,6 +53,7 @@ app.use(passport.session()); // passport
 app.use('/', rootRoute); // define root route
 app.use('/auth', authRoute); // define auth route
 app.use('/template', templateRoute); // define template route
+app.use('/data', dataRoute); // define data route
 app.use(function (err, req, res, next) {
 	console.log(err);
 	next(err);

@@ -9,11 +9,6 @@ angular
 	}])
 	.controller('homeCtrl', ['$scope', '$http', 'pubsub', 'config', function ($scope, $http, pubsub, config) {
 		$scope.root.title = ['Home', config.siteName].join(' | ');
-		$http
-			.get('/hei')
-			.success(function (data) {
-				// console.log(data);
-			});
 
 		pubsub.subscribe('ajaxResponse', 'to check authentication state', function (args, done) {
 			if (args.code == 'notauthenticated'
@@ -26,11 +21,7 @@ angular
 	}])
 	.controller('signInCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', '$timeout', function ($scope, $http, config, ngToast, $location, $timeout) {
 		$scope.root.title = ['Sign In', config.siteName].join(' | ');
-		$http
-			.get('/hei')
-			.success(function (data) {
-				// console.log(data);
-			});
+
 		$scope.signIn = function ($event, formData) {
 			if ($scope.signInForm.$invalid) {
 				$scope.displayValidation = true;
@@ -89,7 +80,8 @@ angular
 				});
 		}
 	}])
-	.controller('profileCtrl', ['$scope', function ($scope) {
+	.controller('profileCtrl', ['$scope', 'config', '$resource', function ($scope, config, $resource) {
+		$scope.root.title = ['Profile', config.siteName].join(' | ');
 		$scope.embeddedJsonData = JSON.parse(document.getElementById('embeddedJsonData').text);
 
 		$scope.displayValidation = {};

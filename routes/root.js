@@ -10,10 +10,4 @@ router.get('/', function (req, res) {
 	res.sendFile('root.html', { root : path.join(__dirname, '../public', 'html') });
 });
 
-router.get('/hei/:id?', restfulApi.restful('User', function (err, res) {
-	if (err) {
-		res.json(err);
-	}
-}));
-
 module.exports = router;

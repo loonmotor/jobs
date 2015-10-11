@@ -3,51 +3,33 @@
 // Variables, Dependencies and Helper Functions
 var
 	apis = {} // to wrap all exposable apis of this module
-	, resources = {} // to store each resource and its restful implementations
-	, initializeResource = function (resourceName) { // to make sure resource exists before writing to it
-		if (!(resourceName in resources)) {
-			resources[resourceName] = {};
-			resources[resourceName].permissions = {};
+	, middlewares = {} // to store middlewares for each type of resource
+	, initializeResource = function (resourceName, methodName) { // to make sure resource exists before writing to it
+		if (!(resourceName in middlewares)) {
+			middlewares[resourceName] = {};
+		}
+		if (!(methodName in middlewares[resourceName])) {
+			middlewares[resourceName][methodName] = [];
 		}
 	}
 	, async = require('async');
 
-// API Internal Methods
-apis.setResourcePermission = function (resourceName, methodName, permissionCallback) {
-	initializeResource(resourceName);
-	if (!resources[resourceName].permissions[methodName]) {
-		resources[resourceName].permissions[methodName] = [];
-	}
-	resources[resourceName].permissions[methodName].push(permissionCallback);
-};
-
-apis.setResourceMethod = function (resourceName, methodName, methodCallback) {
-	initializeResource(resourceName);
-	resources[resourceName][methodName] = methodCallback;
+apis.use = function (resourceName, methodName, methodCallback) {
+	initializeResource(resourceName, methodName);
+	middlewares[resourceName][methodName].push(methodCallback);
 };
 
 // API External Methods
-apis.restful = function (resourceName, callback) {
+apis.restful = function (resourceName) {
 	return function (req, res, next) {
-		var permissions = []; // fallback permissions
+		var resourceMiddlewares;
 		try {
-			permissions = resources[resourceName].permissions[req.method]; // try to get permissions for that resource and method
+			resourceMiddlewares = middlewares[resourceName][req.method]; // try to get middlewares for that resource and HTTP method
 		} catch (err) {
-			permissions = resources['default'].permissions[req.method]; // when failed, use default permissions
-		}
-		async.each(permissions, function (permission, done) { // run permission check
-			return permission(req, done);
-		}, function (err, result) {
-			if (err) {
-				return callback(err, res);
-			}
-			var resourceMethod; // fallback resource method
-			try {
-				resourceMethod = resources[resourceName][req.method]; // try to get resource method for that HTTP method
-			} catch (err) {
-				resourceMethod = resources['default'][req.method]; // when failed, use default resource method for that HTTP method
-			}
-			resourceMethod(resourceName, req, res, next);
+			next(err);
+		};
+		async.each(resourceMiddlewares, function (resourceMiddleware, done) { // run permission check
+			resourceMiddleware(resourceName, req, res, done);
 		});
 	}
 };

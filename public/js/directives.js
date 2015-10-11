@@ -26,6 +26,14 @@ angular
 			characterCount : '=fieldCharacterCount'
 		};
 		ddo.link = function (scope, element, attrs, ctrl) {
+			ctrl.$formatters.push(function (val) {
+				try {
+					scope.characterCount = val.length;
+				} catch (err) {
+					console.log(err);
+				}
+				return val;
+			});
 			ctrl.$viewChangeListeners.push(function () {
 				scope.characterCount = ctrl.$viewValue.length;
 			});
