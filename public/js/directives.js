@@ -30,6 +30,7 @@ angular
 				try {
 					scope.characterCount = val.length;
 				} catch (err) {
+					scope.characterCount = 0;
 					console.log(err);
 				}
 				return val;

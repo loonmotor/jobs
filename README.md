@@ -60,7 +60,8 @@ Profile
 			title       : String,
 			startDate   : Date,
 			endDate     : Date,
-			description : String
+			description : String,
+			modified    : String
 		}
 	],
 	educations 	: [

@@ -39,20 +39,37 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 });
 
 restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
-	var updateCommand;
-	if (req.body.experience) {
-		updateCommand = {
-			'$push' : {
-				'experiences' : {
-					'companyName' : req.body.experience.companyName,
-					'title' : req.body.experience.title,
-					'startDate' : req.body.experience.startDate,
-					'endDate' : req.body.experience.endDate,
-					'description' : req.body.experience.description
+	var 
+		query = { userId : req.user._id }
+		, updateCommand;
+	if (req.body.saveExperience) {
+		if (req.body.experience.modified) {
+			query['experiences.modified'] = req.body.experience.modified;
+			updateCommand = {
+				'$set' : {
+					'experiences.$.companyName' : req.body.experience.companyName,
+					'experiences.$.title' : req.body.experience.title,
+					'experiences.$.startDate' : new Date(req.body.experience.startDate),
+					'experiences.$.endDate' : new Date(req.body.experience.endDate),
+					'experiences.$.description' : req.body.experience.description,
+					'experiences.$.modified' : Date.now()
 				}
-			}
-		};
-	} else if (req.body.education) {
+			};
+		} else {
+			updateCommand = {
+				'$push' : {
+					'experiences' : {
+						'companyName' : req.body.experience.companyName,
+						'title' : req.body.experience.title,
+						'startDate' : new Date(req.body.experience.startDate),
+						'endDate' : new Date(req.body.experience.endDate),
+						'description' : req.body.experience.description,
+						'modified' : Date.now().toString()
+					}
+				}
+			};
+		}
+	} else if (req.body.saveEducation) {
 		updateCommand = {
 			'$push' : {
 				'educations' : {
@@ -91,7 +108,7 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 	}
 
 	db.Profile.findAndModify({
-		query : { userId : req.user._id },
+		query : query,
 		update : updateCommand,
 		upsert : true,
 		new : true

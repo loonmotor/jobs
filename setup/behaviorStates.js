@@ -17,6 +17,6 @@ behaviorStates.register('getProfileTemplate', 'guest', function (req, res) {
 behaviorStates.register('getProfileTemplate', 'user', function (profile, req, res) {
 	res.render('profile', { 
 		config : config,
-		profile : profile 
+		profile : profile
 	});
 });

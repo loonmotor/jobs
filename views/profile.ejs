@@ -176,11 +176,13 @@
 		<div>
 			<ul>
 				<li ng-repeat="experience in profile.experiences">
-					{{ experience.companyName }} <br>
-					{{ experience.title }} <br>
-					{{ experience.startDate }} <br>
-					{{ experience.endDate }} <br>
+					{{ experience.companyName }} -
+					{{ experience.title }} -
+					{{ experience.startDate | date:'short' }} -
+					{{ experience.endDate | date:'short' }} -
 					{{ experience.description }}
+					<a href="" ng-click="toggle.experience = true; $event.preventDefault(); editExperience(experience)">Edit</a> · 
+					<a href="" ng-click="removeExperience(experience)">Remove</a>
 				</li>
 			</ul>
 		</div>
@@ -228,8 +230,11 @@
 				<textarea id="positionDescription" class="form-control" ng-model="profile.experience.description" field-character-count="descriptionCharacterCount" maxlength="<%= config['profile.positionDescription.maxLength'] %>" ng-trim="false" placeholder="Description"></textarea>
 				<span>{{ descriptionCharacterCount || 0 }}/<%= config['profile.positionDescription.maxLength'] %></span>
 			</div>
+
+			<input type="hidden" ng-model="profile.experience.modified">
+
 			<button class="btn btn-default" ng-disabled="displayValidation.experienceForm && experienceForm.$invalid" ng-click="saveExperience($event, profile)">Add</button>
-			<button class="btn btn-default" ng-click="toggle.experience = false; displayValidation.experienceForm = false">Cancel</button>
+			<button class="btn btn-default" ng-click="toggle.experience = false; displayValidation.experienceForm = false; profile.experience = null">Cancel</button>
 			<span class="validation-message" ng-show="experienceForm.$invalid">There are invalid fields</span>
 		</div>
 	</form>

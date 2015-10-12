@@ -81,6 +81,7 @@ angular
 		$scope.embeddedJsonData = JSON.parse(document.getElementById('embeddedJsonData').text);
 		$scope.profile = $scope.embeddedJsonData.profile;
 		$scope.displayValidation = {};
+		$scope.toggle = {};
 
 		$scope.saveProfile = function ($event, formData) {
 			if ($scope.profileForm.$invalid) {
@@ -101,10 +102,13 @@ angular
 				});
 		}
 		$scope.saveExperience = function ($event, formData) {
+			console.log(formData);
+
 			if ($scope.experienceForm.$invalid) {
 				$scope.displayValidation.experienceForm = true;
 				return;
 			}
+			formData.saveExperience = true;
 			resources.Profile
 				.save(formData)
 				.$promise
@@ -120,11 +124,22 @@ angular
 				});
 		}
 
+		$scope.editExperience = function (experience) {
+			var tempExperience = {};
+			angular.extend(tempExperience, experience);
+			$scope.profile.experience = tempExperience;
+		}
+
+		$scope.removeExperience = function (experience) {
+
+		}
+
 		$scope.saveEducation = function ($event, formData) {
 			if ($scope.educationForm.$invalid) {
 				$scope.displayValidation.educationForm = true;
 				return;
 			}
+			formData.saveEducation = true;
 			resources.Profile
 				.save(formData)
 				.$promise
@@ -132,6 +147,7 @@ angular
 					ngToast.success({
 						content : data.msg
 					});
+					$scope.profile = data.profile;
 				}, function (err) {
 					ngToast.danger({
 						content : err.data.msg
@@ -144,6 +160,20 @@ angular
 				$scope.displayValidation.skillForm = true;
 				return;
 			}
+			formData.saveSkill = true;
+			resources.Profile
+				.save(formData)
+				.$promise
+				.then(function (data) {
+					ngToast.success({
+						content : data.msg
+					});
+					$scope.profile = data.profile;
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
 		}
 
 
