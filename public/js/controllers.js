@@ -79,7 +79,7 @@ angular
 	.controller('profileCtrl', ['$scope', 'config', 'resources', 'ngToast', function ($scope, config, resources, ngToast) {
 		$scope.root.title = ['Profile', config.siteName].join(' | ');
 		$scope.embeddedJsonData = JSON.parse(document.getElementById('embeddedJsonData').text);
-
+		$scope.profile = $scope.embeddedJsonData.profile;
 		$scope.displayValidation = {};
 
 		$scope.saveProfile = function ($event, formData) {
@@ -87,17 +87,14 @@ angular
 				$scope.displayValidation.form = true;
 				return;
 			}
-			console.log(formData);
 			resources.Profile
 				.save(formData)
 				.$promise
-				.then(function (err, data) {
-					if (err) {
-						return console.log(err);
-					}
-					console.log(data);
+				.then(function (data) {
+					ngToast.success({
+						content : data.msg
+					});
 				}, function (err) {
-					console.log(err);
 					ngToast.danger({
 						content : err.data.msg
 					});
@@ -108,7 +105,6 @@ angular
 				$scope.displayValidation.experienceForm = true;
 				return;
 			}
-			console.log(formData);
 			resources.Profile
 				.save(formData)
 				.$promise
@@ -128,7 +124,6 @@ angular
 				$scope.displayValidation.educationForm = true;
 				return;
 			}
-			console.log(formData);
 			resources.Profile
 				.save(formData)
 				.$promise
@@ -148,7 +143,6 @@ angular
 				$scope.displayValidation.skillForm = true;
 				return;
 			}
-			console.log(formData);
 		}
 
 

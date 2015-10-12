@@ -6,7 +6,7 @@
 		
 		<div class="form-group">
 			<label for="role">Role *</label>
-			<select name="role" id="role" class="form-control" ng-model="profile.role" ng-options="role.name group by role.group for role in embeddedJsonData.roles" required>
+			<select name="role" id="role" class="form-control" ng-model="profile.role" ng-options="role.name group by role.group for role in embeddedJsonData.roles track by role.name" required>
 				<option value="">Please select a role</option>
 			</select>
 			<div ng-messages="profileForm.role.$error">
@@ -72,11 +72,13 @@
 			</div>
 		</div>
 
+		<img ng-src="{{ profile.photo }}" class="profile-photo">
 		<div class="form-group">
 			<label for="photo">Photo</label>
-			<input type="file" name="photo" id="photo" ng-model="profile.photo" read-file valid-file-types="image/png|image/jpg|image/jpeg">
+			<input type="file" name="photo" id="photo" ng-model="profile.photo" read-file valid-file-types="image/png|image/jpg|image/jpeg" max-file-size="<%= config['profile.photo.maxFileSize'] %>">
 			<div ng-messages="profileForm.photo.$error">
 				<span class="validation-message" ng-message="fileType">Not a valid image type</span>
+				<span class="validation-message" ng-message="fileSize">Image size exceeds allowed limit</span>
 			</div>
 		</div>
 
@@ -105,63 +107,63 @@
 			<label class="sr-only" for="resume">Resume</label>
 		    <div class="input-group">
 		      <div class="input-group-addon">Resume</div>
-		      <input type="text" class="form-control" id="resume" placeholder="http://resume.com/myresume.pdf">
+		      <input type="text" class="form-control" id="resume" ng-model="profile.links.resume" placeholder="http://resume.com/myresume.pdf">
 		    </div>
 		</div>
 		<div class="form-group">
 			<label class="sr-only" for="website">Website</label>
 		    <div class="input-group">
 		      <div class="input-group-addon">Website</div>
-		      <input type="text" class="form-control" id="website" placeholder="http://mypersonalwebsite.com">
+		      <input type="text" class="form-control" id="website" ng-model="profile.links.website" placeholder="http://mypersonalwebsite.com">
 		    </div>
 		</div>
 		<div class="form-group">
 			<label class="sr-only" for="linkedin">LinkedIn</label>
 		    <div class="input-group">
 		      <div class="input-group-addon">LinkedIn</div>
-		      <input type="text" class="form-control" id="linkedin" placeholder="http://www.linkedin.com/in/my_username">
+		      <input type="text" class="form-control" id="linkedin" ng-model="profile.links.linkedin" placeholder="http://www.linkedin.com/in/my_username">
 		    </div>
 		</div>
 		<div class="form-group">
 			<label class="sr-only" for="twitter">Twitter</label>
 		    <div class="input-group">
 		      <div class="input-group-addon">Twitter</div>
-		      <input type="text" class="form-control" id="twitter" placeholder="http://twitter.com/my_username">
+		      <input type="text" class="form-control" id="twitter" ng-model="profile.links.twitter" placeholder="http://twitter.com/my_username">
 		    </div>
 		</div>
 		<div class="form-group">
 			<label class="sr-only" for="blog">Blog</label>
 		    <div class="input-group">
 		      <div class="input-group-addon">Blog</div>
-		      <input type="text" class="form-control" id="blog" placeholder="http://myblog.com">
+		      <input type="text" class="form-control" id="blog" ng-model="profile.links.blog" placeholder="http://myblog.com">
 		    </div>
 		</div>
 		<div class="form-group">
 			<label class="sr-only" for="github">Github</label>
 		    <div class="input-group">
 		      <div class="input-group-addon">Github</div>
-		      <input type="text" class="form-control" id="github" placeholder="http://github.com/my_projects">
+		      <input type="text" class="form-control" id="github" ng-model="profile.links.github" placeholder="http://github.com/my_projects">
 		    </div>
 		</div>
 		<div class="form-group">
 			<label class="sr-only" for="facebook">Facebook</label>
 		    <div class="input-group">
 		      <div class="input-group-addon">Facebook</div>
-		      <input type="text" class="form-control" id="facebook" placeholder="https://www.facebook.com/my_username">
+		      <input type="text" class="form-control" id="facebook" ng-model="profile.links.facebook" placeholder="https://www.facebook.com/my_username">
 		    </div>
 		</div>
 		<div class="form-group">
 			<label class="sr-only" for="dribbble">Dribbble</label>
 		    <div class="input-group">
 		      <div class="input-group-addon">Dribbble</div>
-		      <input type="text" class="form-control" id="dribbble" placeholder="http://dribbble.com/my_portfolio">
+		      <input type="text" class="form-control" id="dribbble" ng-model="profile.links.dribble" placeholder="http://dribbble.com/my_portfolio">
 		    </div>
 		</div>
 		<div class="form-group">
 			<label class="sr-only" for="behance">Behance</label>
 		    <div class="input-group">
 		      <div class="input-group-addon">Behance</div>
-		      <input type="text" class="form-control" id="behance" placeholder="http://behance.net/my_portfolio">
+		      <input type="text" class="form-control" id="behance" ng-model="profile.links.behance" placeholder="http://behance.net/my_portfolio">
 		    </div>
 		</div>
 
@@ -286,6 +288,7 @@
 	{
 		"roles" : <%- JSON.stringify(config['profile.roles']) %>,
 		"jobTypes" : <%- JSON.stringify(config['profile.jobTypes']) %>,
-		"salaryCurrencies" : <%- JSON.stringify(config['profile.salaryCurrencies']) %>
+		"salaryCurrencies" : <%- JSON.stringify(config['profile.salaryCurrencies']) %>,
+		"profile" : <%- JSON.stringify(profile) %>
 	}
 </script>

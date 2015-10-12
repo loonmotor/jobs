@@ -11,17 +11,21 @@ restfulApi.use('template.LoggedInState', 'GET', function (resourceName, req, res
 });
 
 restfulApi.use('template.Profile', 'GET', function (resourceName, req, res, done) {
-	return behaviorStates.run('getProfileTemplate', 'guest', req, res);
 	
-	// db.Profile.findOne({ userId : req.user._id }, function (err, profile) {
-	// 	if (err) {
-	// 		return res.json({ code : 'profileLookUpError', msg : 'Profile look up error' });
-	// 	}
-	// 	if (!profile) {
-	// 		return behaviorStates.run('getProfileTemplate', 'guest', req, res);
-	// 	}
-	// 	return behaviorStates.run('getProfileTemplate', 'user', profile, req, res);
-	// });
+	if (!req.isAuthenticated()) {
+		return behaviorStates.run('getProfileTemplate', 'guest', req, res);
+	}
+
+	db.Profile.findOne({ userId : req.user._id }, function (err, profile) {
+		if (err) {
+			return res.json({ code : 'profileLookUpError', msg : 'Profile look up error' });
+		}
+		if (!profile) {
+			return behaviorStates.run('getProfileTemplate', 'guest', req, res);
+		}
+		return behaviorStates.run('getProfileTemplate', 'user', profile, req, res);
+	});
+
 });
 
 restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
@@ -35,8 +39,6 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 });
 
 restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
-	console.log(req.body);
-	console.log(req.user._id);
 	var updateCommand;
 	if (req.body.experience) {
 		updateCommand = {
@@ -59,6 +61,31 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 					'major' : req.body.education.major,
 					'year' : req.body.education.year
 				}
+			}
+		};
+	} else {
+		updateCommand = {
+			'$set' : {
+				'name' : req.body.name,
+				'role' : req.body.role,
+				'jobType' : req.body.jobType,
+				'location' : req.body.location,
+				'canRemote' : req.body.canRemote,
+				'canRelocate' : req.body.canRelocate,
+				'salaryCurrency' : req.body.salaryCurrency,
+				'desiredSalary' : req.body.desiredSalary,
+				'photo' : req.body.photo,
+				'profileSummary' : req.body.profileSummary,
+				'accomplishment' : req.body.accomplishment,
+				'links.resume' : req.body.links.resume,
+				'links.website' : req.body.links.website,
+				'links.linkedin' : req.body.links.linkedin,
+				'links.twitter' : req.body.links.twitter,
+				'links.blog' : req.body.links.blog,
+				'links.github' : req.body.links.github,
+				'links.facebook' : req.body.links.facebook,
+				'links.dribble' : req.body.links.dribble,
+				'links.behance' : req.body.links.behance
 			}
 		};
 	}

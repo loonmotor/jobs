@@ -44,7 +44,8 @@ angular
 		var ddo = {};
 		ddo.require = 'ngModel';
 		ddo.scope = {
-			validFileTypes : '@'
+			validFileTypes : '@',
+			maxFileSize : '@'
 		};
 		ddo.link = function (scope, element, attrs, ctrl) {
 			ctrl.$validators.fileType = function (modelValue, viewValue) {
@@ -66,6 +67,17 @@ angular
 					});
 					return;
 				}
+				if (scope.maxFileSize) {
+					if (changeEvent.target.files[0].size > scope.maxFileSize) {
+						scope.$apply(function () {
+							ctrl.$setValidity('fileSize', false);
+						});
+					} else {
+						scope.$apply(function () {
+							ctrl.$setValidity('fileSize', true);
+						});
+					}
+				}					
 				reader.readAsDataURL(changeEvent.target.files[0]);
 			});
 		}

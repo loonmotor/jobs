@@ -49,5 +49,6 @@ module.exports = {
 		{ "name" : "Singapore Dollars ($)", "symbol" : "$", value : "SGD" }
 	],
 	"profile.accomplishment.maxLength" : 1000,
-	"profile.positionDescription.maxLength" : 500
+	"profile.positionDescription.maxLength" : 500,
+	"profile.photo.maxFileSize" : 100000
 };

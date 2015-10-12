@@ -10,9 +10,13 @@ behaviorStates.register('getLoggedInStateTemplate', 'user', function (req, res) 
 });
 behaviorStates.register('getProfileTemplate', 'guest', function (req, res) {
 	res.render('profile', {
-		config : config
+		config : config,
+		profile : {}
 	});
 });
 behaviorStates.register('getProfileTemplate', 'user', function (profile, req, res) {
-
+	res.render('profile', { 
+		config : config,
+		profile : profile 
+	});
 });

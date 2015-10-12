@@ -34,7 +34,7 @@ Profile
 {
 	name  			: String,
 	role 			: String,
-	type 			: String,
+	jobType			: String,
 	location 		: String,
 	canRemote 		: Boolean,
 	canRelocate 	: String,
