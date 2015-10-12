@@ -112,6 +112,7 @@ angular
 					ngToast.success({
 						content : data.msg
 					});
+					$scope.profile = data.profile;
 				}, function (err) {
 					ngToast.danger({
 						content : err.data.msg

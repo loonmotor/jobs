@@ -43,7 +43,7 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 	if (req.body.experience) {
 		updateCommand = {
 			'$push' : {
-				'experience' : {
+				'experiences' : {
 					'companyName' : req.body.experience.companyName,
 					'title' : req.body.experience.title,
 					'startDate' : req.body.experience.startDate,
@@ -55,7 +55,7 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 	} else if (req.body.education) {
 		updateCommand = {
 			'$push' : {
-				'education' : {
+				'educations' : {
 					'collegeUniName' : req.body.education.collegeUniName,
 					'level' : req.body.education.level,
 					'major' : req.body.education.major,
@@ -89,14 +89,20 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 			}
 		};
 	}
-	db.Profile.update({ userId : req.user._id }, updateCommand, { upsert : true }, function (err, results) {
+
+	db.Profile.findAndModify({
+		query : { userId : req.user._id },
+		update : updateCommand,
+		upsert : true,
+		new : true
+	}, function (err, doc) {
 		if (err) {
 			return done(err);
 		}
-		console.log(results);
 		res.json({
 			code : 'updatesuccess',
-			msg  : 'Saved successfully'
+			msg  : 'Saved successfully',
+			profile : doc
 		})
 		done();
 	});

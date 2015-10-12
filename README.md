@@ -54,7 +54,7 @@ Profile
 		dribbble 	: String,
 		behance 	: String
 	},
-	experience 	: [
+	experiences 	: [
 		{
 			companyName : String,
 			title       : String,
@@ -63,7 +63,7 @@ Profile
 			description : String
 		}
 	],
-	education 	: [
+	educations 	: [
 		{
 			collegeUniName 	: String,
 			level		   	: String,
