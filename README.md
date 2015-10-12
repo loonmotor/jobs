@@ -54,8 +54,23 @@ Profile
 		dribbble 	: String,
 		behance 	: String
 	},
-	experience 	: Array,
-	education 	: Array,
+	experience 	: [
+		{
+			companyName : String,
+			title       : String,
+			startDate   : Date,
+			endDate     : Date,
+			description : String
+		}
+	],
+	education 	: [
+		{
+			collegeUniName 	: String,
+			level		   	: String,
+			major		 	: String,
+			year			: Date
+		}
+	],
 	skills 		: [
 		{
 			name : String,
