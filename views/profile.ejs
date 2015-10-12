@@ -189,7 +189,7 @@
 		<label for="experience">Experience</label>
 		<br>
 		<!-- <input type="text" name="experience" id="experience" class="form-control" ng-model="profile.experience"> -->
-		<button ng-model="toggle.experience" ng-click="toggle.experience = true; $event.preventDefault()" ng-show="!toggle.experience" class="btn btn-default" ng-class="displayValidation.experienceForm ? 'display-validation' : ''" focus-on-click="companyName">+ Add a position</button>
+		<button ng-click="toggle.experience = true" ng-show="!toggle.experience" class="btn btn-default" ng-class="displayValidation.experienceForm ? 'display-validation' : ''" focus-on-click="companyName">+ Add a position</button>
 		<div ng-if="toggle.experience">
 			<br>
 			<div class="form-group">
@@ -207,8 +207,8 @@
 			<div class="form-group">
 				<label class="sr-only" for="positionStartDate">Start Date *</label>
 				<div class="input-group">
-					<input type="text" name="positionStartDate" id="positionStartDate" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="profile.experience.startDate" is-open="togglestart.startDatePicker" placeholder="Start Date *" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-readonly="true" ng-click="togglestart.startDatePicker = !togglestart.startDatePicker" show-weeks="false" />
-					<div class="input-group-addon" ng-model="togglestart.startDatePicker" ng-click="togglestart.startDatePicker = !togglestart.startDatePicker"><i class="glyphicon glyphicon-calendar"></i></div>
+					<input type="text" name="positionStartDate" id="positionStartDate" class="form-control" datepicker-popup="dd-MM-yyyy" ng-model="profile.experience.startDate" is-open="togglestart.startDatePicker" placeholder="Start Date *" close-text="Close" ng-readonly="true" ng-click="togglestart.startDatePicker = !togglestart.startDatePicker" show-weeks="false" required />
+					<div class="input-group-addon" ng-click="togglestart.startDatePicker = !togglestart.startDatePicker"><i class="glyphicon glyphicon-calendar"></i></div>
 				</div>
 
 				<div ng-messages="experienceForm.positionStartDate.$error">
@@ -218,8 +218,8 @@
 			<div class="form-group">
 				<label class="sr-only" for="positionEndDate">Start Date *</label>
 				<div class="input-group">
-					<input type="text" name="positionEndDate" id="positionEndDate" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="profile.experience.endDate" is-open="toggle.endDatePicker" placeholder="End Date *" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-readonly="true" ng-click="toggle.endDatePicker = !toggle.endDatePicker" show-weeks="false" />
-					<div class="input-group-addon" ng-model="toggle.endDatePicker" ng-click="toggle.endDatePicker = !toggle.endDatePicker"><i class="glyphicon glyphicon-calendar"></i></div>
+					<input type="text" name="positionEndDate" id="positionEndDate" class="form-control" datepicker-popup="dd-MM-yyyy" ng-model="profile.experience.endDate" is-open="toggle.endDatePicker" placeholder="End Date *" close-text="Close" ng-readonly="true" ng-click="toggle.endDatePicker = !toggle.endDatePicker" show-weeks="false" required />
+					<div class="input-group-addon" ng-click="toggle.endDatePicker = !toggle.endDatePicker"><i class="glyphicon glyphicon-calendar"></i></div>
 				</div>			
 	
 				<div ng-messages="experienceForm.positionEndDate.$error">
@@ -244,7 +244,7 @@
 	<form name="educationForm" class="education-form" ng-class="displayValidation.educationForm ? 'display-validation' : ''" novalidate>
 		<label for="education">Education</label>
 		<br>
-		<button ng-model="toggle.education" ng-click="toggle.education = true" ng-show="!toggle.education" class="btn btn-default" focus-on-click="collegeUniName">+ Add a school</button>
+		<button ng-click="toggle.education = true" ng-show="!toggle.education" class="btn btn-default" focus-on-click="collegeUniName">+ Add a school</button>
 		<div ng-if="toggle.education">
 			<br>
 			<div class="form-group">
@@ -269,7 +269,7 @@
 				<label class="sr-only" for="year">Year *</label>
 				<div class="input-group">
 					<input type="text" name="year" id="year" class="form-control" datepicker-popup="yyyy" ng-model="profile.education.year" is-open="toggle.yearDatePicker" placeholder="Year *" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-readonly="true" ng-click="toggle.yearDatePicker = !toggle.yearDatePicker" datepicker-mode="year" show-weeks="false" />
-					<div class="input-group-addon" ng-model="toggle.yearDatePicker" ng-click="toggle.yearDatePicker = !toggle.yearDatePicker"><i class="glyphicon glyphicon-calendar"></i></div>
+					<div class="input-group-addon" ng-click="toggle.yearDatePicker = !toggle.yearDatePicker"><i class="glyphicon glyphicon-calendar"></i></div>
 				</div>			
 
 				<div ng-messages="educationForm.year.$error">
@@ -287,7 +287,7 @@
 	<form name="skillForm" class="skill-form" ng-class="displayValidation.skillForm ? 'display-validation' : ''" novalidate>
 		<label for="skill">Skills</label>
 		<br>
-		<button ng-model="toggle.skill" ng-click="toggle.skill = true" ng-show="!toggle.skill" class="btn btn-default" focus-on-click="skillName">+ Add a skill</button>
+		<button ng-click="toggle.skill = true" ng-show="!toggle.skill" class="btn btn-default" focus-on-click="skillName">+ Add a skill</button>
 		<div ng-if="toggle.skill">
 			<br>
 			<div class="form-group">

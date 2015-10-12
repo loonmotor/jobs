@@ -103,6 +103,7 @@ angular
 		}
 		$scope.saveExperience = function ($event, formData) {
 			console.log(formData);
+			console.log($scope.experienceForm.$error);
 
 			if ($scope.experienceForm.$invalid) {
 				$scope.displayValidation.experienceForm = true;
@@ -122,16 +123,33 @@ angular
 						content : err.data.msg
 					});
 				});
+			$scope.displayValidation.experienceForm = false;
 		}
 
 		$scope.editExperience = function (experience) {
+			experience.startDate = new Date(experience.startDate);
+			experience.endDate = new Date(experience.endDate);
 			var tempExperience = {};
 			angular.extend(tempExperience, experience);
 			$scope.profile.experience = tempExperience;
 		}
 
 		$scope.removeExperience = function (experience) {
-
+			experience.removeExperience = true;
+			console.log(experience);
+			resources.Profile
+				.remove(experience)
+				.$promise
+				.then(function (data) {
+					ngToast.success({
+						content : data.msg
+					});
+					$scope.profile = data.profile;
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
 		}
 
 		$scope.saveEducation = function ($event, formData) {

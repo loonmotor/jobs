@@ -42,17 +42,18 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 	var 
 		query = { userId : req.user._id }
 		, updateCommand;
+
 	if (req.body.saveExperience) {
 		if (req.body.experience.modified) {
 			query['experiences.modified'] = req.body.experience.modified;
 			updateCommand = {
 				'$set' : {
 					'experiences.$.companyName' : req.body.experience.companyName,
-					'experiences.$.title' : req.body.experience.title,
-					'experiences.$.startDate' : new Date(req.body.experience.startDate),
-					'experiences.$.endDate' : new Date(req.body.experience.endDate),
+					'experiences.$.title'       : req.body.experience.title,
+					'experiences.$.startDate'   : new Date(req.body.experience.startDate),
+					'experiences.$.endDate'     : new Date(req.body.experience.endDate),
 					'experiences.$.description' : req.body.experience.description,
-					'experiences.$.modified' : Date.now()
+					'experiences.$.modified'    : Date.now().toString()
 				}
 			};
 		} else {
@@ -60,11 +61,11 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 				'$push' : {
 					'experiences' : {
 						'companyName' : req.body.experience.companyName,
-						'title' : req.body.experience.title,
-						'startDate' : new Date(req.body.experience.startDate),
-						'endDate' : new Date(req.body.experience.endDate),
+						'title'       : req.body.experience.title,
+						'startDate'   : new Date(req.body.experience.startDate),
+						'endDate'     : new Date(req.body.experience.endDate),
 						'description' : req.body.experience.description,
-						'modified' : Date.now().toString()
+						'modified'    : Date.now().toString()
 					}
 				}
 			};
@@ -74,41 +75,41 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 			'$push' : {
 				'educations' : {
 					'collegeUniName' : req.body.education.collegeUniName,
-					'level' : req.body.education.level,
-					'major' : req.body.education.major,
-					'year' : req.body.education.year
+					'level'          : req.body.education.level,
+					'major'          : req.body.education.major,
+					'year'           : req.body.education.year
 				}
 			}
 		};
 	} else {
 		updateCommand = {
 			'$set' : {
-				'name' : req.body.name,
-				'role' : req.body.role,
-				'jobType' : req.body.jobType,
-				'location' : req.body.location,
-				'canRemote' : req.body.canRemote,
-				'canRelocate' : req.body.canRelocate,
+				'name'           : req.body.name,
+				'role'           : req.body.role,
+				'jobType'        : req.body.jobType,
+				'location'       : req.body.location,
+				'canRemote'      : req.body.canRemote,
+				'canRelocate'    : req.body.canRelocate,
 				'salaryCurrency' : req.body.salaryCurrency,
-				'desiredSalary' : req.body.desiredSalary,
-				'photo' : req.body.photo,
+				'desiredSalary'  : req.body.desiredSalary,
+				'photo'          : req.body.photo,
 				'profileSummary' : req.body.profileSummary,
 				'accomplishment' : req.body.accomplishment,
-				'links.resume' : req.body.links.resume,
-				'links.website' : req.body.links.website,
+				'links.resume'   : req.body.links.resume,
+				'links.website'  : req.body.links.website,
 				'links.linkedin' : req.body.links.linkedin,
-				'links.twitter' : req.body.links.twitter,
-				'links.blog' : req.body.links.blog,
-				'links.github' : req.body.links.github,
+				'links.twitter'  : req.body.links.twitter,
+				'links.blog'     : req.body.links.blog,
+				'links.github'   : req.body.links.github,
 				'links.facebook' : req.body.links.facebook,
-				'links.dribble' : req.body.links.dribble,
-				'links.behance' : req.body.links.behance
+				'links.dribble'  : req.body.links.dribble,
+				'links.behance'  : req.body.links.behance
 			}
 		};
 	}
 
 	db.Profile.findAndModify({
-		query : query,
+		query  : query,
 		update : updateCommand,
 		upsert : true,
 		new : true
@@ -123,4 +124,47 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 		})
 		done();
 	});
+});
+
+restfulApi.use('Profile', 'DELETE', function (resourceName, req, res, done) {
+	if (!req.isAuthenticated()) {
+		return done({
+			code : 'notauthenticated',
+			msg  : 'Not authenticated'
+		});
+	}
+	done();
+});
+
+restfulApi.use('Profile', 'DELETE', function (resourceName, req, res, done) {
+	var
+		query = { userId : req.user._id }
+		, updateCommand;
+
+	if (req.query.removeExperience) {
+		updateCommand = {
+			'$pull' : {
+				'experiences' : {
+					'modified' : req.query.modified
+				}
+			}
+		};
+	}
+
+	db.Profile.findAndModify({
+		query  : query,
+		update : updateCommand,
+		new : true
+	}, function (err, doc) {
+		if (err) {
+			return done(err);
+		}
+		res.json({
+			code : 'deletesuccess',
+			msg  : 'Removed successfully',
+			profile : doc
+		})
+		done();
+	});
+
 });
