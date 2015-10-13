@@ -7,4 +7,6 @@ router.get('/logged-in-state', restfulApi.restful('template.LoggedInState'));
 
 router.get('/profile', restfulApi.restful('template.Profile'));
 
+router.get('/company', restfulApi.restful('template.Company'));
+
 module.exports = router;

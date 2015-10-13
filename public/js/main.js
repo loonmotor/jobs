@@ -55,7 +55,15 @@ angular
 						templateUrl : '/html/profile.html'
 					}
 				}
-			});
+			})
+			.state('rootControl.company', {
+				url : '/company',
+				views : {
+					'main' : {
+						templateUrl : '/html/company.html'
+					}
+				}
+			})
 
 		ngToastProvider.configure({
 			dismissButton : true,

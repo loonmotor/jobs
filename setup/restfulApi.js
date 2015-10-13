@@ -1,29 +1,41 @@
 var
 	restfulApi = require('../modules/restfulApi')
 	, db = require('./mongojs')
-	, behaviorStates = require('../modules/behaviorStates');
+	, config = require('../config');
 
 restfulApi.use('template.LoggedInState', 'GET', function (resourceName, req, res, done) {
 	if (!req.isAuthenticated()) {
-		return behaviorStates.run('getLoggedInStateTemplate', 'guest', req, res);
+		res.render('not-logged-in', {});
+		return done();
 	}
-	return behaviorStates.run('getLoggedInStateTemplate', 'user', req, res);
+	res.render('logged-in', { user : req.user });
+	done();
+});
+
+restfulApi.use('template.Profile', 'GET', function (resourceName, req, res, done) {
+	if (!req.isAuthenticated()) {
+		return done({
+			code : 'notauthenticated',
+			msg  : 'Not authenticated'
+		});
+	}
+	done();
 });
 
 restfulApi.use('template.Profile', 'GET', function (resourceName, req, res, done) {
 	
-	if (!req.isAuthenticated()) {
-		return behaviorStates.run('getProfileTemplate', 'guest', req, res);
-	}
-
 	db.Profile.findOne({ userId : req.user._id }, function (err, profile) {
 		if (err) {
-			return res.json({ code : 'profileLookUpError', msg : 'Profile look up error' });
+			return done({ code : 'profileLookUpError', msg : 'Profile look up error' });
 		}
 		if (!profile) {
-			return behaviorStates.run('getProfileTemplate', 'guest', req, res);
+			profile = {};
 		}
-		return behaviorStates.run('getProfileTemplate', 'user', profile, req, res);
+		res.render('profile', { 
+			config : config,
+			profile : profile
+		});
+		done();
 	});
 
 });
@@ -213,6 +225,81 @@ restfulApi.use('Profile', 'DELETE', function (resourceName, req, res, done) {
 			code : 'deletesuccess',
 			msg  : 'Removed successfully',
 			profile : doc
+		})
+		done();
+	});
+
+});
+
+restfulApi.use('template.Companies', 'GET', function (resourceName, req, res, done) {
+	if (!req.isAuthenticated()) {
+		return done({
+			code : 'notauthenticated',
+			msg  : 'Not authenticated'
+		});
+	}
+	done();
+});
+
+restfulApi.use('template.Company', 'GET', function (resourceName, req, res, done) {
+	
+	db.Company.findOne({ userId : req.user._id }, function (err, company) {
+		if (err) {
+			return done({ code : 'companyLookUpError', msg : 'Company look up error' });
+		}
+		if (!company) {
+			company = {};
+		}
+		res.render('company', {
+			config : config,
+			company : company
+		});
+		done();
+	});
+
+});
+
+restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
+	if (!req.isAuthenticated()) {
+		return done({
+			code : 'notauthenticated',
+			msg  : 'Not authenticated'
+		});
+	}
+	done();
+});
+
+restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
+	var
+		query = { userId : req.user._id }
+		, updateCommand;
+
+	updateCommand = {
+		'$set' : {
+			'name'     : req.body.name,
+			'logo'     : req.body.logo,
+			'website'  : req.body.website,
+			'location' : req.body.location,
+			'teamSize' : req.body.teamSize,
+			'slogan'   : req.body.slogan,
+			'whyus'    : req.body.whyus,
+			'product'  : req.body.product
+		}
+	};
+
+	db.Company.findAndModify({
+		query  : query,
+		update : updateCommand,
+		upsert : true,
+		new : true,
+	}, function (err, doc) {
+		if (err) {
+			return done(err);
+		}
+		res.json({
+			code : 'updatesuccess',
+			msg  : 'Saved successfully',
+			company : doc
 		})
 		done();
 	});

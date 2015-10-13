@@ -5,6 +5,7 @@ angular
 		$scope.root.templateUrl = {};
 		$scope.root.templateUrl.loggedInState = config['templateUrl.loggedInState'];
 		$scope.root.templateUrl.profile = config['templateUrl.profile'];
+		$scope.root.templateUrl.company = config['templateUrl.company'];
 		$scope.$state = $state;
 		pubsub.subscribe('ajaxResponse', 'to check authentication state', function (args, done) {
 			if (args.code == 'notauthenticated'
@@ -222,7 +223,7 @@ angular
 		}
 
 		$scope.removeSkill = function (skill) {
-			skill.Removeskill = true;
+			skill.removeSkill = true;
 			resources.Profile
 				.remove(skill)
 				.$promise
@@ -239,4 +240,30 @@ angular
 		}
 
 
+	}])
+	.controller('companyCtrl', ['$scope', 'config', 'resources', 'ngToast', function ($scope, config, resources, ngToast) {
+		$scope.root.title = ['Company', config.siteName].join(' | ');
+		$scope.embeddedJsonData = JSON.parse(document.getElementById('embeddedJsonData').text);
+		$scope.company = $scope.embeddedJsonData.company;
+		$scope.displayValidation = {};
+		$scope.toggle = {};
+
+		$scope.saveCompany = function ($event, formData) {
+			if ($scope.companyForm.$invalid) {
+				$scope.displayValidation.form = true;
+				return;
+			}
+			resources.Company
+				.save(formData)
+				.$promise
+				.then(function (data) {
+					ngToast.success({
+						content : data.msg
+					});
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
+		}
 	}]);

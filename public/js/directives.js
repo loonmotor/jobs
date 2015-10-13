@@ -65,6 +65,9 @@ angular
 				if (Object.keys(changeEvent.target.files).length <= 0) {
 					scope.$apply(function () {
 						ctrl.$setValidity('fileType', true);
+						if (attrs['required']) {
+							ctrl.$setValidity('required', false);
+						}
 					});
 					return;
 				}
@@ -78,7 +81,7 @@ angular
 							ctrl.$setValidity('fileSize', true);
 						});
 					}
-				}					
+				}			
 				reader.readAsDataURL(changeEvent.target.files[0]);
 			});
 		}

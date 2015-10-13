@@ -51,6 +51,17 @@ module.exports = {
 	"profile.accomplishment.maxLength" : 1000,
 	"profile.positionDescription.maxLength" : 500,
 	"profile.photo.maxFileSize" : 100000,
+	"company.teamSizes" : [
+		"1-10",
+		"11-50",
+		"51-200",
+		"201-500",
+		"501-1000",
+		"1001-5000",
+		"5000+"
+	],
+	"company.whyus.maxLength" : 2000,
+	"company.product.maxLength" : 1000,
 	"urlencoded.limit" : '1mb',
 	"jsonencoded.limit" : '1mb'
 };

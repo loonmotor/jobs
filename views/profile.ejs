@@ -180,9 +180,8 @@
 				<li ng-repeat="experience in profile.experiences">
 					{{ experience.companyName }} -
 					{{ experience.title }} -
-					{{ experience.startDate | date:'short' }} -
-					{{ experience.endDate | date:'short' }} -
-					{{ experience.description }}
+					{{ experience.startDate | date:'dd/MM/yyyy' }} -
+					{{ experience.endDate | date:'dd/MM/yyyy' }}
 					<a href="" ng-click="toggle.experience = true; $event.preventDefault(); editExperience(experience)">Edit</a> · 
 					<a href="" ng-click="removeExperience(experience)">Remove</a>
 				</li>
@@ -207,7 +206,7 @@
 			<div class="form-group">
 				<label class="sr-only" for="positionStartDate">Start Date *</label>
 				<div class="input-group">
-					<input type="text" name="positionStartDate" id="positionStartDate" class="form-control" datepicker-popup="dd-MM-yyyy" ng-model="profile.experience.startDate" is-open="togglestart.startDatePicker" placeholder="Start Date *" close-text="Close" ng-readonly="true" ng-click="togglestart.startDatePicker = !togglestart.startDatePicker" show-weeks="false" required />
+					<input type="text" name="positionStartDate" id="positionStartDate" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="profile.experience.startDate" is-open="togglestart.startDatePicker" placeholder="Start Date *" close-text="Close" ng-readonly="true" ng-click="togglestart.startDatePicker = !togglestart.startDatePicker" show-weeks="false" required />
 					<div class="input-group-addon" ng-click="togglestart.startDatePicker = !togglestart.startDatePicker"><i class="glyphicon glyphicon-calendar"></i></div>
 				</div>
 
@@ -218,7 +217,7 @@
 			<div class="form-group">
 				<label class="sr-only" for="positionEndDate">Start Date *</label>
 				<div class="input-group">
-					<input type="text" name="positionEndDate" id="positionEndDate" class="form-control" datepicker-popup="dd-MM-yyyy" ng-model="profile.experience.endDate" is-open="toggle.endDatePicker" placeholder="End Date *" close-text="Close" ng-readonly="true" ng-click="toggle.endDatePicker = !toggle.endDatePicker" show-weeks="false" required />
+					<input type="text" name="positionEndDate" id="positionEndDate" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="profile.experience.endDate" is-open="toggle.endDatePicker" placeholder="End Date *" close-text="Close" ng-readonly="true" ng-click="toggle.endDatePicker = !toggle.endDatePicker" show-weeks="false" required />
 					<div class="input-group-addon" ng-click="toggle.endDatePicker = !toggle.endDatePicker"><i class="glyphicon glyphicon-calendar"></i></div>
 				</div>			
 	

@@ -3,7 +3,7 @@
 var
 	mongojs = require('mongojs')
 	, databaseUrl = require('../config')['mongodb.databaseUrl']
-	, db = mongojs(databaseUrl, ['User', 'Profile'])
+	, db = mongojs(databaseUrl, ['User', 'Profile', 'Company'])
 	, logger = require('../modules/logger');
 
 db.on('error', function (err) {

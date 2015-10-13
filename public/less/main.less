@@ -48,17 +48,32 @@
   		display: inline-block;
   	}
 
-/* 								>> Skill Form
+/*                >> Skill Form
    ========================================================================== */
-  	.skill-form .validation-message {
+    .skill-form .validation-message {
+      display: none;
+    }
+    .skill-form.display-validation .validation-message {
+      display: inline-block;
+    }
+
+/* 								>> Company Form
+   ========================================================================== */
+  	.company-form .validation-message {
   		display: none;
   	}
-  	.skill-form.display-validation .validation-message {
+  	.company-form.display-validation .validation-message {
   		display: inline-block;
   	}
 
 /*                >> Profile
    ========================================================================== */
     .profile-photo {
+      max-width: 80px;
+    }
+
+/*                >> Company
+   ========================================================================== */
+    .company-logo {
       max-width: 80px;
     }

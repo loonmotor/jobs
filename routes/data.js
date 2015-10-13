@@ -5,4 +5,6 @@ var
 
 router.all('/profile/:id?', restfulApi.restful('Profile'));
 
+router.all('/company/:id?', restfulApi.restful('Company'));
+
 module.exports = router;
