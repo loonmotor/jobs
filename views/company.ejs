@@ -10,7 +10,7 @@
 					{{ company.name }} -
 					{{ company.location }}
 					<a href="" ng-click="toggle.company = true; $event.preventDefault(); editCompany(company)">Edit</a> · 
-					<a href="" ng-click="removeCompany(company)">Remove</a>
+					<a href="" ng-click="removeCompany({ modified : company.modified })">Remove</a>
 				</li>
 			</ul>
 		</div>
