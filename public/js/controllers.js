@@ -244,7 +244,7 @@ angular
 	.controller('companyCtrl', ['$scope', 'config', 'resources', 'ngToast', function ($scope, config, resources, ngToast) {
 		$scope.root.title = ['Company', config.siteName].join(' | ');
 		$scope.embeddedJsonData = JSON.parse(document.getElementById('embeddedJsonData').text);
-		$scope.company = $scope.embeddedJsonData.company;
+		$scope.companies = $scope.embeddedJsonData.companies;
 		$scope.displayValidation = {};
 		$scope.toggle = {};
 

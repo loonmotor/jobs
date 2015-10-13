@@ -1,6 +1,20 @@
 <div ng-controller="companyCtrl">
 	<form method="POST" name="companyForm" id="company-form" ng-class='displayValidation.form ? "display-validation" : ""' novalidate>
 
+		<h3>Company Details</h3>
+		<hr>
+
+		<div class="well" ng-if="companies && companies.length > 0">
+			<ul>
+				<li ng-repeat="company in companies">
+					{{ company.name }} -
+					{{ company.location }}
+					<a href="" ng-click="toggle.company = true; $event.preventDefault(); editCompany(company)">Edit</a> · 
+					<a href="" ng-click="removeCompany(company)">Remove</a>
+				</li>
+			</ul>
+		</div>
+
 		<div class="form-group">
 			<label for="name">Name *</label>
 			<input type="text" name="name" id="name" class="form-control" ng-model="company.name" placeholder="Your company name" required>
@@ -81,6 +95,6 @@
 <script type="application/json" id="embeddedJsonData">
 {
 	"teamSizes" : <%- JSON.stringify(config['company.teamSizes']) %>,
-	"company" : <%- JSON.stringify(company) %>
+	"companies" : <%- JSON.stringify(companies) %>
 }
 </script>

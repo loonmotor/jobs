@@ -243,16 +243,16 @@ restfulApi.use('template.Companies', 'GET', function (resourceName, req, res, do
 
 restfulApi.use('template.Company', 'GET', function (resourceName, req, res, done) {
 	
-	db.Company.findOne({ userId : req.user._id }, function (err, company) {
+	db.Company.find({ userId : req.user._id }, function (err, companies) {
 		if (err) {
 			return done({ code : 'companyLookUpError', msg : 'Company look up error' });
 		}
-		if (!company) {
-			company = {};
+		if (!companies) {
+			companies = [];
 		}
 		res.render('company', {
 			config : config,
-			company : company
+			companies : companies
 		});
 		done();
 	});
@@ -271,7 +271,7 @@ restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
 
 restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
 	var
-		query = { userId : req.user._id }
+		query = { userId : req.user._id, modified : req.body.modified }
 		, updateCommand;
 
 	updateCommand = {
@@ -283,7 +283,8 @@ restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
 			'teamSize' : req.body.teamSize,
 			'slogan'   : req.body.slogan,
 			'whyus'    : req.body.whyus,
-			'product'  : req.body.product
+			'product'  : req.body.product,
+			'modified' : Date.now().toString()
 		}
 	};
 
