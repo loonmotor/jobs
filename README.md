@@ -69,7 +69,8 @@ Profile
 			collegeUniName 	: String,
 			level		   	: String,
 			major		 	: String,
-			year			: Date
+			year			: Date,
+			modified		: String
 		}
 	],
 	skills 		: [

@@ -6,18 +6,18 @@ angular
 		$scope.root.templateUrl.loggedInState = config['templateUrl.loggedInState'];
 		$scope.root.templateUrl.profile = config['templateUrl.profile'];
 		$scope.$state = $state;
-	}])
-	.controller('homeCtrl', ['$scope', '$http', 'pubsub', 'config', function ($scope, $http, pubsub, config) {
-		$scope.root.title = ['Home', config.siteName].join(' | ');
-
 		pubsub.subscribe('ajaxResponse', 'to check authentication state', function (args, done) {
 			if (args.code == 'notauthenticated'
 				|| args.code == 'successSignIn'
-				|| args.code == 'successSignUp') {	
+				|| args.code == 'successSignUp') {
 			$scope.root.templateUrl.loggedInState = config['templateUrl.loggedInState'] + '?time=' + Date.now();
 			}
 			done();
 		});
+	}])
+	.controller('homeCtrl', ['$scope', '$http', 'config', function ($scope, $http, config) {
+		$scope.root.title = ['Home', config.siteName].join(' | ');
+
 	}])
 	.controller('signInCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', '$timeout', function ($scope, $http, config, ngToast, $location, $timeout) {
 		$scope.root.title = ['Sign In', config.siteName].join(' | ');
@@ -102,9 +102,6 @@ angular
 				});
 		}
 		$scope.saveExperience = function ($event, formData) {
-			console.log(formData);
-			console.log($scope.experienceForm.$error);
-
 			if ($scope.experienceForm.$invalid) {
 				$scope.displayValidation.experienceForm = true;
 				return;
@@ -136,7 +133,6 @@ angular
 
 		$scope.removeExperience = function (experience) {
 			experience.removeExperience = true;
-			console.log(experience);
 			resources.Profile
 				.remove(experience)
 				.$promise
@@ -171,6 +167,31 @@ angular
 						content : err.data.msg
 					});
 				});
+			$scope.displayValidation.educationForm = false;
+		}
+
+		$scope.editEducation = function (education) {
+			education.year = new Date(education.year);
+			var tempEducation = {};
+			angular.extend(tempEducation, education);
+			$scope.profile.education = tempEducation;
+		}
+
+		$scope.removeEducation = function (education) {
+			education.removeEducation = true;
+			resources.Profile
+				.remove(education)
+				.$promise
+				.then(function (data) {
+					ngToast.success({
+						content : data.msg
+					});
+					$scope.profile = data.profile;
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
 		}
 
 		$scope.saveSkill = function ($event, formData) {
@@ -181,6 +202,29 @@ angular
 			formData.saveSkill = true;
 			resources.Profile
 				.save(formData)
+				.$promise
+				.then(function (data) {
+					ngToast.success({
+						content : data.msg
+					});
+					$scope.profile = data.profile;
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
+		}
+
+		$scope.editSkill = function (skill) {
+			var tempSkill = {};
+			angular.extend(tempSkill, skill);
+			$scope.profile.skill = tempSkill;
+		}
+
+		$scope.removeSkill = function (skill) {
+			skill.Removeskill = true;
+			resources.Profile
+				.remove(skill)
 				.$promise
 				.then(function (data) {
 					ngToast.success({

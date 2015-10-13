@@ -71,16 +71,50 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 			};
 		}
 	} else if (req.body.saveEducation) {
-		updateCommand = {
-			'$push' : {
-				'educations' : {
-					'collegeUniName' : req.body.education.collegeUniName,
-					'level'          : req.body.education.level,
-					'major'          : req.body.education.major,
-					'year'           : req.body.education.year
+		if (req.body.education.modified) {
+			query['educations.modified'] = req.body.education.modified;
+			updateCommand = {
+				'$set' : {
+					'educations.$.collegeUniName' : req.body.education.collegeUniName,
+					'educations.$.level' : req.body.education.level,
+					'educations.$.major' : req.body.education.major,
+					'educations.$.year' : req.body.education.year,
+					'educations.$.modified' : Date.now().toString()
 				}
-			}
-		};
+			};
+		} else {
+			updateCommand = {
+				'$push' : {
+					'educations' : {
+						'collegeUniName' : req.body.education.collegeUniName,
+						'level'          : req.body.education.level,
+						'major'          : req.body.education.major,
+						'year'           : req.body.education.year,
+						'modified'       : Date.now().toString()
+					}
+				}
+			};
+		}
+	} else if (req.body.saveSkill) {
+		if (req.body.skill.modified) {
+			query['skills.modified'] = req.body.skill.modified;
+			updateCommand = {
+				'$set' : {
+					'skills.$.name'  : req.body.skill.name,
+					'skills.$.level' : req.body.skill.level
+				}
+			};
+		} else {
+			updateCommand = {
+				'$push' : {
+					'skills' : {
+						'name' : req.body.skill.name,
+						'level' : req.body.skill.level,
+						'modified' : Date.now().toString()
+					}
+				}
+			};
+		}
 	} else {
 		updateCommand = {
 			'$set' : {
@@ -145,6 +179,22 @@ restfulApi.use('Profile', 'DELETE', function (resourceName, req, res, done) {
 		updateCommand = {
 			'$pull' : {
 				'experiences' : {
+					'modified' : req.query.modified
+				}
+			}
+		};
+	} else if (req.query.removeEducation) {
+		updateCommand = {
+			'$pull' : {
+				'educations' : {
+					'modified' : req.query.modified
+				}
+			}
+		};
+	} else if (req.query.removeSkill) {
+		updateCommand = {
+			'$pull' : {
+				'skills' : {
 					'modified' : req.query.modified
 				}
 			}

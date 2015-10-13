@@ -173,7 +173,9 @@
 	</form>
 
 	<form name="experienceForm" class="experience-form" ng-class="displayValidation.experienceForm ? 'display-validation' : ''" novalidate>
-		<div>
+		<label for="experience">Experience</label>
+		<br>
+		<div class="well" ng-if="profile.experiences && profile.experiences.length > 0">
 			<ul>
 				<li ng-repeat="experience in profile.experiences">
 					{{ experience.companyName }} -
@@ -186,8 +188,6 @@
 				</li>
 			</ul>
 		</div>
-		<label for="experience">Experience</label>
-		<br>
 		<!-- <input type="text" name="experience" id="experience" class="form-control" ng-model="profile.experience"> -->
 		<button ng-click="toggle.experience = true" ng-show="!toggle.experience" class="btn btn-default" ng-class="displayValidation.experienceForm ? 'display-validation' : ''" focus-on-click="companyName">+ Add a position</button>
 		<div ng-if="toggle.experience">
@@ -244,6 +244,18 @@
 	<form name="educationForm" class="education-form" ng-class="displayValidation.educationForm ? 'display-validation' : ''" novalidate>
 		<label for="education">Education</label>
 		<br>
+		<div class="well" ng-if="profile.educations && profile.educations.length > 0">
+			<ul>
+				<li ng-repeat="education in profile.educations">
+					{{ education.collegeUniName }} -
+					{{ education.level }} -
+					{{ education.major }} -
+					{{ education.year | date:'yyyy' }} -
+					<a href="" ng-click="toggle.education = true; $event.preventDefault(); editEducation(education)">Edit</a> · 
+					<a href="" ng-click="removeEducation(education)">Remove</a>
+				</li>
+			</ul>
+		</div>
 		<button ng-click="toggle.education = true" ng-show="!toggle.education" class="btn btn-default" focus-on-click="collegeUniName">+ Add a school</button>
 		<div ng-if="toggle.education">
 			<br>
@@ -276,6 +288,9 @@
 					<span ng-message="required" class="validation-message">This field is required</span>
 				</div>
 			</div>
+
+			<input type="hidden" ng-model="profile.education.modified">
+
 			<button class="btn btn-default" ng-disabled="displayValidation.educationForm && educationForm.$invalid" ng-click="saveEducation($event, profile)">Add</button>
 			<button class="btn btn-default" ng-click="toggle.education = false; displayValidation.educationForm = false">Cancel</button>
 			<span class="validation-message" ng-show="educationForm.$invalid">There are invalid fields</span>
@@ -287,6 +302,16 @@
 	<form name="skillForm" class="skill-form" ng-class="displayValidation.skillForm ? 'display-validation' : ''" novalidate>
 		<label for="skill">Skills</label>
 		<br>
+		<div class="well" ng-if="profile.skills && profile.skills.length > 0">
+			<ul>
+				<li ng-repeat="skill in profile.skills">
+					{{ skill.name }} -
+					{{ skill.level }}
+					<a href="" ng-click="toggle.skill = true; $event.preventDefault(); editSkill(skill)">Edit</a> · 
+					<a href="" ng-click="removeSkill(skill)">Remove</a>
+				</li>
+			</ul>
+		</div>
 		<button ng-click="toggle.skill = true" ng-show="!toggle.skill" class="btn btn-default" focus-on-click="skillName">+ Add a skill</button>
 		<div ng-if="toggle.skill">
 			<br>
@@ -302,6 +327,9 @@
 					<span ng-message="required" class="validation-message">This field is required</span>
 				</div>
 			</div>
+
+			<input type="hidden" ng-model="profile.skill.modified">
+			
 			<button class="btn btn-default" ng-disabled="displayValidation.skillForm && skillForm.$invalid" ng-click="saveSkill($event, profile)">Add</button>
 			<button class="btn btn-default" ng-click="toggle.skill = false; displayValidation.skillForm = false">Cancel</button>
 			<span class="validation-message" ng-show="skillForm.$invalid">There are invalid fields</span>
