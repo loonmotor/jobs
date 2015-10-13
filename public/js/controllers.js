@@ -260,6 +260,31 @@ angular
 					ngToast.success({
 						content : data.msg
 					});
+					$scope.companies = data.companies;
+					$scope.company = null;
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
+			$scope.displayValidation.form = false;
+		}
+
+		$scope.editCompany = function (company) {
+			var tempCompany = {};
+			angular.extend(tempCompany, company);
+			$scope.company = tempCompany;
+		}
+
+		$scope.removeCompany = function (company) {
+			resources.Company
+				.remove(company)
+				.$promise
+				.then(function (data) {
+					ngToast.success({
+						content : data.msg
+					});
+					$scope.companies = data.companies;
 				}, function (err) {
 					ngToast.danger({
 						content : err.data.msg

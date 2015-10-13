@@ -297,12 +297,40 @@ restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
 		if (err) {
 			return done(err);
 		}
-		res.json({
-			code : 'updatesuccess',
-			msg  : 'Saved successfully',
-			company : doc
-		})
-		done();
+
+		db.Company.find({ userId : req.user._id }, function (err, companies) {
+			res.json({
+				code : 'updatesuccess',
+				msg  : 'Saved successfully',
+				companies : companies
+			})
+			done();
+		});
 	});
 
+});
+
+restfulApi.use('Company', 'DELETE', function (resourceName, req, res, done) {
+	var
+		query = { userId : req.user._id, modified : req.query.modified }
+		, updateCommand;
+
+	db.Company.findAndModify({
+		query  : query,
+		remove : true
+	}, function (err, doc) {
+		if (err) {
+			return done(err);
+		}
+
+		db.Company.find({ userId : req.user._id }, function (err, companies) {
+			res.json({
+				code : 'deletesuccess',
+				msg  : 'Removed successfully',
+				companies : companies
+			})
+			done();
+		});
+
+	});
 });
