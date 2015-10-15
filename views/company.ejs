@@ -51,6 +51,14 @@
 		</div>
 
 		<div class="form-group">
+			<label for="markets">Markets *</label>
+			<tags-input name="markets" id="markets" class="form-control" ng-model="company.markets" placeholder="e.g. Mobile, E-commerce" required>
+			<div ng-messages="companyForm.markets.$error"></tags-input>
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>		
+
+		<div class="form-group">
 			<label for="teamSize">Team Size *</label>
 			<select name="teamSize" id="teamSize" class="form-control" ng-model="company.teamSize" ng-options="teamSize for teamSize in embeddedJsonData.teamSizes" required>
 				<option value="">Please select a team size</option>

@@ -39,7 +39,7 @@ angular
 					});
 					$timeout(function () {
 						$location.path('/');
-					}, 3000);
+					}, 1000);
 
 				})
 				.error(function (err) {

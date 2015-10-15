@@ -280,6 +280,7 @@ restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
 			'logo'     : req.body.logo,
 			'website'  : req.body.website,
 			'location' : req.body.location,
+			'markets'  : req.body.markets,
 			'teamSize' : req.body.teamSize,
 			'slogan'   : req.body.slogan,
 			'whyus'    : req.body.whyus,
