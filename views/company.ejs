@@ -9,6 +9,7 @@
 				<li ng-repeat="company in companies">
 					{{ company.name }} -
 					{{ company.location }}
+					&nbsp;
 					<a href="" ng-click="toggle.company = true; $event.preventDefault(); editCompany(company)">Edit</a> · 
 					<a href="" ng-click="removeCompany({ modified : company.modified })">Remove</a>
 				</li>
@@ -52,8 +53,8 @@
 
 		<div class="form-group">
 			<label for="markets">Markets *</label>
-			<tags-input name="markets" id="markets" class="form-control" ng-model="company.markets" placeholder="e.g. Mobile, E-commerce" required>
-			<div ng-messages="companyForm.markets.$error"></tags-input>
+			<tags-input name="markets" id="markets" class="form-control" ng-model="company.markets" placeholder="e.g. Mobile, E-commerce" required></tags-input>
+			<div ng-messages="companyForm.markets.$error">
 				<span class="validation-message" ng-message="required">This field is required</span>
 			</div>
 		</div>		

@@ -182,6 +182,7 @@
 					{{ experience.title }} -
 					{{ experience.startDate | date:'dd/MM/yyyy' }} -
 					{{ experience.endDate | date:'dd/MM/yyyy' }}
+					&nbsp;
 					<a href="" ng-click="toggle.experience = true; $event.preventDefault(); editExperience(experience)">Edit</a> · 
 					<a href="" ng-click="removeExperience({ modified : experience.modified })">Remove</a>
 				</li>
@@ -249,7 +250,8 @@
 					{{ education.collegeUniName }} -
 					{{ education.level }} -
 					{{ education.major }} -
-					{{ education.year | date:'yyyy' }} -
+					{{ education.year | date:'yyyy' }}
+					&nbsp;
 					<a href="" ng-click="toggle.education = true; $event.preventDefault(); editEducation(education)">Edit</a> · 
 					<a href="" ng-click="removeEducation({ modified : education.modified })">Remove</a>
 				</li>
@@ -306,6 +308,7 @@
 				<li ng-repeat="skill in profile.skills">
 					{{ skill.name }} -
 					{{ skill.level }}
+					&nbsp;
 					<a href="" ng-click="toggle.skill = true; $event.preventDefault(); editSkill(skill)">Edit</a> · 
 					<a href="" ng-click="removeSkill({ modified : skill.modified })">Remove</a>
 				</li>
