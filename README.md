@@ -111,7 +111,7 @@ Job
 	expiry			: String,
 	archived		: Boolean,
 	role 			: String,
-	type 			: String,
+	jobType			: String,
 	location 		: String,
 	coworkers 		: Array,
 	canRemote		: Boolean,

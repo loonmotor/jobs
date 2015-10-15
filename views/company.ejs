@@ -53,7 +53,7 @@
 
 		<div class="form-group">
 			<label for="markets">Markets *</label>
-			<tags-input name="markets" id="markets" class="form-control" ng-model="company.markets" placeholder="e.g. Mobile, E-commerce" required></tags-input>
+			<tags-input name="markets" id="markets" class="form-control" ng-model="company.markets" placeholder="e.g. Mobile, E-commerce" replace-spaces-with-dashes="false" required></tags-input>
 			<div ng-messages="companyForm.markets.$error">
 				<span class="validation-message" ng-message="required">This field is required</span>
 			</div>

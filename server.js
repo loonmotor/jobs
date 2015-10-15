@@ -76,7 +76,7 @@ if (app.get('env') === 'development') { // development error handler
 		res
 			.status(err.status || 500)
 			.json({
-				error : err.message
+				msg : err.message
 			});
 	});
 }

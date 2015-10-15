@@ -368,18 +368,69 @@ restfulApi.use('template.Job', 'GET', function (resourceName, req, res, done) {
 		});
 	});
 
-	// db.Profile.findOne({ userId : req.user._id }, function (err, profile) {
-	// 	if (err) {
-	// 		return done({ code : 'profileLookUpError', msg : 'Profile look up error' });
-	// 	}
-	// 	if (!profile) {
-	// 		profile = {};
-	// 	}
-	// 	res.render('profile', { 
-	// 		config : config,
-	// 		profile : profile
-	// 	});
-	// 	done();
-	// });
+});
+
+restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
+	if (!req.isAuthenticated()) {
+		return done({
+			code : 'notauthenticated',
+			msg  : 'Not authenticated'
+		});
+	}
+	done();
+});
+
+restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
+	var
+		query = { companyId : req.body.company, modified : req.body.modified }
+		, updateCommand;
+
+	updateCommand = {
+		'$set' : {
+			'title'       : req.body.title,
+			'description' : req.body.description,
+			'expiry'      : new Date(req.body.expiry),
+			'role'        : req.body.role,
+			'jobType'     : req.body.jobType,
+			'location'    : req.body.location,
+			'coworkers'   : (function () {
+				return req.body.coworkers.map(function (coworker) {
+					return coworker.text;
+				});
+			})(),
+			'canRemote'   : req.body.canRemote,
+			'visaSponsor' : req.body.visaSponsor,
+			'skills'      : (function () {
+				return req.body.skills.map(function (skill) {
+					return skill.text;
+				});
+			})(),
+			'salary'         : req.body.salary,
+			'salaryCurrency' : req.body.salaryCurrency,
+			'modified' : Date.now().toString()
+		}
+	};
+
+	db.Job.findAndModify({
+		query : query,
+		update : updateCommand,
+		upsert : true,
+		new : true	
+	}, function (err, doc) {
+		if (err) {
+			return done(err);
+		}
+		db.Job.find({ companyId : req.body.company }, function (err, jobs) {
+			if (err) {
+				return done(err);
+			}
+			res.json({
+				code : 'updatesuccess',
+				msg  : 'Saved successfully',
+				jobs : jobs
+			});
+			done();
+		});
+	});
 
 });

@@ -56,7 +56,10 @@
 			<label for="desiredSalary">Desired Salary</label>
 			<div class="input-group">
 				<div class="input-group-addon" ng-bind-template="{{ profile.salaryCurrency }}"></div>
-				<input type="number" class="form-control" id="desiredSalary" placeholder="Amount" ng-model="profile.desiredSalary" ng-disabled="!profile.salaryCurrency">
+				<input type="number" class="form-control" name="desiredSalary" id="desiredSalary" placeholder="Amount" ng-model="profile.desiredSalary" ng-disabled="!profile.salaryCurrency" ng-required="profile.salaryCurrency">
+			</div>
+			<div ng-messages="profileForm.desiredSalary.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
 			</div>
 		</div>
 

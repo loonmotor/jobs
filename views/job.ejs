@@ -41,6 +41,18 @@
 		</div>
 
 		<div class="form-group">
+			<label for="expiry">Job Expiry *</label>
+			<div class="input-group">
+				<input type="text" name="expiry" id="expiry" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="job.expiry" is-open="togglestart.startDatePicker" close-text="Close" ng-readonly="true" ng-click="togglestart.startDatePicker = !togglestart.startDatePicker" show-weeks="false" required />
+				<div class="input-group-addon" ng-click="togglestart.startDatePicker = !togglestart.startDatePicker"><i class="glyphicon glyphicon-calendar"></i></div>
+			</div>
+
+			<div ng-messages="experienceForm.expiry.$error">
+				<span ng-message="required" class="validation-message">This field is required</span>
+			</div>
+		</div>
+
+		<div class="form-group">
 			<label for="role">Role *</label>
 			<select name="role" id="role" class="form-control" ng-model="job.role" ng-options="role.name group by role.group for role in embeddedJsonData.roles track by role.name" required>
 				<option value="">Please select a role</option>
@@ -70,7 +82,7 @@
 	
 		<div class="form-group">
 			<label for="coworkers">Coworkers *</label>
-			<tags-input name="coworkers" id="coworkers" class="form-control" ng-model="job.coworkers" placeholder="e.g. Mobile, E-commerce" required></tags-input>
+			<tags-input name="coworkers" id="coworkers" class="form-control" ng-model="job.coworkers" placeholder="e.g. Chuck Norris, Jason Cheng" replace-spaces-with-dashes="false" required></tags-input>
 			<div ng-messages="jobForm.coworkers.$error">
 				<span class="validation-message" ng-message="required">This field is required</span>
 			</div>
@@ -94,7 +106,7 @@
 
 		<div class="form-group">
 			<label for="skills">Skills Required *</label>
-			<tags-input name="skills" id="skills" class="form-control" ng-model="job.skills" placeholder="e.g. Javascript, MongoDB" required></tags-input>
+			<tags-input name="skills" id="skills" class="form-control" ng-model="job.skills" placeholder="e.g. Javascript, MongoDB" replace-spaces-with-dashes="false" required></tags-input>
 			<div ng-messages="jobForm.skills.$error">
 				<span class="validation-message" ng-message="required">This field is required</span>
 			</div>
@@ -108,10 +120,13 @@
 		</div>
 
 		<div class="form-group">
-			<label for="desiredSalary">Salary</label>
+			<label for="salary">Salary</label>
 			<div class="input-group">
 				<div class="input-group-addon" ng-bind-template="{{ job.salaryCurrency }}"></div>
-				<input type="number" class="form-control" id="desiredSalary" placeholder="Amount" ng-model="job.desiredSalary" ng-disabled="!job.salaryCurrency">
+				<input type="number" name="salary" class="form-control" id="salary" placeholder="Amount" ng-model="job.salary" ng-disabled="!job.salaryCurrency" ng-required="job.salaryCurrency">
+			</div>
+			<div ng-messages="jobForm.salary.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
 			</div>
 		</div>
 
