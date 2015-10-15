@@ -1,7 +1,8 @@
 var
 	restfulApi = require('../modules/restfulApi')
 	, db = require('./mongojs')
-	, config = require('../config');
+	, config = require('../config')
+	, async = require('async');
 
 restfulApi.use('template.LoggedInState', 'GET', function (resourceName, req, res, done) {
 	if (!req.isAuthenticated()) {
@@ -334,4 +335,51 @@ restfulApi.use('Company', 'DELETE', function (resourceName, req, res, done) {
 		});
 
 	});
+});
+
+restfulApi.use('template.Job', 'GET', function (resourceName, req, res, done) {
+	if (!req.isAuthenticated()) {
+		return done({
+			code : 'notauthenticated',
+			msg  : 'Not authenticated'
+		});
+	}
+	done();
+});
+
+restfulApi.use('template.Job', 'GET', function (resourceName, req, res, done) {
+
+	db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
+		if (err) {
+			return done({ code : 'companyLookUpError', msg : 'Company look up error' });
+		}
+		companyIds = companies.map(function (company) {
+			return company._id;
+		});
+		db.Job.find({ companyId : { '$in' : companyIds } }, function (err, jobs) {
+			if (err) {
+				return done({ code : 'jobLookUpError', msg : 'Job look up error' });
+			}
+			res.render('job', {
+				config : config,
+				jobs   : jobs,
+				companies : companies
+			});
+		});
+	});
+
+	// db.Profile.findOne({ userId : req.user._id }, function (err, profile) {
+	// 	if (err) {
+	// 		return done({ code : 'profileLookUpError', msg : 'Profile look up error' });
+	// 	}
+	// 	if (!profile) {
+	// 		profile = {};
+	// 	}
+	// 	res.render('profile', { 
+	// 		config : config,
+	// 		profile : profile
+	// 	});
+	// 	done();
+	// });
+
 });

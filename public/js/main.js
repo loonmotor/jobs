@@ -64,6 +64,14 @@ angular
 					}
 				}
 			})
+			.state('rootControl.job', {
+				url : '/job',
+				views : {
+					'main' : {
+						templateUrl : '/html/job.html'
+					}
+				}
+			});
 
 		ngToastProvider.configure({
 			dismissButton : true,

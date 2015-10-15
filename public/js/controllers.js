@@ -6,6 +6,7 @@ angular
 		$scope.root.templateUrl.loggedInState = config['templateUrl.loggedInState'];
 		$scope.root.templateUrl.profile = config['templateUrl.profile'];
 		$scope.root.templateUrl.company = config['templateUrl.company'];
+		$scope.root.templateUrl.job = config['templateUrl.job'];
 		$scope.$state = $state;
 		pubsub.subscribe('ajaxResponse', 'to check authentication state', function (args, done) {
 			if (args.code == 'notauthenticated'
@@ -285,6 +286,32 @@ angular
 						content : data.msg
 					});
 					$scope.companies = data.companies;
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
+		}
+	}])
+	.controller('jobCtrl', ['$scope', 'config', 'resources', 'ngToast', function ($scope, config, resources, ngToast) {
+		$scope.root.title = ['Job', config.siteName].join(' | ');
+		$scope.embeddedJsonData = JSON.parse(document.getElementById('embeddedJsonData').text);
+		$scope.displayValidation = {};
+		$scope.toggle = {};
+
+		$scope.saveJob = function ($event, formData) {
+			if ($scope.jobForm.$invalid) {
+				$scope.displayValidation.form = true;
+				return;
+			}
+			console.log(formData);
+			resources.Job
+				.save(formData)
+				.$promise
+				.then(function (data) {
+					ngToast.success({
+						content : data.msg
+					});
 				}, function (err) {
 					ngToast.danger({
 						content : err.data.msg

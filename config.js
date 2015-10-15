@@ -62,6 +62,7 @@ module.exports = {
 	],
 	"company.whyus.maxLength" : 2000,
 	"company.product.maxLength" : 1000,
+	"job.description.maxLength" : 2000,
 	"urlencoded.limit" : '1mb',
 	"jsonencoded.limit" : '1mb'
 };

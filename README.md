@@ -119,10 +119,10 @@ Job
 	skills 			: Array,
 	salary 			: String,
 	salaryCurrency 	: String,
-	companyId   	: ObjectId,
 	companyName		: String,
 	companyLogo     : String,
-	companyLocation : String
+	companyLocation : String,
+	companyId   	: ObjectId
 }
 ```
 

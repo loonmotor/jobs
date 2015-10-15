@@ -9,4 +9,6 @@ router.get('/profile', restfulApi.restful('template.Profile'));
 
 router.get('/company', restfulApi.restful('template.Company'));
 
+router.get('/job', restfulApi.restful('template.Job'));
+
 module.exports = router;

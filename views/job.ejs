@@ -1,0 +1,135 @@
+<div ng-controller="jobCtrl">
+	<form method="POST" name="jobForm" id="job-form" ng-class='displayValidation.form ? "display-validation" : ""' novalidate>
+
+		<h3>Jobs</h3>
+		<hr>
+
+		<div class="well" ng-if="jobs && jobs.length > 0">
+			<ul>
+				<li ng-repeat="job in jobs">
+					{{ job.name }} -
+					{{ job.location }}
+					&nbsp;
+					<a href="" ng-click="toggle.job = true; $event.preventDefault(); editjob(job)">Edit</a> · 
+					<a href="" ng-click="removejob({ modified : job.modified })">Remove</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="form-group">
+			<label for="company">Company *</label>
+			<select name="company" id="company" class="form-control" ng-model="job.company" ng-options="company._id as (company.name + ' - ' + company.location) for company in embeddedJsonData.companies track by company._id" required>
+				<option value="">Please select a company</option>
+			</select>
+			<div ng-messages="jobForm.company.$error">
+				<span class="validation-message" ng-message="required">This selection is required</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="title">Job Title *</label>
+			<input type="text" name="title" id="title" class="form-control" ng-model="job.title" placeholder="e.g. Software Engineer, Designer" required>
+			<div ng-messages="jobForm.title.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="description">Description *</label>
+			<textarea name="description" id="description" class="form-control" ng-model="job.description" placeholder="(Optional) You can change this later" field-character-count="descriptionCharacterCount" maxlength="<%= config['job.description.maxLength'] %>" ng-trim="false"></textarea>
+			<span>{{ descriptionCharacterCount || 0 }}/<%= config['job.description.maxLength'] %></span><br>
+		</div>
+
+		<div class="form-group">
+			<label for="role">Role *</label>
+			<select name="role" id="role" class="form-control" ng-model="job.role" ng-options="role.name group by role.group for role in embeddedJsonData.roles track by role.name" required>
+				<option value="">Please select a role</option>
+			</select>
+			<div ng-messages="jobForm.role.$error">
+				<span class="validation-message" ng-message="required">This selection is required</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="jobType">Job Type *</label>
+			<select name="jobType" id="jobType" class="form-control" ng-model="job.jobType" ng-options="jobType for jobType in embeddedJsonData.jobTypes" required>
+				<option value="">Please select a job type</option>
+			</select>
+			<div ng-messages="jobForm.jobType.$error">
+				<span class="validation-message" ng-message="required">This selection is required</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="location">Location *</label>
+			<input type="text" name="location" id="location" class="form-control" ng-model="job.location" placeholder="Your current city, state or country" required>
+			<div ng-messages="jobForm.location.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
+	
+		<div class="form-group">
+			<label for="coworkers">Coworkers *</label>
+			<tags-input name="coworkers" id="coworkers" class="form-control" ng-model="job.coworkers" placeholder="e.g. Mobile, E-commerce" required></tags-input>
+			<div ng-messages="jobForm.coworkers.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
+
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" name="canRemote" id="canRemote" ng-model="job.canRemote">
+				Can Work Remotely
+			</label>
+		</div>
+		<br>
+
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" name="visaSponsor" id="visaSponsor" ng-model="job.visaSponsor">
+				Willing to sponsor visas?
+			</label>
+		</div>
+		<br>
+
+		<div class="form-group">
+			<label for="skills">Skills Required *</label>
+			<tags-input name="skills" id="skills" class="form-control" ng-model="job.skills" placeholder="e.g. Javascript, MongoDB" required></tags-input>
+			<div ng-messages="jobForm.skills.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="salaryCurrency">Salary Currency</label>
+			<select name="salaryCurrency" id="salaryCurrency" class="form-control" ng-model="job.salaryCurrency" ng-options="salaryCurrency.value as salaryCurrency.name for salaryCurrency in embeddedJsonData.salaryCurrencies">
+				<option value="">Please select a currency type</option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label for="desiredSalary">Salary</label>
+			<div class="input-group">
+				<div class="input-group-addon" ng-bind-template="{{ job.salaryCurrency }}"></div>
+				<input type="number" class="form-control" id="desiredSalary" placeholder="Amount" ng-model="job.desiredSalary" ng-disabled="!job.salaryCurrency">
+			</div>
+		</div>
+
+		<br>
+
+		<input type="button" value="Save Job" id="submit" class="btn btn-default" ng-disabled="displayValidation.form && jobForm.$invalid" ng-click="saveJob($event, job)">
+		<span class="validation-message" ng-class='displayValidation.form ? "display-validation" : ""' ng-show="jobForm.$invalid">There are invalid fields</span>
+
+
+	</form>
+</div>
+
+<script type="application/json" id="embeddedJsonData">
+{
+	"roles" : <%- JSON.stringify(config['profile.roles']) %>,
+	"jobTypes" : <%- JSON.stringify(config['profile.jobTypes']) %>,
+	"salaryCurrencies" : <%- JSON.stringify(config['profile.salaryCurrencies']) %>,
+	"jobs" : <%- JSON.stringify(jobs) %>,
+	"companies" : <%- JSON.stringify(companies) %>
+}
+</script>
