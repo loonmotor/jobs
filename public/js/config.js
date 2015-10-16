@@ -3,12 +3,16 @@ angular
 	.factory('config', [function () {
 		return {
 			'siteName' : 'Jobs',
-			'templateUrl.loggedInState' : '/template/logged-in-state',
-			'templateUrl.profile' : '/template/profile',
-			'templateUrl.company' : '/template/company',
-			'templateUrl.job'      : '/template/job',
-			'resourceUrl.Profile' : '/data/profile/:id',
-			'resourceUrl.Company' : '/data/company/:id',
-			'resourceUrl.Job' : '/data/job/:id'
+			'templateUrl' : {
+				'loggedInState' : '/template/logged-in-state',
+				'profile' : '/template/profile',
+				'company' : '/template/job',
+				'job' : '/template/job'
+			},
+			'resourceUrl' : {
+				'Profile' : '/data/profile/:id',
+				'Company' : '/data/company/:id',
+				'Job'     : '/data/job/:id'
+			}
 		};
 	}]);
