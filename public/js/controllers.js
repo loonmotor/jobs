@@ -241,9 +241,19 @@ angular
 	.controller('companyCtrl', ['$scope', 'config', 'resources', 'ngToast', function ($scope, config, resources, ngToast) {
 		$scope.root.title = ['Company', config.siteName].join(' | ');
 		$scope.embeddedJsonData = JSON.parse(document.getElementById('embeddedJsonData').text);
-		$scope.companies = $scope.embeddedJsonData.companies;
 		$scope.displayValidation = {};
 		$scope.toggle = {};
+
+		resources.Company
+			.query()
+			.$promise
+			.then(function (data) {
+				$scope.companies = data;
+			}, function (err) {
+				ngToast.danger({
+					content : err.data.msg
+				});
+			});
 
 		$scope.saveCompany = function ($event, formData) {
 			if ($scope.companyForm.$invalid) {
@@ -306,6 +316,17 @@ angular
 				});
 			});
 
+		resources.Company
+			.query()
+			.$promise
+			.then(function (data) {
+				$scope.companies = data;
+			}, function (err) {
+				ngToast.danger({
+					content : err.data.msg
+				});
+			});
+
 		$scope.saveJob = function ($event, formData) {
 			if ($scope.jobForm.$invalid) {
 				$scope.displayValidation.form = true;
@@ -319,11 +340,13 @@ angular
 						content : data.msg
 					});
 					$scope.jobs = data.jobs;
+					$scope.job = null;
 				}, function (err) {
 					ngToast.danger({
 						content : err.data.msg
 					});
 				});
+			$scope.displayValidation.form = false;
 		}
 
 		$scope.editJob = function (job) {
@@ -332,5 +355,21 @@ angular
 			angular.extend(tempJob, job);
 			console.log(tempJob);
 			$scope.job = tempJob;
+		}
+
+		$scope.removeJob = function (job) {
+			resources.Job
+				.remove(job)
+				.$promise
+				.then(function (data) {
+					ngToast.success({
+						content : data.msg
+					});
+					$scope.jobs = data.jobs;
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
 		}
 	}]);

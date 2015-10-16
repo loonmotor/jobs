@@ -1,5 +1,5 @@
 module.exports = {
-	"host" : "localhost:3008",
+	"host" : "http://localhost:3008",
 	"logPath" : "logs",
 	"logFile" : "logs.log",
 	"staticPath" : "public",
