@@ -7,11 +7,11 @@
 		<div class="well" ng-if="jobs && jobs.length > 0">
 			<ul>
 				<li ng-repeat="job in jobs">
-					{{ job.name }} -
+					{{ job.title }} -
 					{{ job.location }}
 					&nbsp;
-					<a href="" ng-click="toggle.job = true; $event.preventDefault(); editjob(job)">Edit</a> · 
-					<a href="" ng-click="removejob({ modified : job.modified })">Remove</a>
+					<a href="" ng-click="toggle.job = true; $event.preventDefault(); editJob(job)">Edit</a> · 
+					<a href="" ng-click="removeJob({ modified : job.modified })">Remove</a>
 				</li>
 			</ul>
 		</div>
@@ -130,10 +130,13 @@
 			</div>
 		</div>
 
+		<input type="hidden" ng-model="job.modified">
+
 		<br>
 
 		<input type="button" value="Save Job" id="submit" class="btn btn-default" ng-disabled="displayValidation.form && jobForm.$invalid" ng-click="saveJob($event, job)">
 		<span class="validation-message" ng-class='displayValidation.form ? "display-validation" : ""' ng-show="jobForm.$invalid">There are invalid fields</span>
+		<input type="button" value="Cancel Edit" id="edit" class="btn btn-default" ng-show="job.modified" ng-click="job = null; displayValidation.form = false">
 
 
 	</form>
@@ -144,7 +147,6 @@
 	"roles" : <%- JSON.stringify(config['profile.roles']) %>,
 	"jobTypes" : <%- JSON.stringify(config['profile.jobTypes']) %>,
 	"salaryCurrencies" : <%- JSON.stringify(config['profile.salaryCurrencies']) %>,
-	"jobs" : <%- JSON.stringify(jobs) %>,
 	"companies" : <%- JSON.stringify(companies) %>
 }
 </script>

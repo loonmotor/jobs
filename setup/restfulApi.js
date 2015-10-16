@@ -353,21 +353,31 @@ restfulApi.use('template.Job', 'GET', function (resourceName, req, res, done) {
 		if (err) {
 			return done({ code : 'companyLookUpError', msg : 'Company look up error' });
 		}
-		companyIds = companies.map(function (company) {
-			return company._id;
+		res.render('job', {
+			config : config,                                      
+			companies : companies
 		});
-		db.Job.find({ companyId : { '$in' : companyIds } }, function (err, jobs) {
-			if (err) {
-				return done({ code : 'jobLookUpError', msg : 'Job look up error' });
-			}
-			res.render('job', {
-				config : config,
-				jobs   : jobs,
-				companies : companies
-			});
-		});
+		done();
 	});
 
+});
+
+restfulApi.use('Job', 'GET', function (resourceName, req, res, done) {
+	db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
+		if (err) {
+			return done({ code : 'companyLookUpError', msg : 'Company look up error' });
+		}
+		var companyIds = companies.map(function (company) {
+			return company._id.toString();
+		});
+		db.Job.find({ companyId : { '$in' : companyIds }}, function (err, jobs) {
+			if (err) {
+				return done(err);
+			}
+			res.json(jobs);
+			done();
+		});
+	});
 });
 
 restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {

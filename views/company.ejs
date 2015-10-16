@@ -99,6 +99,7 @@
 		
 		<input type="button" value="Save Company" id="submit" class="btn btn-default" ng-disabled="displayValidation.form && companyForm.$invalid" ng-click="saveCompany($event, company)">
 		<span class="validation-message" ng-class='displayValidation.form ? "display-validation" : ""' ng-show="companyForm.$invalid">There are invalid fields</span>
+		<input type="button" value="Cancel Edit" id="edit" class="btn btn-default" ng-show="company.modified" ng-click="company = null; displayValidation.form = false">
 
 	</form>
 </div>

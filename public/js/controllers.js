@@ -2,17 +2,13 @@ angular
 	.module('jobs')
 	.controller('rootCtrl', ['$scope', '$http', 'pubsub', 'config', '$state', function ($scope, $http, pubsub, config, $state) {
 		$scope.root = {};
-		$scope.root.templateUrl = {};
-		$scope.root.templateUrl.loggedInState = config['templateUrl.loggedInState'];
-		$scope.root.templateUrl.profile = config['templateUrl.profile'];
-		$scope.root.templateUrl.company = config['templateUrl.company'];
-		$scope.root.templateUrl.job = config['templateUrl.job'];
+		$scope.root.templateUrl = config['templateUrl'];
 		$scope.$state = $state;
 		pubsub.subscribe('ajaxResponse', 'to check authentication state', function (args, done) {
 			if (args.code == 'notauthenticated'
 				|| args.code == 'successSignIn'
 				|| args.code == 'successSignUp') {
-			$scope.root.templateUrl.loggedInState = config['templateUrl.loggedInState'] + '?time=' + Date.now();
+			$scope.root.templateUrl.loggedInState = $scope.root.templateUrl.loggedInState + '?time=' + Date.now();
 			}
 			done();
 		});
@@ -299,12 +295,22 @@ angular
 		$scope.displayValidation = {};
 		$scope.toggle = {};
 
+		resources.Job
+			.query()
+			.$promise
+			.then(function (data) {
+				$scope.jobs = data;
+			}, function (err) {
+				ngToast.danger({
+					content : err.data.msg
+				});
+			});
+
 		$scope.saveJob = function ($event, formData) {
 			if ($scope.jobForm.$invalid) {
 				$scope.displayValidation.form = true;
 				return;
 			}
-			console.log(formData);
 			resources.Job
 				.save(formData)
 				.$promise
@@ -312,10 +318,19 @@ angular
 					ngToast.success({
 						content : data.msg
 					});
+					$scope.jobs = data.jobs;
 				}, function (err) {
 					ngToast.danger({
 						content : err.data.msg
 					});
 				});
+		}
+
+		$scope.editJob = function (job) {
+			job.expiry = new Date(job.expiry);
+			var tempJob = {};
+			angular.extend(tempJob, job);
+			console.log(tempJob);
+			$scope.job = tempJob;
 		}
 	}]);

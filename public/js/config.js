@@ -6,7 +6,7 @@ angular
 			'templateUrl' : {
 				'loggedInState' : '/template/logged-in-state',
 				'profile' : '/template/profile',
-				'company' : '/template/job',
+				'company' : '/template/company',
 				'job' : '/template/job'
 			},
 			'resourceUrl' : {

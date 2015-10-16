@@ -119,6 +119,7 @@ Job
 	skills 			: Array,
 	salary 			: String,
 	salaryCurrency 	: String,
+	modified		: String,
 	companyName		: String,
 	companyLogo     : String,
 	companyLocation : String,
