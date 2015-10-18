@@ -25,20 +25,31 @@ restfulApi.use('template.Profile', 'GET', function (resourceName, req, res, done
 
 restfulApi.use('template.Profile', 'GET', function (resourceName, req, res, done) {
 	
+	res.render('profile', { 
+		config : config
+	});
+	done();
+
+});
+
+restfulApi.use('Profile', 'GET', function (resourceName, req, res, done) {
+	if (!req.isAuthenticated()) {
+		return done({
+			code : 'notauthenticated',
+			msg  : 'Not authenticated'
+		});
+	}
+	done();
+});
+
+restfulApi.use('Profile', 'GET', function (resourceName, req, res, done) {
 	db.Profile.findOne({ userId : req.user._id }, function (err, profile) {
 		if (err) {
 			return done({ code : 'profileLookUpError', msg : 'Profile look up error' });
 		}
-		if (!profile) {
-			profile = {};
-		}
-		res.render('profile', { 
-			config : config,
-			profile : profile
-		});
+		res.json(profile);
 		done();
 	});
-
 });
 
 restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
@@ -142,15 +153,15 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 				'photo'          : req.body.photo,
 				'profileSummary' : req.body.profileSummary,
 				'accomplishment' : req.body.accomplishment,
-				'links.resume'   : req.body.links.resume,
-				'links.website'  : req.body.links.website,
-				'links.linkedin' : req.body.links.linkedin,
-				'links.twitter'  : req.body.links.twitter,
-				'links.blog'     : req.body.links.blog,
-				'links.github'   : req.body.links.github,
-				'links.facebook' : req.body.links.facebook,
-				'links.dribble'  : req.body.links.dribble,
-				'links.behance'  : req.body.links.behance
+				'links.resume'   : req.body.links && req.body.links.resume,
+				'links.website'  : req.body.links && req.body.links.website,
+				'links.linkedin' : req.body.links && req.body.links.linkedin,
+				'links.twitter'  : req.body.links && req.body.links.twitter,
+				'links.blog'     : req.body.links && req.body.links.blog,
+				'links.github'   : req.body.links && req.body.links.github,
+				'links.facebook' : req.body.links && req.body.links.facebook,
+				'links.dribble'  : req.body.links && req.body.links.dribble,
+				'links.behance'  : req.body.links && req.body.links.behance
 			}
 		};
 	}

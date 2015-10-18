@@ -81,6 +81,18 @@ angular
 		$scope.displayValidation = {};
 		$scope.toggle = {};
 
+		resources.Profile
+			.get()
+			.$promise
+			.then(function (data) {
+				console.log(data);
+				$scope.profile = data;
+			}, function (err) {
+				ngToast.danger({
+					content : err.data.msg
+				});
+			});
+
 		$scope.saveProfile = function ($event, formData) {
 			if ($scope.profileForm.$invalid) {
 				$scope.displayValidation.form = true;
@@ -105,9 +117,11 @@ angular
 				$scope.displayValidation.experienceForm = true;
 				return;
 			}
-			formData.saveExperience = true;
+			var newFormData = {};
+			angular.extend(newFormData, formData);
+			newFormData.saveExperience = true;
 			resources.Profile
-				.save(formData)
+				.save(newFormData)
 				.$promise
 				.then(function (data) {
 					ngToast.success({
@@ -153,9 +167,11 @@ angular
 				$scope.displayValidation.educationForm = true;
 				return;
 			}
-			formData.saveEducation = true;
+			var newFormData = {};
+			angular.extend(newFormData, formData);
+			newFormData.saveEducation = true;
 			resources.Profile
-				.save(formData)
+				.save(newFormData)
 				.$promise
 				.then(function (data) {
 					ngToast.success({
@@ -200,9 +216,11 @@ angular
 				$scope.displayValidation.skillForm = true;
 				return;
 			}
-			formData.saveSkill = true;
+			var newFormData = {};
+			angular.extend(newFormData, formData);
+			newFormData.saveSkill = true;
 			resources.Profile
-				.save(formData)
+				.save(newFormData)
 				.$promise
 				.then(function (data) {
 					ngToast.success({
