@@ -12,6 +12,13 @@ angular
 			}
 			done();
 		});
+		$scope.getImage = function (imageSrc) {
+			console.log('bdfbv');
+			if (!imageSrc) {
+				return '//:0';
+			}
+			return imageSrc;
+		}
 	}])
 	.controller('homeCtrl', ['$scope', '$http', 'config', function ($scope, $http, config) {
 		$scope.root.title = ['Home', config.siteName].join(' | ');

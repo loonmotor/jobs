@@ -24,7 +24,7 @@
 			</div>
 		</div>
 
-		<img ng-src="{{ company.logo }}" class="company-logo">
+		<img ng-src="{{ getImage(company.logo) }}" class="company-logo">
 		<div class="form-group">
 			<label for="logo">Logo</label>
 			<input type="file" name="logo" id="logo" ng-model="company.logo" read-file valid-file-types="image/png|image/jpg|image/jpeg" max-file-size="<%= config['profile.logo.maxFileSize'] %>" required>
