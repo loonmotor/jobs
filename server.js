@@ -19,6 +19,7 @@ var
 	, dataRoute     = require('./routes/data')
 	, passport      = require('passport')
 	, favicon       = require('serve-favicon')
+	, htmlSanitizer = require('./middlewares/htmlSanitizer');
 	// , cors         = require('cors');
 
 require('./setup/passport')(); // passport
@@ -34,6 +35,7 @@ app.use(restLogger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended : false, limit : config['urlencoded.limit'] }));
 app.use(bodyParser.json({ limit : config['jsonencoded.limit'] }));
+app.use(htmlSanitizer());
 app.use(session({ //
 	name              : 'pips',
 	resave            : false,
