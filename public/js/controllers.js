@@ -93,6 +93,7 @@ angular
 					ngToast.success({
 						content : data.msg
 					});
+					$scope.profile = data.profile;
 				}, function (err) {
 					ngToast.danger({
 						content : err.data.msg
@@ -112,7 +113,8 @@ angular
 					ngToast.success({
 						content : data.msg
 					});
-					$scope.profile = data.profile;
+					$scope.profile.experiences = data.profile.experiences;
+					$scope.profile.experience = null;
 				}, function (err) {
 					ngToast.danger({
 						content : err.data.msg
@@ -138,7 +140,7 @@ angular
 					ngToast.success({
 						content : data.msg
 					});
-					$scope.profile = data.profile;
+					$scope.profile.experiences = data.profile.experiences;
 				}, function (err) {
 					ngToast.danger({
 						content : err.data.msg
@@ -159,7 +161,8 @@ angular
 					ngToast.success({
 						content : data.msg
 					});
-					$scope.profile = data.profile;
+					$scope.profile.educations = data.profile.educations;
+					$scope.profile.education = null;
 				}, function (err) {
 					ngToast.danger({
 						content : err.data.msg
@@ -184,7 +187,7 @@ angular
 					ngToast.success({
 						content : data.msg
 					});
-					$scope.profile = data.profile;
+					$scope.profile.educations = data.profile.educations;
 				}, function (err) {
 					ngToast.danger({
 						content : err.data.msg
@@ -205,12 +208,14 @@ angular
 					ngToast.success({
 						content : data.msg
 					});
-					$scope.profile = data.profile;
+					$scope.profile.skills = data.profile.skills;
+					$scope.profile.skill = null;
 				}, function (err) {
 					ngToast.danger({
 						content : err.data.msg
 					});
 				});
+			$scope.displayValidation.skillForm = false;
 		}
 
 		$scope.editSkill = function (skill) {
@@ -228,7 +233,7 @@ angular
 					ngToast.success({
 						content : data.msg
 					});
-					$scope.profile = data.profile;
+					$scope.profile.skills = data.profile.skills;
 				}, function (err) {
 					ngToast.danger({
 						content : err.data.msg

@@ -296,7 +296,7 @@
 			<input type="hidden" ng-model="profile.education.modified">
 
 			<button class="btn btn-default" ng-disabled="displayValidation.educationForm && educationForm.$invalid" ng-click="saveEducation($event, profile)">Add</button>
-			<button class="btn btn-default" ng-click="toggle.education = false; displayValidation.educationForm = false">Cancel</button>
+			<button class="btn btn-default" ng-click="toggle.education = false; displayValidation.educationForm = false; profile.education = null">Cancel</button>
 			<span class="validation-message" ng-show="educationForm.$invalid">There are invalid fields</span>
 		</div>
 	</form>
@@ -336,7 +336,7 @@
 			<input type="hidden" ng-model="profile.skill.modified">
 			
 			<button class="btn btn-default" ng-disabled="displayValidation.skillForm && skillForm.$invalid" ng-click="saveSkill($event, profile)">Add</button>
-			<button class="btn btn-default" ng-click="toggle.skill = false; displayValidation.skillForm = false">Cancel</button>
+			<button class="btn btn-default" ng-click="toggle.skill = false; displayValidation.skillForm = false; profile.skill = null">Cancel</button>
 			<span class="validation-message" ng-show="skillForm.$invalid">There are invalid fields</span>
 		</div>
 	</form>
