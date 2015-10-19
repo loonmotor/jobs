@@ -1,6 +1,6 @@
 angular
 	.module('jobs')
-	.controller('rootCtrl', ['$scope', '$http', 'pubsub', 'config', '$state', function ($scope, $http, pubsub, config, $state) {
+	.controller('rootCtrl', ['$scope', '$http', 'pubsub', 'config', '$state', 'ngToast', '$sce', function ($scope, $http, pubsub, config, $state, ngToast, $sce) {
 		$scope.root = {};
 		$scope.root.templateUrl = config['templateUrl'];
 		$scope.$state = $state;
@@ -8,12 +8,17 @@ angular
 			if (args.code == 'notauthenticated'
 				|| args.code == 'successSignIn'
 				|| args.code == 'successSignUp') {
-			$scope.root.templateUrl.loggedInState = $scope.root.templateUrl.loggedInState + '?time=' + Date.now();
+				$scope.root.templateUrl.loggedInState = $scope.root.templateUrl.loggedInState + '?time=' + Date.now();
+			}
+			if (args.code == 'notauthenticated') {
+				ngToast.info({
+					content : $sce.trustAsHtml('<a ui-sref="rootSignIn.signIn">Please sign in</a>'),
+					compileContent : true
+				});
 			}
 			done();
 		});
 		$scope.getImage = function (imageSrc) {
-			console.log('bdfbv');
 			if (!imageSrc) {
 				return '//:0';
 			}
@@ -43,7 +48,7 @@ angular
 					});
 					$timeout(function () {
 						$location.path('/');
-					}, 1000);
+					}, 500);
 
 				})
 				.error(function (err) {
@@ -92,7 +97,6 @@ angular
 			.get()
 			.$promise
 			.then(function (data) {
-				console.log(data);
 				$scope.profile = data;
 			}, function (err) {
 				ngToast.danger({
@@ -383,7 +387,6 @@ angular
 			job.expiry = new Date(job.expiry);
 			var tempJob = {};
 			angular.extend(tempJob, job);
-			console.log(tempJob);
 			$scope.job = tempJob;
 		}
 
