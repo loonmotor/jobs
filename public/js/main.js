@@ -71,6 +71,14 @@ angular
 						templateUrl : '/html/job.html'
 					}
 				}
+			})
+			.state('rule', {
+				url : '/rules',
+				views : {
+					'main' : {
+						templateUrl : '/html/rule.html'
+					}
+				}
 			});
 
 		ngToastProvider.configure({
@@ -83,6 +91,9 @@ angular
 		$http.defaults.transformResponse.push(function (data, headers) {
 			if (headers('content-type') &&
 				headers('content-type').indexOf('application/json') > -1) {
+					if (typeof data !== 'object') {
+						data = JSON.parse(data);
+					}
 					pubsub.publish('ajaxResponse', data);
 			}
 			return data;
