@@ -405,4 +405,7 @@ angular
 					});
 				});
 		}
+	}])
+	.controller('ruleCtrl', ['$scope', 'config', function ($scope, config) {
+		$scope.root.title = ['Rules', config.siteName].join(' | ');
 	}]);

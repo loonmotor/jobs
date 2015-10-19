@@ -76,7 +76,8 @@ angular
 				url : '/rules',
 				views : {
 					'main' : {
-						templateUrl : '/html/rule.html'
+						templateUrl : '/html/rule.html',
+						controller  : 'ruleCtrl'
 					}
 				}
 			});
