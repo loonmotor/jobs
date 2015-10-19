@@ -243,7 +243,7 @@ restfulApi.use('Profile', 'DELETE', function (resourceName, req, res, done) {
 
 });
 
-restfulApi.use('template.Companies', 'GET', function (resourceName, req, res, done) {
+restfulApi.use('template.Company', 'GET', function (resourceName, req, res, done) {
 	if (!req.isAuthenticated()) {
 		return done({
 			code : 'notauthenticated',
@@ -355,28 +355,47 @@ restfulApi.use('Company', 'DELETE', function (resourceName, req, res, done) {
 });
 
 restfulApi.use('Company', 'DELETE', function (resourceName, req, res, done) {
-	var
-		query = { userId : req.user._id, modified : req.query.modified }
-		, updateCommand;
 
-	db.Company.findAndModify({
-		query  : query,
-		remove : true
-	}, function (err, doc) {
+	async.waterfall([
+		function (ok) {
+			db.Company.findAndModify({
+				query  : { userId : req.user._id, modified : req.query.modified },
+				remove : true
+			}, function (err, doc) {
+				if (err) {
+					return ok(err);
+				}
+				ok(null, doc._id);
+			});
+		},
+		function (companyId, ok) {
+			db.Job.remove({ companyId : companyId.toString() }, function (err, results) {
+				if (err) {
+					return ok(err);
+				}
+				ok();
+			});
+		},
+		function (ok) {
+			db.Company.find({ userId : req.user._id }, function (err, companies) {
+				if (err) {
+					return ok(err);
+				}
+				res.json({
+					code : 'deletesuccess',
+					msg  : 'Removed successfully',
+					companies : companies
+				})
+				ok();
+			});
+		}
+	], function (err) {
 		if (err) {
 			return done(err);
 		}
-
-		db.Company.find({ userId : req.user._id }, function (err, companies) {
-			res.json({
-				code : 'deletesuccess',
-				msg  : 'Removed successfully',
-				companies : companies
-			})
-			done();
-		});
-
+		done();
 	});
+
 });
 
 restfulApi.use('template.Job', 'GET', function (resourceName, req, res, done) {
@@ -474,8 +493,8 @@ restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 					return done(err);
 				}
 				res.json({
-					code : 'deletesuccess',
-					msg  : 'Removed successfully',
+					code : 'updatesuccess',
+					msg  : 'Saved successfully',
 					jobs : jobs
 				});
 				done();
