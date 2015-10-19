@@ -12,7 +12,7 @@ angular
 			'resourceUrl' : {
 				'Profile' : '/data/profile/:id',
 				'Company' : '/data/company/:id',
-				'Job'     : '/data/job/:id'
+				'Job'     : '/data/job/:offset/:limit'
 			}
 		};
 	}]);

@@ -25,8 +25,19 @@ angular
 			return imageSrc;
 		}
 	}])
-	.controller('homeCtrl', ['$scope', '$http', 'config', function ($scope, $http, config) {
+	.controller('homeCtrl', ['$scope', 'resources', 'config', 'ngToast', function ($scope, resources, config, ngToast) {
 		$scope.root.title = ['Home', config.siteName].join(' | ');
+
+		resources.Job
+			.get()
+			.$promise
+			.then(function (data) {
+				$scope.jobs = data;
+			}, function (err) {
+				ngToast.danger({
+					content : err.data.msg
+				});
+			});
 
 	}])
 	.controller('signInCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', '$timeout', function ($scope, $http, config, ngToast, $location, $timeout) {

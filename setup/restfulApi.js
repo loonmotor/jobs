@@ -505,16 +505,41 @@ restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 });
 
 restfulApi.use('Job', 'GET', function (resourceName, req, res, done) {
+	console.log('aaaaa');
 	if (!req.isAuthenticated()) {
-		return done({
-			code : 'notauthenticated',
-			msg  : 'Not authenticated'
+		var data = {};
+		async.waterfall([
+			function (ok) {
+				db.Job.count({}, function (err, result) {
+					if (err) {
+						return ok(err);
+					}
+					data.count = result;
+					return ok(null, data);
+				});
+			},
+			function (data, ok) {
+				db.Job.find({}, function (err, jobs) {
+					if (err) {
+						return ok(err);
+					}
+					data.listing = jobs;
+					return ok(null, data);
+				});
+			}
+		], function (err, results) {
+			if (err) {
+				return done(err);
+			}
+			return res.json(results);
 		});
+		return done('stopAsync');
 	}
 	done();
 });
 
 restfulApi.use('Job', 'GET', function (resourceName, req, res, done) {
+	console.log('bbbbb');
 	db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
 		if (err) {
 			return done({ code : 'companyLookUpError', msg : 'Company look up error' });
@@ -526,7 +551,6 @@ restfulApi.use('Job', 'GET', function (resourceName, req, res, done) {
 			if (err) {
 				return done(err);
 			}
-			console.log(jobs);
 			res.json(jobs);
 			done();
 		});

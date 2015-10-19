@@ -31,6 +31,9 @@ apis.restful = function (resourceName) {
 		async.eachSeries(resourceMiddlewares, function (resourceMiddleware, done) { // run permission check
 			resourceMiddleware(resourceName, req, res, done);
 		}, function (err) {
+			if (err === 'stopAsync') {
+				return;
+			}
 			if (err) {
 				return res.status(500).json(err);
 			}
