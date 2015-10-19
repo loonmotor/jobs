@@ -28,7 +28,7 @@ angular
 	.controller('homeCtrl', ['$scope', 'resources', 'config', 'ngToast', function ($scope, resources, config, ngToast) {
 		$scope.root.title = ['Home', config.siteName].join(' | ');
 
-		resources.Job
+		resources.publicData.Job
 			.get()
 			.$promise
 			.then(function (data) {

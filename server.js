@@ -1,25 +1,26 @@
 'use strict';
 
 var
-	express         = require('express')
-	, app           = express()
-	, logger        = require('./modules/logger')
-	, restLogger    = require('morgan')
-	, cookieParser  = require('cookie-parser')
-	, bodyParser    = require('body-parser')
-	, session       = require('express-session')
-	, RedisStore    = require('connect-redis')(session)
-	, redisClient   = require('./setup/redisClient')
-	, fs            = require('fs')
-	, path          = require('path')
-	, config        = require('./config')
-	, rootRoute     = require('./routes/root')
-	, authRoute     = require('./routes/auth')
-	, templateRoute = require('./routes/template')
-	, dataRoute     = require('./routes/data')
-	, passport      = require('passport')
-	, favicon       = require('serve-favicon')
-	, htmlSanitizer = require('./middlewares/htmlSanitizer');
+	express           = require('express')
+	, app             = express()
+	, logger          = require('./modules/logger')
+	, restLogger      = require('morgan')
+	, cookieParser    = require('cookie-parser')
+	, bodyParser      = require('body-parser')
+	, session         = require('express-session')
+	, RedisStore      = require('connect-redis')(session)
+	, redisClient     = require('./setup/redisClient')
+	, fs              = require('fs')
+	, path            = require('path')
+	, config          = require('./config')
+	, rootRoute       = require('./routes/root')
+	, authRoute       = require('./routes/auth')
+	, templateRoute   = require('./routes/template')
+	, dataRoute       = require('./routes/data')
+	, publicDataRoute = require('./routes/publicData')
+	, passport        = require('passport')
+	, favicon         = require('serve-favicon')
+	, htmlSanitizer   = require('./middlewares/htmlSanitizer');
 	// , cors         = require('cors');
 
 require('./setup/passport')(); // passport
@@ -55,6 +56,7 @@ app.use('/', rootRoute); // define root route
 app.use('/auth', authRoute); // define auth route
 app.use('/template', templateRoute); // define template route
 app.use('/data', dataRoute); // define data route
+app.use('/public/data', publicDataRoute); // define public data route
 app.use(function (err, req, res, next) {
 	console.log(err);
 	next(err);

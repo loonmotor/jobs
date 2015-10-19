@@ -10,9 +10,12 @@ angular
 				'job' : '/template/job'
 			},
 			'resourceUrl' : {
-				'Profile' : '/data/profile/:id',
-				'Company' : '/data/company/:id',
-				'Job'     : '/data/job/:offset/:limit'
+				'Profile' : '/data/profile',
+				'Company' : '/data/company',
+				'Job'     : '/data/job',
+				'publicData' : {
+					'Job' : '/public/data/job/:offset/:limit'
+				}
 			}
 		};
 	}]);
