@@ -2,7 +2,8 @@ var
 	restfulApi = require('../modules/restfulApi')
 	, db = require('./mongojs')
 	, config = require('../config')
-	, async = require('async');
+	, async = require('async')
+	, objectid = require('objectid');
 
 restfulApi.use('template.LoggedInState', 'GET', function (resourceName, req, res, done) {
 	if (!req.isAuthenticated()) {
@@ -442,104 +443,109 @@ restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 
 restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 	var
-		query = { companyId : req.body.companyId, modified : req.body.modified }
-		, updateCommand;
+		updateCommand;
 
-	updateCommand = {
-		'$set' : {
-			'title'       : req.body.title,
-			'description' : req.body.description,
-			'expiry'      : new Date(req.body.expiry),
-			'role'        : req.body.role,
-			'jobType'     : req.body.jobType,
-			'location'    : req.body.location,
-			'coworkers'   : (function () {
-				return req.body.coworkers.map(function (coworker) {
-					return coworker.text;
-				});
-			})(),
-			'canRemote'   : req.body.canRemote,
-			'visaSponsor' : req.body.visaSponsor,
-			'skills'      : (function () {
-				return req.body.skills.map(function (skill) {
-					return skill.text;
-				});
-			})(),
-			'salary'         : req.body.salary,
-			'salaryCurrency' : req.body.salaryCurrency,
-			'modified' : Date.now().toString()
-		}
-	};
+	
 
-	db.Job.findAndModify({
-		query : query,
-		update : updateCommand,
-		upsert : true,
-		new : true	
-	}, function (err, doc) {
-		if (err) {
-			return done(err);
-		}
+	async.waterfall([
+		function (ok) {
+			db.Company.findOne({ _id : objectid(req.body.companyId) }, function (err, company) {
+				if (err) {
+					return ok(err);
+				}
+				return ok(null, company);
+			});
+		},
+		function (company, ok) {
 
-		db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
-			if (err) {
-				return done({ code : 'companyLookUpError', msg : 'Company look up error' });
-			}
+			var updateCommand = {
+				'$set' : {
+					'title'       : req.body.title,
+					'description' : req.body.description,
+					'expiry'      : new Date(req.body.expiry),
+					'role'        : req.body.role,
+					'jobType'     : req.body.jobType,
+					'location'    : req.body.location,
+					'coworkers'   : (function () {
+						return req.body.coworkers.map(function (coworker) {
+							return coworker.text;
+						});
+					})(),
+					'canRemote'   : req.body.canRemote,
+					'visaSponsor' : req.body.visaSponsor,
+					'skills'      : (function () {
+						return req.body.skills.map(function (skill) {
+							return skill.text;
+						});
+					})(),
+					'salary'         : req.body.salary,
+					'salaryCurrency' : req.body.salaryCurrency,
+					'modified' : Date.now().toString(),
+					'companyId' : req.body.companyId,
+					'company.name'     : company.name,
+					'company.location' : company.location,
+					'company.logo'     : company.logo,
+					'company.website'  : company.website
+				}
+			};
+
+			db.Job.findAndModify({
+				query : { modified : req.body.modified },
+				update : updateCommand,
+				upsert : true,
+				new : true	
+			}, function (err, job) {
+				if (err) {
+					return ok(err);
+				}
+				return ok();
+			});
+
+		},
+		function (ok) {
+			db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
+				if (err) {
+					return ok({ code : 'companyLookUpError', msg : 'Company look up error' });
+				}
+				return ok(null, companies);
+			});
+		},
+		function (companies, ok) {
 			var companyIds = companies.map(function (company) {
 				return company._id.toString();
 			});
 			db.Job.find({ companyId : { '$in' : companyIds }}, function (err, jobs) {
 				if (err) {
-					return done(err);
+					return ok(err);
 				}
 				res.json({
 					code : 'updatesuccess',
 					msg  : 'Saved successfully',
 					jobs : jobs
 				});
-				done();
+				ok();
 			});
-		});
+		}
+	], function (err, results) {
+		if (err) {
+			return done(err);
+		}
+		done();
 	});
 
 });
 
 restfulApi.use('Job', 'GET', function (resourceName, req, res, done) {
-	console.log('aaaaa');
 	if (!req.isAuthenticated()) {
-		var data = {};
-		async.waterfall([
-			function (ok) {
-				db.Job.count({}, function (err, result) {
-					if (err) {
-						return ok(err);
-					}
-					data.count = result;
-					return ok(null, data);
-				});
-			},
-			function (data, ok) {
-				db.Job.find({}, function (err, jobs) {
-					if (err) {
-						return ok(err);
-					}
-					data.listing = jobs;
-					return ok(null, data);
-				});
-			}
-		], function (err, results) {
-			if (err) {
-				return done(err);
-			}
-			return res.json(results);
+		return done({
+			code : 'notauthenticated',
+			msg  : 'Not authenticated'
 		});
-		return done('stopAsync');
 	}
 	done();
 });
 
 restfulApi.use('Job', 'GET', function (resourceName, req, res, done) {
-	console.log('bbbbb');
 	db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
 		if (err) {
 			return done({ code : 'companyLookUpError', msg : 'Company look up error' });
@@ -591,4 +597,33 @@ restfulApi.use('Job', 'DELETE', function (resourceName, req, res, done) {
 		});
 
 	});
+});
+
+restfulApi.use('publicData.Job', 'GET', function (resourceName, req, res, done) {
+
+	async.series({
+		count : function (ok) {
+			db.Job.count({}, function (err, result) {
+				if (err) {
+					return ok(err);
+				}
+				return ok(null, result);
+			});
+		},
+		listing : function (ok) {
+			db.Job.find({}, function (err, jobs) {
+				if (err) {
+					return ok(err);
+				}
+				return ok(null, jobs);
+			});
+		}
+	}, function (err, results) {
+		if (err) {
+			return done(err);
+		}
+		return res.json(results);
+	});
+
+	done();
 });

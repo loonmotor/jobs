@@ -120,9 +120,12 @@ Job
 	salary 			: String,
 	salaryCurrency 	: String,
 	modified		: String,
-	companyName		: String,
-	companyLogo     : String,
-	companyLocation : String,
+	company         : {
+		name : String,
+		logo : String,
+		location : String,
+		website  : String
+	},
 	companyId   	: ObjectId
 }
 ```
