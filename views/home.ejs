@@ -28,8 +28,11 @@
 					<td>some skills</td>
 					<td ng-bind-template="{{ job.location }}"></td>
 					<td>
-						<a href="{{ job.company.website }}">{{ job.company.name }}</a><br>
-						<img ng-src="{{ job.company.logo}}" class="company-logo">
+						<a href="{{ job.company.website }}" target="_blank">
+							{{ job.company.name }}
+							<br>
+							<img ng-src="{{ job.company.logo}}" class="company-logo">
+						</a>
 					</td>
 				</tr>
 			</tbody>

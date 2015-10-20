@@ -607,6 +607,7 @@ restfulApi.use('publicData.Job', 'GET', function (resourceName, req, res, done) 
 			db.Job
 				.find({})
 				.limit(req.params.limit)
+				.sort({ $natural : -1 })
 				.skip(req.params.offset * req.params.limit, function (err, jobs) {					
 					if (err) {
 						return ok(err);
