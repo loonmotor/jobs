@@ -21,7 +21,6 @@ var
 	, passport        = require('passport')
 	, favicon         = require('serve-favicon')
 	, htmlSanitizer   = require('./middlewares/htmlSanitizer');
-	// , cors         = require('cors');
 
 require('./setup/passport')(); // passport
 require('./setup/restfulApi'); // restful api
@@ -32,7 +31,6 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.locals.config = config; // globalize configuration
 
-// app.use(cors());
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(restLogger('dev'));
 app.use(cookieParser());
