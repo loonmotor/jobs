@@ -62,7 +62,7 @@ angular
 						content : 'Redirecting...'
 					});
 					$timeout(function () {
-						$location.path('/');
+						$location.path(config['localSignInRedirect']);
 					}, 500);
 
 				})

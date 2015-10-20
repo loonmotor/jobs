@@ -17,6 +17,7 @@ angular
 				'publicData' : {
 					'Job' : '/public/data/job/:offset/:limit'
 				}
-			}
+			},
+			'localSignInRedirect' : '/'
 		};
 	}]);
