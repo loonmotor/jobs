@@ -3,15 +3,16 @@
 var
 	express = require('express')
 	, router = express.Router()
-	, passport = require('passport');
+	, passport = require('passport')
+	, config = require('../config');
 
 router.get('/google/:return?', passport.authenticate('google', {
-	successRedirect : '/',
+	successRedirect : config['auth.google.successRedirect'],
 	scope : ['email']
 }));
 
 router.get('/facebook/:return?', passport.authenticate('facebook', {
-	successRedirect : '/',
+	successRedirect : config['auth.facebook.successRedirect'],
 	scope : ['email', 'public_profile']
 }));
 
@@ -56,7 +57,7 @@ router.post('/local-signin', function (req, res, next) {
 
 router.get('/sign-out', function (req, res) {
 	req.logout();
-	res.redirect('/');
+	res.redirect(config['auth.signOutRedirect']);
 });
 
 module.exports = router;
