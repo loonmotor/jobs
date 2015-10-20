@@ -72,12 +72,12 @@ angular
 					}
 				}
 			})
-			.state('rule', {
-				url : '/rules',
+			.state('guide', {
+				url : '/guide',
 				views : {
 					'main' : {
-						templateUrl : '/html/rule.html',
-						controller  : 'ruleCtrl'
+						templateUrl : '/html/guide.html',
+						controller  : 'guideCtrl'
 					}
 				}
 			});

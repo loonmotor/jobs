@@ -421,6 +421,6 @@ angular
 				});
 		}
 	}])
-	.controller('ruleCtrl', ['$scope', 'config', function ($scope, config) {
-		$scope.root.title = ['Rules', config.siteName].join(' | ');
+	.controller('guideCtrl', ['$scope', 'config', function ($scope, config) {
+		$scope.root.title = ['Guide', config.siteName].join(' | ');
 	}]);
