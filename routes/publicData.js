@@ -3,6 +3,6 @@ var
 	, router = express.Router()
 	, restfulApi = require('../modules/restfulApi');
 
-router.all('/job', restfulApi.restful('publicData.Job'));
+router.all('/job/:offset?/:limit?', restfulApi.restful('publicData.Job'));
 
 module.exports = router;

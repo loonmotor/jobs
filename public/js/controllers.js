@@ -28,16 +28,20 @@ angular
 	.controller('homeCtrl', ['$scope', 'resources', 'config', 'ngToast', function ($scope, resources, config, ngToast) {
 		$scope.root.title = ['Home', config.siteName].join(' | ');
 
-		resources.publicData.Job
-			.get()
-			.$promise
-			.then(function (data) {
-				$scope.jobs = data;
-			}, function (err) {
-				ngToast.danger({
-					content : err.data.msg
+		$scope.getListing = function (currentPage, limit) {
+			var
+				offset = currentPage - 1;
+			resources.publicData.Job
+				.get({ offset : offset, limit : limit })
+				.$promise
+				.then(function (data) {
+					$scope.jobs = data;
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
 				});
-			});
+		}
 
 	}])
 	.controller('signInCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', '$timeout', function ($scope, $http, config, ngToast, $location, $timeout) {

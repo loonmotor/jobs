@@ -7,7 +7,8 @@ angular
 				'loggedInState' : '/template/logged-in-state',
 				'profile' : '/template/profile',
 				'company' : '/template/company',
-				'job' : '/template/job'
+				'job' : '/template/job',
+				'home' : '/template/home'
 			},
 			'resourceUrl' : {
 				'Profile' : '/data/profile',

@@ -604,12 +604,15 @@ restfulApi.use('publicData.Job', 'GET', function (resourceName, req, res, done) 
 			});
 		},
 		listing : function (ok) {
-			db.Job.find({}, function (err, jobs) {
-				if (err) {
-					return ok(err);
-				}
-				return ok(null, jobs);
-			});
+			db.Job
+				.find({})
+				.limit(req.params.limit)
+				.skip(req.params.offset * req.params.limit, function (err, jobs) {					
+					if (err) {
+						return ok(err);
+					}
+					return ok(null, jobs);
+				});
 		}
 	}, function (err, results) {
 		if (err) {
@@ -621,6 +624,7 @@ restfulApi.use('publicData.Job', 'GET', function (resourceName, req, res, done) 
 	done();
 });
 
-restfulApi.use('template.Home', function (resouceName, req, res, done) {
-
+restfulApi.use('template.Home', 'GET', function (resouceName, req, res, done) {
+	res.render('home', {});
+	done();
 });
