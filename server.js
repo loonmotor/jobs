@@ -30,7 +30,7 @@ app.engine('ejs', require('ejs').__express); // use ejs templating engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.locals.config = config;
+app.locals.config = config; // globalize configuration
 
 // app.use(cors());
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
