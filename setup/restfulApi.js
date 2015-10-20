@@ -1,7 +1,6 @@
 var
 	restfulApi = require('../modules/restfulApi')
 	, db = require('./mongojs')
-	, config = require('../config')
 	, async = require('async')
 	, objectid = require('objectid');
 
@@ -26,9 +25,7 @@ restfulApi.use('template.Profile', 'GET', function (resourceName, req, res, done
 
 restfulApi.use('template.Profile', 'GET', function (resourceName, req, res, done) {
 	
-	res.render('profile', { 
-		config : config
-	});
+	res.render('profile', {});
 	done();
 
 });
@@ -263,9 +260,7 @@ restfulApi.use('template.Company', 'GET', function (resourceName, req, res, done
 		if (!companies) {
 			companies = [];
 		}
-		res.render('company', {
-			config : config
-		});
+		res.render('company', {});
 		done();
 	});
 
@@ -422,9 +417,7 @@ restfulApi.use('template.Job', 'GET', function (resourceName, req, res, done) {
 			if (err) {
 				return done(err);
 			}
-			res.render('job', {
-				config : config
-			});
+			res.render('job', {});
 			done();
 		});
 	});
@@ -626,4 +619,8 @@ restfulApi.use('publicData.Job', 'GET', function (resourceName, req, res, done) 
 	});
 
 	done();
+});
+
+restfulApi.use('template.Home', function (resouceName, req, res, done) {
+
 });
