@@ -1,9 +1,9 @@
 <div class="row">
 	<div class="col-sm-12">
 		<div class="jumbotron">
-			<h1>Hello, world!</h1>
-			<p>...</p>
-			<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+			<h1>Welcome to <%= config['siteName'] %></h1>
+			<p>A single page web app for job search and talent recruitment</p>
+			<p><a class="btn btn-primary btn-lg" ui-sref="guide" role="button">Learn more</a></p>
 		</div>
 	</div>
 </div>
@@ -12,20 +12,16 @@
 		<table class="table table-hover">
 			<thead>
 				<tr>
-					<th>Job Title</th>
-					<th>Job Role</th>
-					<th>Job Salary</th>
-					<th>Job Skills</th>
-					<th>Job Location</th>
+					<th>Title</th>
+					<th>Skills</th>
+					<th>Location</th>
 					<th>Company</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="job in jobs.listing">
 					<td ng-bind-template="{{ job.title }}"></td>
-					<td ng-bind-template="{{ job.role }}"></td>
-					<td ng-bind-template="{{ job.salary }}"></td>
-					<td>some skills</td>
+					<td ng-bind-template="{{ job.skills.join(', ') }}"></td>
 					<td ng-bind-template="{{ job.location }}"></td>
 					<td>
 						<a href="{{ job.company.website }}" target="_blank">

@@ -1,4 +1,5 @@
 module.exports = {
+	"siteName" : "Jobs",
 	"host" : "http://localhost:3008",
 	"logPath" : "logs",
 	"logFile" : "logs.log",
