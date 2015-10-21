@@ -35,7 +35,7 @@
 		</div>
 
 		<div class="form-group">
-			<label for="description">Description *</label>
+			<label for="description">Job Description *</label>
 			<textarea name="description" id="description" class="form-control" ng-model="job.description" placeholder="(Optional) You can change this later" field-character-count="descriptionCharacterCount" maxlength="<%= config['job.description.maxLength'] %>" ng-trim="false"></textarea>
 			<span>{{ descriptionCharacterCount || 0 }}/<%= config['job.description.maxLength'] %></span><br>
 		</div>
@@ -81,11 +81,8 @@
 		</div>
 	
 		<div class="form-group">
-			<label for="coworkers">Coworkers *</label>
-			<tags-input name="coworkers" id="coworkers" class="form-control" ng-model="job.coworkers" placeholder="e.g. Chuck Norris, Jason Cheng" replace-spaces-with-dashes="false" required></tags-input>
-			<div ng-messages="jobForm.coworkers.$error">
-				<span class="validation-message" ng-message="required">This field is required</span>
-			</div>
+			<label for="coworkers">Coworkers</label>
+			<tags-input name="coworkers" id="coworkers" class="form-control" ng-model="job.coworkers" placeholder="e.g. Chuck Norris, Jason Cheng" replace-spaces-with-dashes="false"></tags-input>
 		</div>
 
 		<div class="checkbox">

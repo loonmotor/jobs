@@ -460,7 +460,7 @@ restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 					'jobType'     : req.body.jobType,
 					'location'    : req.body.location,
 					'coworkers'   : (function () {
-						return req.body.coworkers.map(function (coworker) {
+						return req.body.coworkers && req.body.coworkers.map(function (coworker) {
 							return coworker.text;
 						});
 					})(),
