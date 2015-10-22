@@ -1,46 +1,41 @@
 <div class="row">
 	<div class="col-sm-12">
 		<div class="jumbotron">
-			<h1>Welcome to <%= config['siteName'] %></h1>
-			<p>A single page web app for job search and talent recruitment</p>
-			<p><a class="btn btn-primary btn-lg" ui-sref="guide" role="button">Learn more</a></p>
+			<h1>Hello, world!</h1>
+			<p>...</p>
+			<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
 		</div>
 	</div>
 </div>
-<div class="row">
-	<div class="col-sm-12 home-job-listing">
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th>Title</th>
-					<th>Skills</th>
-					<th>Location</th>
-					<th>Company</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="job in jobs.listing">
-					<td ng-bind-template="{{ job.title }}"></td>
-					<td ng-bind-template="{{ job.skills.join(', ') }}"></td>
-					<td ng-bind-template="{{ job.location }}"></td>
-					<td>
-						<a href="{{ job.company.website }}" target="_blank">
-							{{ job.company.name }}
-							<br>
-							<img ng-src="{{ job.company.logo}}" class="company-logo">
-						</a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+<div class="row" id="home-job-listing">
+	
+	<div class="col-sm-6 col-md-3" ng-repeat="job in jobs.listing">
+		<div class="thumbnail">
+			<div class="caption">
+				<h3 ng-bind-template="{{ job.title }}"></h3>
+				<p>
+					<span class="label label-primary" ng-bind-template="{{ job.company.name }}"></span>
+				</p>
+				<p ng-bind-template="{{ 'in ' + job.location }}">
+				</p>
+				<p>
+					<a href="#" class="btn btn-default" role="button">View</a>
+					<a href="#" class="btn btn-success" role="button">
+						<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+						Interested
+					</a>
+				</p>
+				</div>
+			</div>
+		</div>
+
 	</div>
-</div>
-<div class="row">
-	<div class="col-sm-12 col-xs-12">
-		<div class="center-outer">
-			<div class="center-inner">
-				<pagination total-items="jobs.count" ng-model="currentPage" ng-change="getListing(currentPage, <%= config['jobListing.home.paginationSize'] %>)" ng-init="getListing(1, <%= config['jobListing.home.paginationSize'] %>)" items-per-page="<%= config['jobListing.home.paginationSize'] %>" class="pagination-sm text-center" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+	<div class="row">
+		<div class="col-sm-12 col-xs-12">
+			<div class="center-outer">
+				<div class="center-inner">
+					<pagination total-items="jobs.count" ng-model="currentPage" ng-change="getListing(currentPage, <%= config['jobListing.home.paginationSize'] %>)" ng-init="getListing(1, <%= config['jobListing.home.paginationSize'] %>)" items-per-page="<%= config['jobListing.home.paginationSize'] %>" class="pagination-sm text-center" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
