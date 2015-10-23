@@ -32,10 +32,12 @@
 				</p>
 				<p>
 					<a ui-sref="jobView({ id : job._id })" class="btn btn-default" role="button">View</a>
+					<% if (user) { %>
 					<a href="#" class="btn btn-success" role="button">
 						<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
 						Interested
 					</a>
+					<% } %>
 				</p>
 			</div>
 		</div>

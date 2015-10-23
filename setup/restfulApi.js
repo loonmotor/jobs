@@ -639,7 +639,7 @@ restfulApi.use('publicData.Job', 'GET', function (resourceName, req, res, done) 
 });
 
 restfulApi.use('template.Home', 'GET', function (resouceName, req, res, done) {
-	res.render('home', {});
+	res.render('home', { user : req.user });
 	done();
 });
 
