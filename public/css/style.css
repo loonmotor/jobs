@@ -86,3 +86,8 @@ form label {
 .pagination-container {
   height: 90px;
 }
+/*                >> Job View
+   ========================================================================== */
+#job-view .logo {
+  max-size: 120px;
+}

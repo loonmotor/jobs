@@ -24,9 +24,6 @@ angular
 			}
 			return imageSrc;
 		}
-		$scope.getTimeStampedUrl = function (url) {
-			return url.indexOf('?') > -1 ? [url, '&time=', Date.now()].join('') : [url, '?time=', Date.now()].join('');  
-		}
 	}])
 	.controller('homeCtrl', ['$scope', 'resources', 'config', 'ngToast', function ($scope, resources, config, ngToast) {
 		$scope.root.title = ['Home', config.siteName].join(' | ');
@@ -435,6 +432,7 @@ angular
 			.get({ id : $stateParams.id })
 			.$promise
 			.then(function (data) {
+				$scope.root.title = ['Job View', data.title, config.siteName].join(' | ');
 				$scope.job = data;
 			}, function (err) {
 				ngToast.danger({
@@ -450,6 +448,7 @@ angular
 			.$promise
 			.then(function (data) {
 				$scope.company = data;
+				$scope.root.title = ['Company View', data.name, config.siteName].join(' | ');
 			}, function (err) {
 				ngToast.danger({
 					content : err.data.msg
