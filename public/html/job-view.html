@@ -1,0 +1,40 @@
+<div class="col-sm-12">
+	<div class="page-header">
+	  <h1>{{ job.title }} <small>{{ job.jobType }}</small></h1>
+	</div>
+	<p>
+		{{ job.description }}
+	</p>
+	<p>
+		End on <span class="label label-info">{{ job.expiry | date:'dd/MM/yyyy' }}</span>
+	</p>
+	<p>Hiring in {{ job.location }}</p>
+	<p>
+		{{ job.company.teamSize }} employees
+	</p>
+	<p>
+		Coworkers : {{ job.coworkers.join(', ') }}
+	</p>
+	<p>
+		Can remote : {{ job.canRemote | yesNo }}
+	</p>
+	<p>
+		Visa sponsor : {{ job.visaSponsor | yesNo }}
+	</p>
+	<p>
+		Skills required : {{ job.skills.join(', ') }}
+	</p>
+	<p>
+		Approximate salary : {{ job.salaryCurrency + job.salary }}
+	</p>
+	<p>
+		<a ui-sref="companyView({ id : job.companyId })">{{ job.company.name }}</a>
+	</p>
+	<p>
+		<img ng-src="{{ job.company.logo }}" alt="{{ job.company.name }}">
+	</p>
+	<p ng-bind-template="{{ job.company.location }}"></p>
+	<p ng-bind-template="{{ job.company.website }}"></p>
+
+
+</div>

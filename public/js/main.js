@@ -65,10 +65,10 @@ angular
 				}
 			})
 			.state('rootControl.job', {
-				url : '/job',
+				url : '/job-form',
 				views : {
 					'main' : {
-						templateUrl : '/html/job.html'
+						templateUrl : '/html/job-form.html'
 					}
 				}
 			})
@@ -78,6 +78,24 @@ angular
 					'main' : {
 						templateUrl : '/html/guide.html',
 						controller  : 'guideCtrl'
+					}
+				}
+			})
+			.state('jobView', {
+				url : '/job-view/:id',
+				views : {
+					'main' : {
+						templateUrl : '/html/job-view.html',
+						controller  : 'jobViewCtrl'
+					}
+				}
+			})
+			.state('companyView', {
+				url : '/company-view/:id',
+				views : {
+					'main' : {
+						templateUrl : '/html/company-view.html',
+						controller : 'companyViewCtrl'
 					}
 				}
 			});

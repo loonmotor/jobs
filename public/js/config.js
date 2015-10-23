@@ -7,7 +7,7 @@ angular
 				'loggedInState' : '/template/logged-in-state',
 				'profile' : '/template/profile',
 				'company' : '/template/company',
-				'job' : '/template/job',
+				'jobForm' : '/template/job-form',
 				'home' : '/template/home'
 			},
 			'resourceUrl' : {
@@ -15,7 +15,9 @@ angular
 				'Company' : '/data/company',
 				'Job'     : '/data/job',
 				'publicData' : {
-					'Job' : '/public/data/job/:offset/:limit'
+					'Jobs' : '/public/data/jobs/:offset/:limit',
+					'Job'  : '/public/data/job/:id',
+					'Company' : '/public/data/company/:id'
 				}
 			},
 			'localSignInRedirect' : '/'

@@ -394,7 +394,7 @@ restfulApi.use('Company', 'DELETE', function (resourceName, req, res, done) {
 
 });
 
-restfulApi.use('template.Job', 'GET', function (resourceName, req, res, done) {
+restfulApi.use('template.JobForm', 'GET', function (resourceName, req, res, done) {
 	if (!req.isAuthenticated()) {
 		return done({
 			code : 'notauthenticated',
@@ -404,7 +404,7 @@ restfulApi.use('template.Job', 'GET', function (resourceName, req, res, done) {
 	done();
 });
 
-restfulApi.use('template.Job', 'GET', function (resourceName, req, res, done) {
+restfulApi.use('template.JobForm', 'GET', function (resourceName, req, res, done) {
 
 	db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
 		if (err) {
@@ -417,7 +417,7 @@ restfulApi.use('template.Job', 'GET', function (resourceName, req, res, done) {
 			if (err) {
 				return done(err);
 			}
-			res.render('job', {});
+			res.render('job-form', {});
 			done();
 		});
 	});
@@ -592,7 +592,7 @@ restfulApi.use('Job', 'DELETE', function (resourceName, req, res, done) {
 	});
 });
 
-restfulApi.use('publicData.Job', 'GET', function (resourceName, req, res, done) {
+restfulApi.use('publicData.Jobs', 'GET', function (resourceName, req, res, done) {
 
 	async.series({
 		count : function (ok) {
@@ -625,7 +625,33 @@ restfulApi.use('publicData.Job', 'GET', function (resourceName, req, res, done) 
 	done();
 });
 
+restfulApi.use('publicData.Job', 'GET', function (resourceName, req, res, done) {
+	db.Job.findOne({ _id : objectid(req.params.id) }, function (err, job) {
+		if (err) {
+			return done({				
+				code : 'jobLookUpError',
+				msg  : 'Job look up error'
+			});
+		}
+		res.json(job);
+		done();
+	});
+});
+
 restfulApi.use('template.Home', 'GET', function (resouceName, req, res, done) {
 	res.render('home', {});
 	done();
+});
+
+restfulApi.use('publicData.Company', 'GET', function (resourceName, req, res, done) {
+	db.Company.findOne({ _id : objectid(req.params.id) }, function (err, company) {
+		if (err) {
+			return done({
+				code : 'companyLookUpError',
+				msg  : 'Company look up error'
+			});
+		}
+		res.json(company);
+		done();
+	});
 });

@@ -9,7 +9,7 @@ router.get('/profile', restfulApi.restful('template.Profile'));
 
 router.get('/company', restfulApi.restful('template.Company'));
 
-router.get('/job', restfulApi.restful('template.Job'));
+router.get('/job-form', restfulApi.restful('template.JobForm'));
 
 router.get('/home', restfulApi.restful('template.Home'));
 

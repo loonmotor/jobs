@@ -24,6 +24,9 @@ angular
 			}
 			return imageSrc;
 		}
+		$scope.getTimeStampedUrl = function (url) {
+			return url.indexOf('?') > -1 ? [url, '&time=', Date.now()].join('') : [url, '?time=', Date.now()].join('');  
+		}
 	}])
 	.controller('homeCtrl', ['$scope', 'resources', 'config', 'ngToast', function ($scope, resources, config, ngToast) {
 		$scope.root.title = ['Home', config.siteName].join(' | ');
@@ -31,7 +34,7 @@ angular
 		$scope.getListing = function (currentPage, limit) {
 			var
 				offset = currentPage - 1;
-			resources.publicData.Job
+			resources.publicData.Jobs
 				.get({ offset : offset, limit : limit })
 				.$promise
 				.then(function (data) {
@@ -423,4 +426,33 @@ angular
 	}])
 	.controller('guideCtrl', ['$scope', 'config', function ($scope, config) {
 		$scope.root.title = ['Guide', config.siteName].join(' | ');
+	}])
+	.controller('jobViewCtrl', ['$scope', 'config', '$stateParams', 'resources', 
+	'ngToast', function ($scope, config, $stateParams, resources, ngToast) {
+		$scope.root.title = ['Job View', config.siteName].join(' | ');
+
+		resources.publicData.Job
+			.get({ id : $stateParams.id })
+			.$promise
+			.then(function (data) {
+				$scope.job = data;
+			}, function (err) {
+				ngToast.danger({
+					content : err.data.msg
+				});
+			});
+	}])
+	.controller('companyViewCtrl', ['$scope', 'config', '$stateParams', 'resources', function ($scope, config, $stateParams, resources, ngToast) {
+		$scope.root.title = ['Company View', config.siteName].join(' | ');
+
+		resources.publicData.Company
+			.get({ id : $stateParams.id })
+			.$promise
+			.then(function (data) {
+				$scope.company = data;
+			}, function (err) {
+				ngToast.danger({
+					content : err.data.msg
+				});
+			});
 	}]);

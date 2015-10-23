@@ -124,18 +124,14 @@ Job
 		name : String,
 		logo : String,
 		location : String,
-		website  : String
+		website  : String,
+		teamSize : String
 	},
+	interests : [
+		{
+			userId : ObjectId
+		}
+	]
 	companyId   	: ObjectId
-}
-```
-
-<br>
-
-Interest
-```
-{
-	jobId	  : ObjectId,
-	profiles  : [ObjectId]
 }
 ```
