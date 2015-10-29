@@ -10,7 +10,8 @@ angular
 		apis.publicData = {
 			Jobs : $resource(config['resourceUrl']['publicData']['Jobs']),
 			Job  : $resource(config['resourceUrl']['publicData']['Job']),
-			Company : $resource(config['resourceUrl']['publicData']['Company'])
+			Company : $resource(config['resourceUrl']['publicData']['Company']),
+			CompanyJobs : $resource(config['resourceUrl']['publicData']['CompanyJobs'])
 		};
 
 		return apis;

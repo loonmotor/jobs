@@ -655,3 +655,16 @@ restfulApi.use('publicData.Company', 'GET', function (resourceName, req, res, do
 		done();
 	});
 });
+
+restfulApi.use('publicData.CompanyJobs', 'GET', function (resourceName, req, res, done) {
+	db.Job.find({ companyId : req.params.id }, function (err, jobs) {
+		if (err) {
+			return done({
+				code : 'jobsLookUpError',
+				msg  : 'Jobs look up error'
+			});
+		}
+		res.json(jobs);
+		done();
+	});
+});

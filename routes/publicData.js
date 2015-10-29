@@ -9,4 +9,6 @@ router.all('/job/:id', restfulApi.restful('publicData.Job'));
 
 router.all('/company/:id', restfulApi.restful('publicData.Company'));
 
+router.all('/company/jobs/:id', restfulApi.restful('publicData.CompanyJobs'));
+
 module.exports = router;

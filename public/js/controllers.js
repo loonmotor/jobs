@@ -454,4 +454,17 @@ angular
 					content : err.data.msg
 				});
 			});
+
+		resources.publicData.CompanyJobs
+			.query({ id : $stateParams.id })
+			.$promise
+			.then(function (data) {
+				$scope.companyJobs = data;
+			}, function (err) {
+				ngToast.danger({
+					content : err.data.msg
+				});
+			});
+
+
 	}]);

@@ -5,39 +5,44 @@
 	<p>
 		{{ job.description }}
 	</p>
-	<p>Hiring in {{ job.location }}</p>
-	<p>
-		{{ job.company.teamSize }} employees
-	</p>
-	<p>
-		Coworkers : {{ job.coworkers.join(', ') }}
-	</p>
-	<p>
-		Can remote : {{ job.canRemote | yesNo }}
-	</p>
-	<p>
-		Visa sponsor : {{ job.visaSponsor | yesNo }}
-	</p>
-	<p>
-		Skills required : {{ job.skills.join(', ') }}
-	</p>
-	<p>
-		Approximate salary : {{ job.salaryCurrency + job.salary }}
-	</p>
-	<p>
-		End on <span class="label label-info">{{ job.expiry | date:'dd/MM/yyyy' }}</span>
-	</p>
 	<br>
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<h3 class="panel-title">
+	<table class="table">
+		<tr>
+			<td>Hiring in</td>
+			<td>{{ job.location }}</td>
+		</tr>
+		<tr ng-if="job.coworkers">
+			<td>Coworkers</td>
+			<td>{{ job.coworkers.join(', ') }}</td>
+		</tr>
+		<tr>
+			<td>Can remote</td>
+			<td>{{ job.canRemote | yesNo }}</td>
+		</tr>
+		<tr>
+			<td>Visa sponsor</td>
+			<td>{{ job.visaSponsor | yesNo }}</td>
+		</tr>
+		<tr>
+			<td>Skills required</td>
+			<td>{{ job.skills.join(', ') }}</td>
+		</tr>
+		<tr>
+			<td>Approximate salary</td>
+			<td>{{ job.salaryCurrency + job.salary }}</td>
+		</tr>
+		<tr>
+			<td>End on</td>
+			<td>{{ job.expiry | date:'dd/MM/yyyy' }}</td>
+		</tr>
+		<tr>
+			<td>Company</td>
+			<td>
 				<a ui-sref="companyView({ id : job.companyId })">{{ job.company.name }}</a>
-			</h3>
-			<a ui-sref="companyView({ id : job.companyId })">
+				<a ui-sref="companyView({ id : job.companyId })">
 				<img ng-src="{{ job.company.logo }}" alt="{{ job.company.name }}" class="logo">
 			</a>
-		</div>
-	</div>
-
-
+			</td>
+		</tr>
+	</table>
 </div>

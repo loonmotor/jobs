@@ -7,28 +7,52 @@
 			<img ng-src="{{ company.logo }}" alt="{{ company.name }}">
 		</a>
 	</p>
-	<p>
-		<a href="{{ company.website }}" target="_blank">{{ company.website }}</a>
-	</p>
-	<p>
-		{{ company.description }}
-	</p>
-	<p>In {{ company.location }}</p>
-	<p>
-		{{ company.teamSize }} employees
-	</p>
-	<p>
-		<b>Why us?</b>
-	</p>
-	<p>
-		{{ company.whyus }}
-	</p>
-	<p>
-		<b>Product</b>
-	</p>
-	<p>
-		{{ company.product }}
-	</p>
 
+	<table class="table">
+		<tr>
+			<td>Company website</td>
+			<td><a href="{{ company.website }}" target="_blank">{{ company.website }}</a></td>
+		</tr>
+		<tr>
+			<td>Company location</td>
+			<td>{{ company.location }}</td>
+		</tr>
+		<tr>
+			<td>Company team size</td>
+			<td>{{ company.teamSize }}</td>
+		</tr>
+		<tr>
+			<td>Why us</td>
+			<td>{{ company.whyus }}</td>
+		</tr>
+		<tr>
+			<td>Product</td>
+			<td>{{ company.product }}</td>
+		</tr>
+	</table>
+
+	<br>
+
+	<h3>Job Offers by {{company.name}}</h3>
+	<table class="table table-condensed">
+		<thead>
+	        <tr>
+	          <th>Title</th>
+	          <th>Location</th>
+	          <th>Type</th>
+	          <th>Approximate Salary</th>
+	        </tr>
+      </thead>
+      <tbody>
+		<tr ng-repeat="companyJob in companyJobs">
+			<td>
+				<a ui-sref="jobView({ id : companyJob._id })">{{ companyJob.title }}</a>
+			</td>
+			<td>{{ companyJob.location }}</td>
+			<td>{{ companyJob.jobType }}</td>
+			<td>{{ companyJob.salaryCurrency + companyJob.salary }}</td>
+		</tr>
+      </tbody>
+	</table>
 
 </div>
