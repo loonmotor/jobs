@@ -5,9 +5,10 @@ angular
 		$scope.root.templateUrl = config['templateUrl'];
 		$scope.$state = $state;
 		pubsub.subscribe('ajaxResponse', 'to check authentication state', function (args, done) {
-			if (args.code == 'notauthenticated'
+			if (args
+				&& (args.code == 'notauthenticated'
 				|| args.code == 'successSignIn'
-				|| args.code == 'successSignUp') {
+				|| args.code == 'successSignUp')) {
 				$scope.root.templateUrl.loggedInState = $scope.root.templateUrl.loggedInState + '?time=' + Date.now();
 			}
 			if (args.code == 'notauthenticated') {
