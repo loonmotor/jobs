@@ -73,7 +73,7 @@ restfulApi.use('template.Company', 'GET', function (resourceName, req, res, done
 
 });
 
-restfulApi.use('template.JobForm', 'GET', function (resourceName, req, res, done) {
+restfulApi.use('Job', ['GET', 'DELETE', 'POST'], function (resourceName, req, res, done) {
 
 	db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
 		if (err) {
@@ -86,10 +86,17 @@ restfulApi.use('template.JobForm', 'GET', function (resourceName, req, res, done
 			if (err) {
 				return done(err);
 			}
-			res.render('job-form', {});
+			req.results = jobs;
 			done();
 		});
 	});
+
+});
+
+restfulApi.use('template.JobForm', 'GET', function (resourceName, req, res, done) {
+
+	res.render('job-form', {});
+	done();
 
 });
 
@@ -378,12 +385,9 @@ restfulApi.use('Company', 'DELETE', function (resourceName, req, res, done) {
 
 });
 
-
 restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 	var
 		updateCommand;
-
-	
 
 	async.waterfall([
 		function (ok) {
@@ -436,59 +440,27 @@ restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 				if (err) {
 					return ok(err);
 				}
-				return ok();
+				ok();
 			});
 
 		},
-		function (ok) {
-			db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
-				if (err) {
-					return ok({ code : 'companyLookUpError', msg : 'Company look up error' });
-				}
-				return ok(null, companies);
-			});
-		},
-		function (companies, ok) {
-			var companyIds = companies.map(function (company) {
-				return company._id.toString();
-			});
-			db.Job.find({ companyId : { '$in' : companyIds }}, function (err, jobs) {
-				if (err) {
-					return ok(err);
-				}
-				res.json({
-					code : 'updatesuccess',
-					msg  : 'Saved successfully',
-					jobs : jobs
-				});
-				ok();
-			});
-		}
 	], function (err, results) {
 		if (err) {
 			return done(err);
 		}
+		res.json({
+			code : 'updatesuccess',
+			msg  : 'Saved successfully',
+			jobs : req.results
+		});
 		done();
 	});
 
 });
 
 restfulApi.use('Job', 'GET', function (resourceName, req, res, done) {
-	db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
-		if (err) {
-			return done({ code : 'companyLookUpError', msg : 'Company look up error' });
-		}
-		var companyIds = companies.map(function (company) {
-			return company._id.toString();
-		});
-		db.Job.find({ companyId : { '$in' : companyIds }}, function (err, jobs) {
-			if (err) {
-				return done(err);
-			}
-			res.json(jobs);
-			done();
-		});
-	});
+	res.json(req.results);
+	done();
 });
 
 restfulApi.use('Job', 'DELETE', function (resourceName, req, res, done) {
@@ -504,25 +476,12 @@ restfulApi.use('Job', 'DELETE', function (resourceName, req, res, done) {
 			return done(err);
 		}
 
-		db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
-			if (err) {
-				return done({ code : 'companyLookUpError', msg : 'Company look up error' });
-			}
-			var companyIds = companies.map(function (company) {
-				return company._id.toString();
-			});
-			db.Job.find({ companyId : { '$in' : companyIds }}, function (err, jobs) {
-				if (err) {
-					return done(err);
-				}
-				res.json({
-					code : 'deletesuccess',
-					msg  : 'Removed successfully',
-					jobs : jobs
-				});
-				done();
-			});
+		res.json({
+			code : 'deletesuccess',
+			msg  : 'Removed successfully',
+			jobs : req.results
 		});
+		done();
 
 	});
 });

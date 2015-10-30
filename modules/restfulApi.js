@@ -14,13 +14,18 @@ var
 	}
 	, async = require('async');
 
-apis.use = function (resourceNames, methodName, methodCallback) {
+apis.use = function (resourceNames, methodNames, methodCallback) {
 	if (!(Object.prototype.toString.call(resourceNames) === '[object Array]')) {
 		resourceNames = [resourceNames];
 	}
+	if (!(Object.prototype.toString.call(methodNames) === '[object Array]')) {
+		methodNames = [methodNames];
+	}
 	resourceNames.forEach(function (resourceName) {
-		initializeResource(resourceName, methodName);
-		middlewares[resourceName][methodName].push(methodCallback);
+		methodNames.forEach(function (methodName) {
+			initializeResource(resourceName, methodName);
+			middlewares[resourceName][methodName].push(methodCallback);
+		});
 	});
 };
 
