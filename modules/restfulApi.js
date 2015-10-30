@@ -14,9 +14,14 @@ var
 	}
 	, async = require('async');
 
-apis.use = function (resourceName, methodName, methodCallback) {
-	initializeResource(resourceName, methodName);
-	middlewares[resourceName][methodName].push(methodCallback);
+apis.use = function (resourceNames, methodName, methodCallback) {
+	if (!(Object.prototype.toString.call(resourceNames) === '[object Array]')) {
+		resourceNames = [resourceNames];
+	}
+	resourceNames.forEach(function (resourceName) {
+		initializeResource(resourceName, methodName);
+		middlewares[resourceName][methodName].push(methodCallback);
+	});
 };
 
 // API External Methods

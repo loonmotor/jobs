@@ -4,6 +4,44 @@ var
 	, async = require('async')
 	, objectid = require('objectid');
 
+restfulApi.use(['template.Profile', 
+				'template.Company', 
+				'template.JobForm', 
+				'Profile',
+				'Company', 
+				'Job'], 'GET', function (resourceName, req, res, done) {
+	if (!req.isAuthenticated()) {
+		return done({
+			code : 'notauthenticated',
+			msg  : 'Not authenticated'
+		});
+	}
+	done();
+});
+
+restfulApi.use(['Profile', 
+				'Company', 
+				'Job'], 'POST', function (resourceName, req, res, done) {
+	if (!req.isAuthenticated()) {
+		return done({
+			code : 'notauthenticated',
+			msg  : 'Not authenticated'
+		});
+	}
+	done();
+});
+
+restfulApi.use(['Profile',
+				'Company'], 'DELETE', function (resourceName, req, res, done) {
+	if (!req.isAuthenticated()) {
+		return done({
+			code : 'notauthenticated',
+			msg  : 'Not authenticated'
+		});
+	}
+	done();
+});
+
 restfulApi.use('template.LoggedInState', 'GET', function (resourceName, req, res, done) {
 	if (!req.isAuthenticated()) {
 		res.render('not-logged-in', {});
@@ -14,29 +52,49 @@ restfulApi.use('template.LoggedInState', 'GET', function (resourceName, req, res
 });
 
 restfulApi.use('template.Profile', 'GET', function (resourceName, req, res, done) {
-	if (!req.isAuthenticated()) {
-		return done({
-			code : 'notauthenticated',
-			msg  : 'Not authenticated'
-		});
-	}
-	done();
-});
-
-restfulApi.use('template.Profile', 'GET', function (resourceName, req, res, done) {
 	
 	res.render('profile', {});
 	done();
 
 });
 
-restfulApi.use('Profile', 'GET', function (resourceName, req, res, done) {
-	if (!req.isAuthenticated()) {
-		return done({
-			code : 'notauthenticated',
-			msg  : 'Not authenticated'
+restfulApi.use('template.Company', 'GET', function (resourceName, req, res, done) {
+	
+	db.Company.find({ userId : req.user._id }, function (err, companies) {
+		if (err) {
+			return done({ code : 'companyLookUpError', msg : 'Company look up error' });
+		}
+		if (!companies) {
+			companies = [];
+		}
+		res.render('company', {});
+		done();
+	});
+
+});
+
+restfulApi.use('template.JobForm', 'GET', function (resourceName, req, res, done) {
+
+	db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
+		if (err) {
+			return done({ code : 'companyLookUpError', msg : 'Company look up error' });
+		}
+		var companyIds = companies.map(function (company) {
+			return company._id.toString();
 		});
-	}
+		db.Job.find({ companyId : { '$in' : companyIds }}, function (err, jobs) {
+			if (err) {
+				return done(err);
+			}
+			res.render('job-form', {});
+			done();
+		});
+	});
+
+});
+
+restfulApi.use('template.Home', 'GET', function (resouceName, req, res, done) {
+	res.render('home', { user : req.user });
 	done();
 });
 
@@ -48,16 +106,6 @@ restfulApi.use('Profile', 'GET', function (resourceName, req, res, done) {
 		res.json(profile);
 		done();
 	});
-});
-
-restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
-	if (!req.isAuthenticated()) {
-		return done({
-			code : 'notauthenticated',
-			msg  : 'Not authenticated'
-		});
-	}
-	done();
 });
 
 restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
@@ -183,16 +231,6 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 });
 
 restfulApi.use('Profile', 'DELETE', function (resourceName, req, res, done) {
-	if (!req.isAuthenticated()) {
-		return done({
-			code : 'notauthenticated',
-			msg  : 'Not authenticated'
-		});
-	}
-	done();
-});
-
-restfulApi.use('Profile', 'DELETE', function (resourceName, req, res, done) {
 	var
 		query = { userId : req.user._id }
 		, updateCommand;
@@ -241,40 +279,6 @@ restfulApi.use('Profile', 'DELETE', function (resourceName, req, res, done) {
 
 });
 
-restfulApi.use('template.Company', 'GET', function (resourceName, req, res, done) {
-	if (!req.isAuthenticated()) {
-		return done({
-			code : 'notauthenticated',
-			msg  : 'Not authenticated'
-		});
-	}
-	done();
-});
-
-restfulApi.use('template.Company', 'GET', function (resourceName, req, res, done) {
-	
-	db.Company.find({ userId : req.user._id }, function (err, companies) {
-		if (err) {
-			return done({ code : 'companyLookUpError', msg : 'Company look up error' });
-		}
-		if (!companies) {
-			companies = [];
-		}
-		res.render('company', {});
-		done();
-	});
-
-});
-
-restfulApi.use('Company', 'GET', function (resourceName, req, res, done) {
-	if (!req.isAuthenticated()) {
-		return done({
-			code : 'notauthenticated',
-			msg  : 'Not authenticated'
-		});
-	}
-	done();
-});
 
 restfulApi.use('Company', 'GET', function (resourceName, req, res, done) {
 
@@ -286,16 +290,6 @@ restfulApi.use('Company', 'GET', function (resourceName, req, res, done) {
 		done();
 	});
 
-});
-
-restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
-	if (!req.isAuthenticated()) {
-		return done({
-			code : 'notauthenticated',
-			msg  : 'Not authenticated'
-		});
-	}
-	done();
 });
 
 restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
@@ -338,16 +332,6 @@ restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
 		});
 	});
 
-});
-
-restfulApi.use('Company', 'DELETE', function (resourceName, req, res, done) {
-	if (!req.isAuthenticated()) {
-		return done({
-			code : 'notauthenticated',
-			msg  : 'Not authenticated'
-		});
-	}
-	done();
 });
 
 restfulApi.use('Company', 'DELETE', function (resourceName, req, res, done) {
@@ -394,45 +378,6 @@ restfulApi.use('Company', 'DELETE', function (resourceName, req, res, done) {
 
 });
 
-restfulApi.use('template.JobForm', 'GET', function (resourceName, req, res, done) {
-	if (!req.isAuthenticated()) {
-		return done({
-			code : 'notauthenticated',
-			msg  : 'Not authenticated'
-		});
-	}
-	done();
-});
-
-restfulApi.use('template.JobForm', 'GET', function (resourceName, req, res, done) {
-
-	db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
-		if (err) {
-			return done({ code : 'companyLookUpError', msg : 'Company look up error' });
-		}
-		var companyIds = companies.map(function (company) {
-			return company._id.toString();
-		});
-		db.Job.find({ companyId : { '$in' : companyIds }}, function (err, jobs) {
-			if (err) {
-				return done(err);
-			}
-			res.render('job-form', {});
-			done();
-		});
-	});
-
-});
-
-restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
-	if (!req.isAuthenticated()) {
-		return done({
-			code : 'notauthenticated',
-			msg  : 'Not authenticated'
-		});
-	}
-	done();
-});
 
 restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 	var
@@ -526,16 +471,6 @@ restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 		done();
 	});
 
-});
-
-restfulApi.use('Job', 'GET', function (resourceName, req, res, done) {
-	if (!req.isAuthenticated()) {
-		return done({
-			code : 'notauthenticated',
-			msg  : 'Not authenticated'
-		});
-	}
-	done();
 });
 
 restfulApi.use('Job', 'GET', function (resourceName, req, res, done) {
@@ -636,11 +571,6 @@ restfulApi.use('publicData.Job', 'GET', function (resourceName, req, res, done) 
 		res.json(job);
 		done();
 	});
-});
-
-restfulApi.use('template.Home', 'GET', function (resouceName, req, res, done) {
-	res.render('home', { user : req.user });
-	done();
 });
 
 restfulApi.use('publicData.Company', 'GET', function (resourceName, req, res, done) {
