@@ -26,7 +26,7 @@ angular
 			return imageSrc;
 		}
 	}])
-	.controller('homeCtrl', ['$scope', 'resources', 'config', 'ngToast', function ($scope, resources, config, ngToast) {
+	.controller('homeCtrl', ['$scope', 'resources', 'config', 'ngToast', '$sce', function ($scope, resources, config, ngToast, $sce) {
 		$scope.root.title = ['Home', config.siteName].join(' | ');
 
 		$scope.getListing = function (currentPage, limit) {
@@ -55,7 +55,8 @@ angular
 					});
 				}, function (err) {
 					ngToast.danger({
-						content : err.data.msg
+						content : $sce.trustAsHtml('<a ui-sref="rootControl.profile">' + err.data.msg + '</a>'),
+						compileContent : true
 					});
 				});
 		}
@@ -458,7 +459,7 @@ angular
 		$scope.root.title = ['Guide', config.siteName].join(' | ');
 	}])
 	.controller('jobViewCtrl', ['$scope', 'config', '$stateParams', 'resources', 
-	'ngToast', function ($scope, config, $stateParams, resources, ngToast) {
+	'ngToast', '$sce', function ($scope, config, $stateParams, resources, ngToast, $sce) {
 		$scope.root.title = ['Job View', config.siteName].join(' | ');
 
 		resources.publicData.Job
@@ -484,7 +485,8 @@ angular
 					});
 				}, function (err) {
 					ngToast.danger({
-						content : err.data.msg
+						content : $sce.trustAsHtml('<a ui-sref="rootControl.profile">' + err.data.msg + '</a>'),
+						compileContent : true
 					});
 				});
 		}

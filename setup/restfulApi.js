@@ -7,9 +7,11 @@ var
 restfulApi.use(['template.Profile', 
 				'template.Company', 
 				'template.JobForm', 
+				'template.Interest',
 				'Profile',
 				'Company', 
-				'Job'], 'GET', function (resourceName, req, res, done) {
+				'Job',
+				'Interest'], 'GET', function (resourceName, req, res, done) {
 	if (!req.isAuthenticated()) {
 		return done({
 			code : 'notauthenticated',
@@ -21,7 +23,9 @@ restfulApi.use(['template.Profile',
 
 restfulApi.use(['Profile', 
 				'Company', 
-				'Job'], 'POST', function (resourceName, req, res, done) {
+				'Job',
+				'Job.Interested',
+				'Job.Uninterested'], 'POST', function (resourceName, req, res, done) {
 	if (!req.isAuthenticated()) {
 		return done({
 			code : 'notauthenticated',
@@ -87,6 +91,11 @@ restfulApi.use('template.Home', 'GET', function (resouceName, req, res, done) {
 
 restfulApi.use('template.JobView', 'GET', function (resourceName, req, res, done) {
 	res.render('job-view', { user : req.user });
+	done();
+});
+
+restfulApi.use('template.Interest', 'GET', function (resourceName, req, res, done) {
+	res.render('interest', {});
 	done();
 });
 
@@ -498,6 +507,21 @@ restfulApi.use('Job', 'GET', function (resourceName, req, res, done) {
 });
 
 restfulApi.use('Job.Interested', 'POST', function (resourceName, req, res, done) {
+	db.Profile.findOne({ userId : req.user._id }, function (err, user) {
+		if (err) {
+			return done(err);
+		}
+		if (!user) {
+			return done({
+				code : 'profilerequired',
+				msg  : 'A profile is required before you can add a job to your interest list'
+			});
+		}
+		done();
+	});
+});
+
+restfulApi.use('Job.Interested', 'POST', function (resourceName, req, res, done) {
 	var
 		updateCommand = {
 			'$addToSet' : {
@@ -518,7 +542,7 @@ restfulApi.use('Job.Interested', 'POST', function (resourceName, req, res, done)
 		job.interested = true;
 		res.json({
 			code : 'jobinterested',
-			msg  : job.title + ' is added to you interest list',
+			msg  : job.title + ' has been added to you interest list',
 			job  : job
 		});
 		done();
@@ -544,11 +568,15 @@ restfulApi.use('Job.Uninterested', 'POST', function (resourceName, req, res, don
 		}
 		res.json({
 			code : 'jobuninterested',
-			msg  : job.title + ' is removed from your interest list',
+			msg  : job.title + ' has been removed from your interest list',
 			job  : job
 		});
 		done();
 	});
+});
+
+restfulApi.use('Interest', 'GET', function (resourceName, req, res, done) {
+
 });
 
 restfulApi.use('publicData.Jobs', 'GET', function (resourceName, req, res, done) {

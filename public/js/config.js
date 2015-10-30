@@ -9,7 +9,8 @@ angular
 				'company' : '/template/company',
 				'jobForm' : '/template/job-form',
 				'home' : '/template/home',
-				'jobView' : '/template/job-view'
+				'jobView' : '/template/job-view',
+				'interest' : '/template/interest'
 			},
 			'resourceUrl' : {
 				'Profile' : '/data/profile',

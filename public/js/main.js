@@ -72,6 +72,14 @@ angular
 					}
 				}
 			})
+			.state('rootControl.interest', {
+				url : '/interest',
+				views : {
+					'main' : {
+						templateUrl : '/html/interest.html'
+					}
+				}
+			})
 			.state('guide', {
 				url : '/guide',
 				views : {

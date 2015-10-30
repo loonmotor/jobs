@@ -15,4 +15,6 @@ router.get('/home', restfulApi.restful('template.Home'));
 
 router.get('/job-view', restfulApi.restful('template.JobView'));
 
+router.get('/interest', restfulApi.restful('template.Interest'));
+
 module.exports = router;
