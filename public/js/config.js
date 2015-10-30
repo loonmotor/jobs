@@ -8,13 +8,15 @@ angular
 				'profile' : '/template/profile',
 				'company' : '/template/company',
 				'jobForm' : '/template/job-form',
-				'home' : '/template/home'
+				'home' : '/template/home',
+				'jobView' : '/template/job-view'
 			},
 			'resourceUrl' : {
 				'Profile' : '/data/profile',
 				'Company' : '/data/company',
 				'Job'     : '/data/job',
 				'JobInterested' : '/data/job/interested',
+				'JobUninterested' : '/data/job/uninterested',
 				'publicData' : {
 					'Jobs' : '/public/data/jobs/:offset/:limit',
 					'Job'  : '/public/data/job/:id',

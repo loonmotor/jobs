@@ -38,8 +38,10 @@
 						I'm interested
 					</a>
 					&nbsp;
+					<a href="" ng-click="uninterested(job._id, $index)">
 					<span class="glyphicon glyphicon-star interest-star" aria-hidden="true" ng-show="job.interested"></span>
 					<% } %>
+					</a>
 				</p>
 			</div>
 		</div>

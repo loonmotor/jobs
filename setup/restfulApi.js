@@ -85,6 +85,11 @@ restfulApi.use('template.Home', 'GET', function (resouceName, req, res, done) {
 	done();
 });
 
+restfulApi.use('template.JobView', 'GET', function (resourceName, req, res, done) {
+	res.render('job-view', { user : req.user });
+	done();
+});
+
 restfulApi.use('Profile', 'GET', function (resourceName, req, res, done) {
 	db.Profile.findOne({ userId : req.user._id }, function (err, profile) {
 		if (err) {
@@ -511,7 +516,37 @@ restfulApi.use('Job.Interested', 'POST', function (resourceName, req, res, done)
 			return done(err);
 		}
 		job.interested = true;
-		res.json(job);
+		res.json({
+			code : 'jobinterested',
+			msg  : job.title + ' is added to you interest list',
+			job  : job
+		});
+		done();
+	});
+});
+
+restfulApi.use('Job.Uninterested', 'POST', function (resourceName, req, res, done) {
+	var
+		updateCommand = {
+			'$pull' : {
+				'interests' : {
+					'userId' : req.user._id
+				}
+			}
+		};
+	db.Job.findAndModify({
+		query  : { _id : objectid(req.body.id) },
+		update : updateCommand,
+		new : true
+	}, function (err, job) {
+		if (err) {
+			return done(err);
+		}
+		res.json({
+			code : 'jobuninterested',
+			msg  : job.title + ' is removed from your interest list',
+			job  : job
+		});
 		done();
 	});
 });
@@ -572,7 +607,6 @@ restfulApi.use('publicData.Jobs', 'GET', function (resourceName, req, res, done)
 		if (err) {
 			return done(err);
 		}
-		console.log('z');
 		res.json(req.results);
 		done();
 	});
@@ -586,9 +620,31 @@ restfulApi.use('publicData.Job', 'GET', function (resourceName, req, res, done) 
 				msg  : 'Job look up error'
 			});
 		}
-		res.json(job);
+		req.results = job;
 		done();
 	});
+});
+
+restfulApi.use('publicData.Job', 'GET', function (resourceName, req, res, done) {
+	var
+		job = req.results;
+
+	if (!req.isAuthenticated()) {
+		res.json(req.results);
+		return done();
+	}
+	if (!job.interests) {
+		res.json(job);
+		return done();
+	}
+	for (var i = 0, interest; interest = job.interests[i]; i++) {
+		if (interest.userId === req.user._id) {
+			job.interested = true;
+			break;
+		}
+	}
+	res.json(job);
+	done();
 });
 
 restfulApi.use('publicData.Company', 'GET', function (resourceName, req, res, done) {

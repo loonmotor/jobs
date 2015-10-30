@@ -95,3 +95,7 @@ form label {
 #job-view .logo {
   max-size: 120px;
 }
+#job-view .interest-star {
+  font-size: 26px;
+  color: #f1c40f;
+}

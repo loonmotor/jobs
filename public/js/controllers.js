@@ -49,7 +49,26 @@ angular
 				.save({ id : id })
 				.$promise
 				.then(function (data) {
-					$scope.jobs.listing.splice(index, 1, data);
+					$scope.jobs.listing.splice(index, 1, data.job);
+					ngToast.success({
+						content : data.msg
+					});
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
+		}
+
+		$scope.uninterested = function (id, index) {
+			resources.JobUninterested
+				.save({ id : id })
+				.$promise
+				.then(function (data) {
+					$scope.jobs.listing.splice(index, 1, data.job);
+					ngToast.success({
+						content : data.msg
+					});
 				}, function (err) {
 					ngToast.danger({
 						content : err.data.msg
@@ -453,6 +472,38 @@ angular
 					content : err.data.msg
 				});
 			});
+
+		$scope.interested = function (id, index) {
+			resources.JobInterested
+				.save({ id : id })
+				.$promise
+				.then(function (data) {
+					$scope.job = data.job;
+					ngToast.success({
+						content : data.msg
+					});
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
+		}
+
+		$scope.uninterested = function (id, index) {
+			resources.JobUninterested
+				.save({ id : id })
+				.$promise
+				.then(function (data) {
+					$scope.job = data.job;
+					ngToast.success({
+						content : data.msg
+					});
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
+		}
 	}])
 	.controller('companyViewCtrl', ['$scope', 'config', '$stateParams', 'resources', function ($scope, config, $stateParams, resources, ngToast) {
 		$scope.root.title = ['Company View', config.siteName].join(' | ');

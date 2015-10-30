@@ -1,0 +1,62 @@
+<div class="col-sm-12" id="job-view">
+	<div class="page-header">
+		<h1>{{ job.title }} 
+			<small>
+				{{ job.jobType }} 
+				<% if (user) { %>
+					<a href="" ng-click="interested(job._id)" class="btn btn-success" role="button" ng-show="!job.interested">
+						<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+						I'm interested
+					</a>
+					&nbsp;
+					<a href="" ng-click="uninterested(job._id)">
+					<span class="glyphicon glyphicon-star interest-star" aria-hidden="true" ng-show="job.interested"></span>
+					</a>
+				<% } %>
+			</small>
+		</h1>
+	</div>
+	<p>
+		{{ job.description }}
+	</p>
+	<br>
+	<table class="table">
+		<tr>
+			<td>Hiring in</td>
+			<td>{{ job.location }}</td>
+		</tr>
+		<tr ng-if="job.coworkers">
+			<td>Coworkers</td>
+			<td>{{ job.coworkers.join(', ') }}</td>
+		</tr>
+		<tr>
+			<td>Can remote</td>
+			<td>{{ job.canRemote | yesNo }}</td>
+		</tr>
+		<tr>
+			<td>Visa sponsor</td>
+			<td>{{ job.visaSponsor | yesNo }}</td>
+		</tr>
+		<tr>
+			<td>Skills required</td>
+			<td>{{ job.skills.join(', ') }}</td>
+		</tr>
+		<tr>
+			<td>Approximate salary</td>
+			<td>{{ job.salaryCurrency + job.salary }}</td>
+		</tr>
+		<tr>
+			<td>End on</td>
+			<td>{{ job.expiry | date:'dd/MM/yyyy' }}</td>
+		</tr>
+		<tr>
+			<td>Company</td>
+			<td>
+				<a ui-sref="companyView({ id : job.companyId })">{{ job.company.name }}</a>
+				<a ui-sref="companyView({ id : job.companyId })">
+				<img ng-src="{{ job.company.logo }}" alt="{{ job.company.name }}" class="logo">
+			</a>
+			</td>
+		</tr>
+	</table>
+</div>
