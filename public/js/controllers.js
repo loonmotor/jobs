@@ -54,10 +54,16 @@ angular
 						content : data.msg
 					});
 				}, function (err) {
-					ngToast.danger({
-						content : $sce.trustAsHtml('<a ui-sref="rootControl.profile">' + err.data.msg + '</a>'),
-						compileContent : true
-					});
+					if (err.data.code == 'profilerequired') {
+						ngToast.danger({
+							content : $sce.trustAsHtml('<a ui-sref="rootControl.profile">' + err.data.msg + '</a>'),
+							compileContent : true
+						});
+					} else {
+						ngToast.danger({
+							content : err.data.msg
+						})
+					}
 				});
 		}
 
@@ -484,10 +490,16 @@ angular
 						content : data.msg
 					});
 				}, function (err) {
-					ngToast.danger({
-						content : $sce.trustAsHtml('<a ui-sref="rootControl.profile">' + err.data.msg + '</a>'),
-						compileContent : true
-					});
+					if (err.data.msg == 'profilerequired') {
+						ngToast.danger({
+							content : $sce.trustAsHtml('<a ui-sref="rootControl.profile">' + err.data.msg + '</a>'),
+							compileContent : true
+						});
+					} else {
+						ngToast.danger({
+							content : err.data.msg
+						});
+					}
 				});
 		}
 
