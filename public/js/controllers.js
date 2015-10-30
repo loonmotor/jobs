@@ -44,6 +44,19 @@ angular
 				});
 		}
 
+		$scope.interested = function (id, index) {
+			resources.JobInterested
+				.save({ id : id })
+				.$promise
+				.then(function (data) {
+					$scope.jobs.listing.splice(index, 1, data);
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
+		}
+
 	}])
 	.controller('signInCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', '$timeout', function ($scope, $http, config, ngToast, $location, $timeout) {
 		$scope.root.title = ['Sign In', config.siteName].join(' | ');

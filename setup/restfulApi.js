@@ -73,26 +73,6 @@ restfulApi.use('template.Company', 'GET', function (resourceName, req, res, done
 
 });
 
-restfulApi.use('Job', ['GET', 'DELETE', 'POST'], function (resourceName, req, res, done) {
-
-	db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
-		if (err) {
-			return done({ code : 'companyLookUpError', msg : 'Company look up error' });
-		}
-		var companyIds = companies.map(function (company) {
-			return company._id.toString();
-		});
-		db.Job.find({ companyId : { '$in' : companyIds }}, function (err, jobs) {
-			if (err) {
-				return done(err);
-			}
-			req.results = jobs;
-			done();
-		});
-	});
-
-});
-
 restfulApi.use('template.JobForm', 'GET', function (resourceName, req, res, done) {
 
 	res.render('job-form', {});
@@ -448,19 +428,9 @@ restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 		if (err) {
 			return done(err);
 		}
-		res.json({
-			code : 'updatesuccess',
-			msg  : 'Saved successfully',
-			jobs : req.results
-		});
 		done();
 	});
 
-});
-
-restfulApi.use('Job', 'GET', function (resourceName, req, res, done) {
-	res.json(req.results);
-	done();
 });
 
 restfulApi.use('Job', 'DELETE', function (resourceName, req, res, done) {
@@ -476,13 +446,73 @@ restfulApi.use('Job', 'DELETE', function (resourceName, req, res, done) {
 			return done(err);
 		}
 
-		res.json({
-			code : 'deletesuccess',
-			msg  : 'Removed successfully',
-			jobs : req.results
-		});
 		done();
 
+	});
+});
+
+restfulApi.use('Job', ['GET', 'DELETE', 'POST'], function (resourceName, req, res, done) {
+
+	db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
+		if (err) {
+			return done({ code : 'companyLookUpError', msg : 'Company look up error' });
+		}
+		var companyIds = companies.map(function (company) {
+			return company._id.toString();
+		});
+		db.Job.find({ companyId : { '$in' : companyIds }}, function (err, jobs) {
+			if (err) {
+				return done(err);
+			}
+			req.results = jobs;
+			done();
+		});
+	});
+
+});
+
+restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
+	res.json({
+		code : 'updatesuccess',
+		msg  : 'Saved successfully',
+		jobs : req.results
+	});
+});
+
+restfulApi.use('Job', 'DELETE', function (resourceName, req, res, done) {
+	res.json({
+		code : 'deletesuccess',
+		msg  : 'Removed successfully',
+		jobs : req.results
+	});
+});
+
+restfulApi.use('Job', 'GET', function (resourceName, req, res, done) {
+	res.json(req.results);
+	done();
+});
+
+restfulApi.use('Job.Interested', 'POST', function (resourceName, req, res, done) {
+	var
+		updateCommand = {
+			'$addToSet' : {
+				'interests' : {
+					'userId' : req.user._id
+				}
+			}
+		};
+
+	db.Job.findAndModify({
+		query  : { _id : objectid(req.body.id) },
+		update : updateCommand,
+		new : true
+	}, function (err, job) {
+		if (err) {
+			return done(err);
+		}
+		job.interested = true;
+		res.json(job);
+		done();
 	});
 });
 
@@ -513,10 +543,39 @@ restfulApi.use('publicData.Jobs', 'GET', function (resourceName, req, res, done)
 		if (err) {
 			return done(err);
 		}
-		return res.json(results);
+		req.results = results;
+		done();
 	});
 
-	done();
+});
+
+restfulApi.use('publicData.Jobs', 'GET', function (resourceName, req, res, done) {
+	if (!req.isAuthenticated()) {
+		res.json(req.results);
+		return done();
+	}
+	async.map(req.results.listing, function (job, ok) {
+		async.setImmediate(function () {
+			if (!job.interests) {
+				return ok(null, job);
+			}
+			for (var i = 0, interest; interest = job.interests[i]; i++) {
+				if (interest.userId === req.user._id) {
+					job.interested = true;
+					break;
+				}
+			}
+			ok(null, job);
+		});
+	}, function (err, jobListing) {
+		req.results.listing = jobListing;
+		if (err) {
+			return done(err);
+		}
+		console.log('z');
+		res.json(req.results);
+		done();
+	});
 });
 
 restfulApi.use('publicData.Job', 'GET', function (resourceName, req, res, done) {

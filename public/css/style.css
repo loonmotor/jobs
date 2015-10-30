@@ -83,6 +83,10 @@ form label {
   flex-direction: row;
   flex-wrap: wrap;
 }
+#home-job-listing .interest-star {
+  font-size: 26px;
+  color: #f1c40f;
+}
 .pagination-container {
   height: 90px;
 }

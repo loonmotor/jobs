@@ -7,6 +7,7 @@ angular
 		apis.Profile = $resource(config['resourceUrl']['Profile']);
 		apis.Company = $resource(config['resourceUrl']['Company']);
 		apis.Job = $resource(config['resourceUrl']['Job']);
+		apis.JobInterested = $resource(config['resourceUrl']['JobInterested']);
 		apis.publicData = {
 			Jobs : $resource(config['resourceUrl']['publicData']['Jobs']),
 			Job  : $resource(config['resourceUrl']['publicData']['Job']),

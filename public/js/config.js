@@ -14,11 +14,12 @@ angular
 				'Profile' : '/data/profile',
 				'Company' : '/data/company',
 				'Job'     : '/data/job',
+				'JobInterested' : '/data/job/interested',
 				'publicData' : {
 					'Jobs' : '/public/data/jobs/:offset/:limit',
 					'Job'  : '/public/data/job/:id',
 					'Company' : '/public/data/company/:id',
-					'CompanyJobs' : '/public/data/company/jobs/:id'
+					'CompanyJobs' : '/public/data/company/jobs/:id',
 				}
 			},
 			'localSignInRedirect' : '/'
