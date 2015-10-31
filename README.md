@@ -32,7 +32,9 @@ User
 Profile
 ```
 {
-	name  			: String,
+	name			: String,
+	email			: String,
+	mobilePhone 	: String,
 	role 			: String,
 	jobType			: String,
 	location 		: String,

@@ -192,6 +192,8 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 		updateCommand = {
 			'$set' : {
 				'name'           : req.body.name,
+				'email'			 : req.body.email,
+				'mobilePhone'    : req.body.mobilePhone,
 				'role'           : req.body.role,
 				'jobType'        : req.body.jobType,
 				'location'       : req.body.location,
@@ -509,32 +511,35 @@ restfulApi.use('Job', 'GET', function (resourceName, req, res, done) {
 });
 
 restfulApi.use('Job.Interested', 'POST', function (resourceName, req, res, done) {
-	db.Profile.findOne({ userId : req.user._id }, function (err, user) {
+	db.Profile.findOne({ userId : req.user._id }, function (err, profile) {
 		if (err) {
 			return done(err);
 		}
-		if (!user) {
+		if (!profile) {
 			return done({
 				code : 'profilerequired',
 				msg  : 'A profile is required before you can add a job to your interest list'
 			});
 		}
+		req.results = profile;
 		done();
 	});
 });
 
 restfulApi.use('Job.Interested', 'POST', function (resourceName, req, res, done) {
 	var
-		updateCommand = {
+		profile = req.results
+		, updateCommand = {
 			'$addToSet' : {
 				'interests' : {
-					'userId' : req.user._id
+					'userId' : req.user._id,
+					'name'   : profile.name
 				}
 			}
 		};
 
 	db.Job.findAndModify({
-		query  : { _id : objectid(req.body.id) },
+		query  : { _id : objectid(req.body.id), 'interests' : { '$ne' : req.user._id }},
 		update : updateCommand,
 		new : true
 	}, function (err, job) {

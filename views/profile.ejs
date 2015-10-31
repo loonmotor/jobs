@@ -75,6 +75,22 @@
 			</div>
 		</div>
 
+		<div class="form-group">
+			<label for="email">Email *</label>
+			<input type="text" name="email" id="email" class="form-control" ng-model="profile.email" required>
+			<div ng-messages="profileForm.email.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="mobilePhone">Mobile Phone *</label>
+			<input type="text" name="mobilePhone" id="mobilePhone" class="form-control" ng-model="profile.mobilePhone" required>
+			<div ng-messages="profileForm.mobilePhone.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
+
 		<img ng-src="{{ profile.photo }}" class="profile-photo">
 		<div class="form-group">
 			<label for="photo">Photo</label>

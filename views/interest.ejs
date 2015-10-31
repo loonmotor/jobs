@@ -18,7 +18,7 @@
 				{{ job.title }} - {{ job.jobType }}
 				<ul>
 					<li ng-repeat="applicant in job.interests">
-						<a ui-sref="profileView({ id : applicant.userId })">{{ applicant.userId }}</a>
+						<a ui-sref="profileView({ id : applicant.userId })">{{ applicant.name }}</a>
 					</li>
 				</ul>
 			</li>

@@ -580,6 +580,7 @@ angular
 			.get({ id : $stateParams.id })
 			.$promise
 			.then(function (data) {
+				$scope.root.title = ['Profile', data.name, config.siteName].join(' | ');
 				$scope.profile = data;
 			}, function (err) {
 				ngToast.danger({

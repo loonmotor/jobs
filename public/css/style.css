@@ -99,3 +99,8 @@ form label {
   font-size: 26px;
   color: #f1c40f;
 }
+/*                >> Profile View
+   ========================================================================== */
+#profile-view .photo {
+  max-width: 120px;
+}
