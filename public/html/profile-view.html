@@ -1,0 +1,53 @@
+<div class="col-sm-12">
+	<div class="page-header">
+		<h1>{{ profile.name }} 
+			<small>
+				{{ profile.role.name }} 
+			</small>
+		</h1>
+	</div>
+	<p>
+		<img ng-src="{{ profile.photo }}">
+	</p>
+	<p>
+		{{ profile.jobType }}
+	</p>
+	<br>
+	<table class="table">
+		<tr>
+			<td>Location</td>
+			<td>{{ profile.location }}</td>
+		</tr>
+		<tr>
+			<td>Can remote</td>
+			<td>{{ profile.canRemote | yesNo }}</td>
+		</tr>
+		<tr>
+			<td>Can relocate</td>
+			<td>{{ profile.canRelocate }}</td>
+		</tr>
+		<tr>
+			<td>Desired salary</td>
+			<td>{{ profile.salaryCurrency + profile.desiredSalary }}</td>
+		</tr>
+		<tr>
+			<td>Profile summary</td>
+			<td>{{ profile.profileSummary }}</td>
+		</tr>
+		<tr>
+			<td>Accomplishment</td>
+			<td>{{ profile.accomplishment }}</td>
+		</tr>
+		<tr>
+			<td>Links</td>
+			<td>
+				<table class="table table-condensed">
+					<tr>
+						<td>Resume</td>
+						<td>{{ profile.links.resume }}</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>

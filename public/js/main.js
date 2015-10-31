@@ -76,7 +76,8 @@ angular
 				url : '/interest',
 				views : {
 					'main' : {
-						templateUrl : '/html/interest.html'
+						templateUrl : '/html/interest.html',
+						controller  : 'interestCtrl'
 					}
 				}
 			})
@@ -104,6 +105,15 @@ angular
 					'main' : {
 						templateUrl : '/html/company-view.html',
 						controller : 'companyViewCtrl'
+					}
+				}
+			})
+			.state('profileView', {
+				url : '/profile-view/:id',
+				views : {
+					'main' : {
+						templateUrl : '/html/profile-view.html',
+						controller 	: 'profileViewCtrl'
 					}
 				}
 			});

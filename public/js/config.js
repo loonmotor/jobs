@@ -18,11 +18,14 @@ angular
 				'Job'     : '/data/job',
 				'JobInterested' : '/data/job/interested',
 				'JobUninterested' : '/data/job/uninterested',
+				'InterestJobs' : '/data/interest/jobs',
+				'InterestApplicants' : '/data/interest/applicants',
 				'publicData' : {
 					'Jobs' : '/public/data/jobs/:offset/:limit',
 					'Job'  : '/public/data/job/:id',
 					'Company' : '/public/data/company/:id',
 					'CompanyJobs' : '/public/data/company/jobs/:id',
+					'Profile' : '/public/data/profile/:id'
 				}
 			},
 			'localSignInRedirect' : '/'

@@ -11,7 +11,9 @@ restfulApi.use(['template.Profile',
 				'Profile',
 				'Company', 
 				'Job',
-				'Interest'], 'GET', function (resourceName, req, res, done) {
+				'Interest',
+				'Interest.Jobs',
+				'Interest.Applicants'], 'GET', function (resourceName, req, res, done) {
 	if (!req.isAuthenticated()) {
 		return done({
 			code : 'notauthenticated',
@@ -575,8 +577,51 @@ restfulApi.use('Job.Uninterested', 'POST', function (resourceName, req, res, don
 	});
 });
 
-restfulApi.use('Interest', 'GET', function (resourceName, req, res, done) {
+restfulApi.use('Interest.Jobs', 'GET', function (resourceName, req, res, done) {
+	db.Job.find({ 'interests.userId' : req.user._id }, function (err, jobs) {
+		if (err) {
+			return done({
+				code : 'jobinterestslookuperror',
+				msg  : 'Job interests look up error'
+			});
+		}
+		res.json(jobs);
+		done();
+	});
+});
 
+
+restfulApi.use('Interest.Applicants', 'GET', function (resourceName, req, res, done) {
+
+	db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
+		if (err) {
+			return done({ code : 'companyLookUpError', msg : 'Company look up error' });
+		}
+		req.results = companies;
+		done();
+	});
+
+});
+
+restfulApi.use('Interest.Applicants', 'GET', function (resourceName, req, res, done) {
+	var
+		companies = req.results;
+
+	async.map(companies, function (company, ok) {
+		db.Job.find({ companyId : company._id.toString() }, function (err, jobs) {
+			if (err) {
+				return ok(err);
+			}
+			company.jobs = jobs;
+			ok(null, company);
+		});
+	}, function (err, companies) {
+		if (err) {
+			return done(err);
+		}
+		res.json(companies);
+		done();
+	});
 });
 
 restfulApi.use('publicData.Jobs', 'GET', function (resourceName, req, res, done) {
@@ -697,6 +742,19 @@ restfulApi.use('publicData.CompanyJobs', 'GET', function (resourceName, req, res
 			});
 		}
 		res.json(jobs);
+		done();
+	});
+});
+
+restfulApi.use('publicData.Profile', 'GET', function (resourceName, req, res, done) {
+	db.Profile.findOne({ userId : req.params.id }, function (err, profile) {
+		if (err) {
+			return done({
+				code : 'profileLookUpError',
+				msg  : 'Profile look up error'
+			});
+		}
+		res.json(profile);
 		done();
 	});
 });

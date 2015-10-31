@@ -546,4 +546,45 @@ angular
 			});
 
 
+	}])
+	.controller('interestCtrl', ['$scope', 'config', 'resources', 'ngToast', function ($scope, config, resources, ngToast) {
+		$scope.root.title = ['Interest', config.siteName].join(' | ');
+
+		resources.InterestJobs
+			.query()
+			.$promise
+			.then(function (data) {
+				$scope.interestJobs = data;
+			}, function (err) {
+				ngToast.danger({
+					content : err.data.msg
+				});
+			});
+
+		resources.InterestApplicants
+			.query()
+			.$promise
+			.then(function (data) {
+				$scope.interestApplicants = data;
+			}, function (err) {
+				ngToast.danger({
+					content : err.data.msg
+				});
+			});
+
+	}])
+	.controller('profileViewCtrl', ['$scope', 'config', 'resources', 'ngToast', '$stateParams', function ($scope, config, resources, ngToast, $stateParams) {
+		$scope.root.title = ['Profile', config.siteName].join(' | ');
+
+		resources.publicData.Profile
+			.get({ id : $stateParams.id })
+			.$promise
+			.then(function (data) {
+				$scope.profile = data;
+			}, function (err) {
+				ngToast.danger({
+					content : err.data.msg
+				});
+			});
+
 	}]);

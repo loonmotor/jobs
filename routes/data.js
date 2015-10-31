@@ -13,7 +13,8 @@ router.all('/job/uninterested', restfulApi.restful('Job.Uninterested'));
 
 router.all('/job/:offset?/:limit?', restfulApi.restful('Job'));
 
-router.all('/interest', restfulApi.restful('Interest'));
+router.all('/interest/jobs', restfulApi.restful('Interest.Jobs'));
 
+router.all('/interest/applicants', restfulApi.restful('Interest.Applicants'));
 
 module.exports = router;
