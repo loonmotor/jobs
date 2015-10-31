@@ -7,6 +7,8 @@ router.all('/profile/:id?', restfulApi.restful('Profile'));
 
 router.all('/company/:id?', restfulApi.restful('Company'));
 
+router.all('/companies/:offset/:limit', restfulApi.restful('Companies'));
+
 router.all('/job/interested', restfulApi.restful('Job.Interested'));
 
 router.all('/job/uninterested', restfulApi.restful('Job.Uninterested'));

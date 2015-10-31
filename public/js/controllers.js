@@ -333,16 +333,21 @@ angular
 		$scope.displayValidation = {};
 		$scope.toggle = {};
 
-		resources.Company
-			.query()
-			.$promise
-			.then(function (data) {
-				$scope.companies = data;
-			}, function (err) {
-				ngToast.danger({
-					content : err.data.msg
+		$scope.getCompanies = function (currentPage, limit) {
+			var
+				offset = currentPage - 1;
+
+			resources.Companies
+				.get({ offset : offset, limit : limit })
+				.$promise
+				.then(function (data) {
+					$scope.companies = data;
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
 				});
-			});
+		}
 
 		$scope.saveCompany = function ($event, formData) {
 			if ($scope.companyForm.$invalid) {
@@ -356,7 +361,7 @@ angular
 					ngToast.success({
 						content : data.msg
 					});
-					$scope.companies = data.companies;
+					$scope.getCompanies(1, data.config['companyListing.companyForm.paginationSize']);
 					$scope.company = null;
 				}, function (err) {
 					ngToast.danger({

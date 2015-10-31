@@ -69,5 +69,6 @@ module.exports = {
 	"job.description.maxLength" : 2000,
 	"urlencoded.limit" : "1mb",
 	"jsonencoded.limit" : "1mb",
-	"jobListing.home.paginationSize" : 12
+	"jobListing.home.paginationSize" : 12,
+	"companyListing.companyForm.paginationSize" : 1
 };
