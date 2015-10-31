@@ -110,7 +110,7 @@ Job
 {
 	title 			: String,
 	description 	: String,
-	expiry			: String,
+	expiry			: Date,
 	archived		: Boolean,
 	role 			: String,
 	jobType			: String,
