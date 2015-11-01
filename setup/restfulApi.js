@@ -2,8 +2,7 @@ var
 	restfulApi = require('../modules/restfulApi')
 	, db = require('./mongojs')
 	, async = require('async')
-	, objectid = require('objectid')
-	, config = require('../config');
+	, objectid = require('objectid');
 
 restfulApi.use(['template.Profile', 
 				'template.Company', 
@@ -286,34 +285,16 @@ restfulApi.use('Profile', 'DELETE', function (resourceName, req, res, done) {
 });
 
 
-restfulApi.use('Companies', 'GET', function (resourceName, req, res, done) {
+restfulApi.use('Company', 'GET', function (resourceName, req, res, done) {
 
-	async.series({
-		count : function (ok) {
-			db.Company.count({}, function (err, result) {
-				if (err) {
-					return ok(err);
-				}
-				return ok(null, result);
-			});
-		},
-		listing : function (ok) {
-			db.Company
-				.find({ userId : req.user._id })
-				.limit(req.params.limit)
-				.sort({ $natural : -1 })
-				.skip(req.params.offset * req.params.limit, function (err, companies) {					
-					if (err) {
-						return ok(err);
-					}
-					return ok(null, companies);
-				});
-		}
-	}, function (err, results) {
+	db.Company.find({ userId : req.user._id }, function (err, companies) {
 		if (err) {
-			return done(err);
+			return done({
+				code : 'companyLookUpError',
+				msg : 'Company look up error'
+			});
 		}
-		res.json(results);
+		res.json(companies);
 		done();
 	});
 
@@ -344,16 +325,18 @@ restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
 		update : updateCommand,
 		upsert : true,
 		new : true,
-	}, function (err, doc) {
+	}, function (err, company) {
 		if (err) {
 			return done(err);
 		}
-		res.json({
-			code : 'updatesuccess',
-			msg  : 'Saved successfully',
-			config : config
-		})
-		done();
+		db.Company.find({ userId : req.user._id }, function (err, companies) {
+			res.json({
+				code : 'updatesuccess',
+				msg  : 'Saved successfully',
+				companies : companies
+			})
+			done();
+		});
 	});
 
 });

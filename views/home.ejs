@@ -12,7 +12,7 @@
 		<div class="pagination-container">
 			<div class="center-outer">
 				<div class="center-inner">
-					<pagination total-items="jobs.count" ng-model="currentPage" ng-change="getListing(currentPage, <%= config['jobListing.home.paginationSize'] %>)" ng-init="getListing(1, <%= config['jobListing.home.paginationSize'] %>)" items-per-page="<%= config['jobListing.home.paginationSize'] %>" class="pagination-sm text-center" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+					<pagination total-items="jobs.count" ng-model="currentPage" ng-change="getListing(currentPage - 1, <%= config['jobListing.home.paginationSize'] %>)" ng-init="getListing(0, <%= config['jobListing.home.paginationSize'] %>)" items-per-page="<%= config['jobListing.home.paginationSize'] %>" class="pagination-sm text-center" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
 				</div>
 			</div>
 		</div>
@@ -53,7 +53,7 @@
 		<div class="pagination-container">
 			<div class="center-outer">
 				<div class="center-inner">
-					<pagination total-items="jobs.count" ng-model="currentPage" ng-change="getListing(currentPage, <%= config['jobListing.home.paginationSize'] %>)" ng-init="getListing(1, <%= config['jobListing.home.paginationSize'] %>)" items-per-page="<%= config['jobListing.home.paginationSize'] %>" class="pagination-sm text-center" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+					<pagination total-items="jobs.count" ng-model="currentPage" ng-change="getListing(currentPage - 1, <%= config['jobListing.home.paginationSize'] %>)" items-per-page="<%= config['jobListing.home.paginationSize'] %>" class="pagination-sm text-center" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
 				</div>
 			</div>
 		</div>

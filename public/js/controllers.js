@@ -29,9 +29,7 @@ angular
 	.controller('homeCtrl', ['$scope', 'resources', 'config', 'ngToast', '$sce', function ($scope, resources, config, ngToast, $sce) {
 		$scope.root.title = ['Home', config.siteName].join(' | ');
 
-		$scope.getListing = function (currentPage, limit) {
-			var
-				offset = currentPage - 1;
+		$scope.getListing = function (offset, limit) {
 			resources.publicData.Jobs
 				.get({ offset : offset, limit : limit })
 				.$promise
@@ -333,21 +331,16 @@ angular
 		$scope.displayValidation = {};
 		$scope.toggle = {};
 
-		$scope.getCompanies = function (currentPage, limit) {
-			var
-				offset = currentPage - 1;
-
-			resources.Companies
-				.get({ offset : offset, limit : limit })
-				.$promise
-				.then(function (data) {
-					$scope.companies = data;
-				}, function (err) {
-					ngToast.danger({
-						content : err.data.msg
-					});
+		resources.Company
+			.query()
+			.$promise
+			.then(function (data) {
+				$scope.companies = data;
+			}, function (err) {
+				ngToast.danger({
+					content : err.data.msg
 				});
-		}
+			});
 
 		$scope.saveCompany = function ($event, formData) {
 			if ($scope.companyForm.$invalid) {
@@ -361,7 +354,7 @@ angular
 					ngToast.success({
 						content : data.msg
 					});
-					$scope.getCompanies(1, data.config['companyListing.companyForm.paginationSize']);
+					$scope.companies = data.companies;
 					$scope.company = null;
 				}, function (err) {
 					ngToast.danger({
