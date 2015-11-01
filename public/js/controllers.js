@@ -458,6 +458,10 @@ angular
 					});
 				});
 		}
+
+		$scope.archiveJob = function (job) {
+			
+		}
 	}])
 	.controller('guideCtrl', ['$scope', 'config', function ($scope, config) {
 		$scope.root.title = ['Guide', config.siteName].join(' | ');

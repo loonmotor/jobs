@@ -11,7 +11,8 @@
 					{{ job.location }}
 					&nbsp;
 					<a href="" ng-click="toggle.job = true; $event.preventDefault(); editJob(job)">Edit</a> · 
-					<a href="" ng-click="removeJob({ id : job._id })">Remove</a>
+					<a href="" ng-click="removeJob({ id : job._id, companyId : job.companyId })">Remove</a> · 
+					<a href="" ng-click="archiveJob({ id : job._id })">Archive</a>
 				</li>
 			</ul>
 		</div>

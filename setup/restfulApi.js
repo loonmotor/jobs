@@ -463,21 +463,38 @@ restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 });
 
 restfulApi.use('Job', 'DELETE', function (resourceName, req, res, done) {
-	var
-		query = { _id : objectid(req.params.id) }
-		, updateCommand;
 
-	db.Job.findAndModify({
-		query  : query,
-		remove : true
-	}, function (err, doc) {
+	async.series([
+		function (ok) {
+			db.Company.findOne({ _id : objectid(req.query.companyId) }, function (err, company) {
+				if (err) {
+					return ok(err);
+				}
+				if (!company
+					|| company.userId !== req.user._id) {
+					return ok({
+						code : 'jobremovefailed',
+						msg  : 'Failed to remove job'
+					});
+				}
+				ok();
+			});
+		},
+		function (ok) {
+			db.Job.remove({ _id : objectid(req.params.id) }, function (err, doc) {
+				if (err) {
+					return ok(err);
+				}
+				ok();
+			});
+		}
+	], function (err) {
 		if (err) {
 			return done(err);
 		}
-
 		done();
-
 	});
+
 });
 
 restfulApi.use(['Jobs', 'Job'], ['GET', 'DELETE', 'POST'], function (resourceName, req, res, done) {
