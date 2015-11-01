@@ -44,6 +44,19 @@
 		</div>
 
 		<div class="form-group">
+			<label for="phones">Phones *</label>
+			<tags-input name="phones" id="phones" class="form-control" ng-model="company.phones" placeholder="Add phone numbers" replace-spaces-with-dashes="false"></tags-input>
+		</div>
+
+		<div class="form-group">
+			<label for="email">Email *</label>
+			<input type="text" name="email" id="email" class="form-control" ng-model="company.email" placeholder="Your company email" required>
+			<div ng-messages="companyForm.email.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
+
+		<div class="form-group">
 			<label for="location">Location *</label>
 			<input type="text" name="location" id="location" class="form-control" ng-model="company.location" placeholder="Your company location" required>
 			<div ng-messages="companyForm.location.$error">

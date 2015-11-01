@@ -392,7 +392,7 @@ angular
 		$scope.displayValidation = {};
 		$scope.toggle = {};
 
-		resources.Job
+		resources.Jobs
 			.query()
 			.$promise
 			.then(function (data) {

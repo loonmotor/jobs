@@ -31,7 +31,7 @@
 			<td>Can remote</td>
 			<td>{{ profile.canRemote | yesNo }}</td>
 		</tr>
-		<tr>
+		<tr ng-if="profile.canRelocate">
 			<td>Can relocate</td>
 			<td>{{ profile.canRelocate }}</td>
 		</tr>
@@ -90,15 +90,19 @@
 				</table>
 			</td>
 		</tr>
+		<tr ng-if="profile.experiences.length > 0">
 			<td>Experiences</td>
 			<td>
 				<ul>
 					<li ng-repeat="experience in profile.experiences">
 						{{ experience.companyName }} - {{ experience.title }} - {{ experience.startDate | date:'dd/MM/yyyy' }} - {{ experience.endDate | date:'dd/MM/yyyy' }}
+						<br>
+						{{ experience.description }}
 					</li>
 				</ul>
 			</td>
 		</tr>
+		<tr ng-if="profile.educations.length > 0">
 			<td>Educations</td>
 			<td>
 				<ul>
@@ -108,6 +112,15 @@
 				</ul>
 			</td>
 		</tr>
-		<tr>
+		<tr ng-if="profile.skills.length > 0">
+			<td>Skills</td>
+			<td>
+				<ul>
+					<li ng-repeat="skill in profile.skills">
+						{{ skill.name }} - {{ skill.level }}
+					</li>
+				</ul>
+			</td>
+		</tr>
 	</table>
 </div>

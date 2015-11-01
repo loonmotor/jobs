@@ -93,6 +93,8 @@ Company
 	name 		: String,
 	logo 		: String,
 	website 	: String,
+	phones		: [String],
+	email		: String,
 	location 	: String,
 	markets 	: Array,
 	teamSize 	: String,

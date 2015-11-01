@@ -14,4 +14,26 @@ angular
 		return function (val) {
 			return $sce.trustAsResourceUrl(val);
 		}
+	}])
+	.filter('trustAsHtml', ['$sce', function ($sce) {
+		return $sce.trustAsHtml;
+	}])
+	.filter('map', [function () {
+		return function (list, propertyName) {
+			if (!list) {
+				return list;
+			}
+			console.log(list);
+			return list.map(function (item) {
+				return item[propertyName];
+			});
+		}
+	}])
+	.filter('join', [function () {
+		return function (list, delimiter) {
+			if (!list) {
+				return list;
+			}
+			return list.join(delimiter);
+		}
 	}]);

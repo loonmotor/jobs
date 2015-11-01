@@ -14,6 +14,14 @@
 			<td><a href="{{ company.website }}" target="_blank">{{ company.website }}</a></td>
 		</tr>
 		<tr>
+			<td>Company phones</td>
+			<td ng-bind-html="company.phones.join('<br>') | trustAsHtml"></td>
+		</tr>
+		<tr>
+			<td>Company email</td>
+			<td>{{ company.email }}</td>
+		</tr>
+		<tr>
 			<td>Company location</td>
 			<td>
 				{{ company.location }}
@@ -24,6 +32,10 @@
 				  src="{{ 'https://www.google.com/maps/embed/v1/place?key=AIzaSyAuUOQdQDVri4dfs9myDmbBOkNF4DoSU1g&q=' + company.location | trustAsResourceUrl }}" allowfullscreen>
 				</iframe>
 			</td>
+		</tr>
+		<tr>
+			<td>Markets</td>
+			<td ng-bind-html="company.markets | map:'text' | join:'<br>' | trustAsHtml"></td>
 		</tr>
 		<tr>
 			<td>Company team size</td>
@@ -41,7 +53,7 @@
 
 	<br>
 
-	<h3>Job Offers by {{company.name}}</h3>
+	<h3>Jobs Offered by {{company.name}}</h3>
 	<table class="table table-condensed">
 		<thead>
 	        <tr>

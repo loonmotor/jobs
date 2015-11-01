@@ -15,7 +15,8 @@ angular
 			'resourceUrl' : {
 				'Profile' : '/data/profile',
 				'Company' : '/data/company',
-				'Job'     : '/data/job',
+				'Job'     : '/data/job/:id',
+				'Jobs'    : '/data/jobs',
 				'JobInterested' : '/data/job/interested',
 				'JobUninterested' : '/data/job/uninterested',
 				'InterestJobs' : '/data/interest/jobs',

@@ -10,6 +10,7 @@ restfulApi.use(['template.Profile',
 				'template.Interest',
 				'Profile',
 				'Company', 
+				'Jobs',
 				'Job',
 				'Interest',
 				'Interest.Jobs',
@@ -25,6 +26,7 @@ restfulApi.use(['template.Profile',
 
 restfulApi.use(['Profile', 
 				'Company', 
+				'Jobs',
 				'Job',
 				'Job.Interested',
 				'Job.Uninterested'], 'POST', function (resourceName, req, res, done) {
@@ -38,7 +40,8 @@ restfulApi.use(['Profile',
 });
 
 restfulApi.use(['Profile',
-				'Company'], 'DELETE', function (resourceName, req, res, done) {
+				'Company',
+				'Job'], 'DELETE', function (resourceName, req, res, done) {
 	if (!req.isAuthenticated()) {
 		return done({
 			code : 'notauthenticated',
@@ -73,7 +76,7 @@ restfulApi.use('template.Company', 'GET', function (resourceName, req, res, done
 		if (!companies) {
 			companies = [];
 		}
-		res.render('company', {});
+		res.render('company-form', {});
 		done();
 	});
 
@@ -310,6 +313,12 @@ restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
 			'name'     : req.body.name,
 			'logo'     : req.body.logo,
 			'website'  : req.body.website,
+			'phones'   : (function () {
+				return req.body.phones && req.body.phones.map(function (phone) {
+					return phone.text;
+				});
+			})(),
+			'email'	   : req.body.email,
 			'location' : req.body.location,
 			'markets'  : req.body.markets,
 			'teamSize' : req.body.teamSize,
@@ -455,7 +464,7 @@ restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 
 restfulApi.use('Job', 'DELETE', function (resourceName, req, res, done) {
 	var
-		query = { companyId : req.query.companyId, modified : req.query.modified }
+		query = { _id : objectid(req.params.id) }
 		, updateCommand;
 
 	db.Job.findAndModify({
@@ -471,7 +480,7 @@ restfulApi.use('Job', 'DELETE', function (resourceName, req, res, done) {
 	});
 });
 
-restfulApi.use('Job', ['GET', 'DELETE', 'POST'], function (resourceName, req, res, done) {
+restfulApi.use(['Jobs', 'Job'], ['GET', 'DELETE', 'POST'], function (resourceName, req, res, done) {
 
 	db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
 		if (err) {
@@ -489,6 +498,10 @@ restfulApi.use('Job', ['GET', 'DELETE', 'POST'], function (resourceName, req, re
 		});
 	});
 
+});
+
+restfulApi.use('Jobs', 'GET', function (resourceName, req, res, done) {
+	res.json(req.results);
 });
 
 restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
