@@ -17,7 +17,7 @@
 		<li ng-repeat="company in interestApplicants">
 			{{ company.name }} - {{ company.location }}
 			<ul>
-				<li ng-repeat="job in company.jobs" ng-if="job.interests.length > 0">
+				<li ng-repeat="job in company.jobs">
 					{{ job.title }} - {{ job.jobType }}
 					<ul>
 						<li ng-repeat="applicant in job.interests">

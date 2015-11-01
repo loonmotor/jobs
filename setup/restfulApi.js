@@ -638,7 +638,7 @@ restfulApi.use('Job.Uninterested', 'POST', function (resourceName, req, res, don
 });
 
 restfulApi.use('Interest.Jobs', 'GET', function (resourceName, req, res, done) {
-	db.Job.find({ 'interests.userId' : req.user._id }, function (err, jobs) {
+	db.Job.find({ 'interests.userId' : req.user._id, archived : false }, function (err, jobs) {
 		if (err) {
 			return done({
 				code : 'jobinterestslookuperror',
@@ -668,7 +668,7 @@ restfulApi.use('Interest.Applicants', 'GET', function (resourceName, req, res, d
 		companies = req.results;
 
 	async.map(companies, function (company, ok) {
-		db.Job.find({ companyId : company._id.toString() }, function (err, jobs) {
+		db.Job.find({ companyId : company._id.toString(), archived : false }, function (err, jobs) {
 			if (err) {
 				return ok(err);
 			}
