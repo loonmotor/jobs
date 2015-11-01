@@ -460,7 +460,19 @@ angular
 		}
 
 		$scope.archiveJob = function (job) {
-			
+			resources.JobArchive
+				.save(job)
+				.$promise
+				.then(function (data) {
+					ngToast.success({
+						content : data.msg
+					});
+					$scope.jobs = data.jobs;
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
 		}
 	}])
 	.controller('guideCtrl', ['$scope', 'config', function ($scope, config) {
@@ -589,5 +601,35 @@ angular
 					content : err.data.msg
 				});
 			});
+
+	}])
+	.controller('archivedJobsCtrl', ['$scope', 'resources', 'ngToast', function ($scope, resources, ngToast) {
+
+		resources.JobsArchived
+			.query()
+			.$promise
+			.then(function (data) {
+				$scope.jobs = data;
+			}, function (err) {
+				ngToast.danger({
+					content : err.data.msg
+				});
+			});
+
+		$scope.unarchiveJob = function (job) {
+			resources.JobUnarchive
+				.save(job)
+				.$promise
+				.then(function (data) {
+					ngToast.success({
+						content : data.msg
+					});
+					$scope.jobs = data.jobs;
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
+		}
 
 	}]);

@@ -14,7 +14,8 @@ restfulApi.use(['template.Profile',
 				'Job',
 				'Interest',
 				'Interest.Jobs',
-				'Interest.Applicants'], 'GET', function (resourceName, req, res, done) {
+				'Interest.Applicants',
+				'Jobs.Archived'], 'GET', function (resourceName, req, res, done) {
 	if (!req.isAuthenticated()) {
 		return done({
 			code : 'notauthenticated',
@@ -29,7 +30,9 @@ restfulApi.use(['Profile',
 				'Jobs',
 				'Job',
 				'Job.Interested',
-				'Job.Uninterested'], 'POST', function (resourceName, req, res, done) {
+				'Job.Uninterested',
+				'Job.Archive',
+				'Job.Unarchive'], 'POST', function (resourceName, req, res, done) {
 	if (!req.isAuthenticated()) {
 		return done({
 			code : 'notauthenticated',
@@ -436,7 +439,9 @@ restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 					'company.name'     : company.name,
 					'company.location' : company.location,
 					'company.logo'     : company.logo,
-					'company.website'  : company.website
+					'company.website'  : company.website,
+					'userId'		   : req.user._id,
+					'archived'		   : false
 				}
 			};
 
@@ -497,24 +502,42 @@ restfulApi.use('Job', 'DELETE', function (resourceName, req, res, done) {
 
 });
 
-restfulApi.use(['Jobs', 'Job'], ['GET', 'DELETE', 'POST'], function (resourceName, req, res, done) {
+restfulApi.use('Job.Archive', 'POST', function (resourceName, req, res, done) {
 
-	db.Company.find({ userId : req.user._id }, { _id : 1, name : 1, location : 1 }, function (err, companies) {
-		if (err) {
-			return done({ code : 'companyLookUpError', msg : 'Company look up error' });
-		}
-		var companyIds = companies.map(function (company) {
-			return company._id.toString();
-		});
-		db.Job.find({ companyId : { '$in' : companyIds }}, function (err, jobs) {
-			if (err) {
-				return done(err);
+	db.Job.findAndModify({
+		query : { _id : objectid(req.body.id), userId : req.user._id },
+		update : {
+			'$set' : {
+				'archived' : true
 			}
-			req.results = jobs;
-			done();
-		});
+		}
+	}, function (err, job) {
+		if (err) {
+			return done(err);
+		}
+		done();
 	});
 
+});
+
+restfulApi.use(['Jobs', 'Job', 'Job.Archive'], ['GET', 'DELETE', 'POST'], function (resourceName, req, res, done) {
+
+	db.Job.find({ userId : req.user._id, archived : false }, function (err, jobs) {
+		if (err) {
+			return ok(err);
+		}
+		req.results = jobs;
+		done();
+	});
+
+});
+
+restfulApi.use('Job.Archive', 'POST', function (resourceName, req, res, done) {
+	res.json({
+		code : 'jobarchivesuccess',
+		msg  : 'Job has been archived',
+		jobs : req.results
+	});
 });
 
 restfulApi.use('Jobs', 'GET', function (resourceName, req, res, done) {
@@ -674,7 +697,7 @@ restfulApi.use('publicData.Jobs', 'GET', function (resourceName, req, res, done)
 		},
 		listing : function (ok) {
 			db.Job
-				.find({})
+				.find({ archived : false })
 				.limit(req.params.limit)
 				.sort({ $natural : -1 })
 				.skip(req.params.offset * req.params.limit, function (err, jobs) {					
@@ -794,4 +817,48 @@ restfulApi.use('publicData.Profile', 'GET', function (resourceName, req, res, do
 		res.json(profile);
 		done();
 	});
+});
+
+restfulApi.use('Job.Unarchive', 'POST', function (resourceName, req, res, done) {
+
+	db.Job.findAndModify({
+		query : { _id : objectid(req.body.id), userId : req.user._id },
+		update : {
+			'$set' : {
+				'archived' : false
+			}
+		}
+	}, function (err, job) {
+		if (err) {
+			return done(err);
+		}
+		done();
+	});
+
+});
+
+restfulApi.use(['Jobs.Archived', 'Job.Unarchive'], ['GET', 'POST'], function (resourceName, req, res, done) {
+
+	db.Job.find({ userId : req.user._id, archived : true }, function (err, jobs) {
+		if (err) {
+			return done(err);
+		}
+		req.results = jobs;
+		done();
+	});
+
+});
+
+restfulApi.use('Jobs.Archived', 'GET', function (resourceName, req,res, done) {
+	res.json(req.results);
+	done();
+});
+
+restfulApi.use('Job.Unarchive', 'POST', function (resourceName, req, res, done) {
+	res.json({
+		code : 'jobunarchivesuccess',
+		msg  : 'Job has been unarchived',
+		jobs : req.results
+	});
+	done();
 });

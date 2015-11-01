@@ -81,6 +81,15 @@ angular
 					}
 				}
 			})
+			.state('rootControl.archivedJobs', {
+				url : '/archived-jobs',
+				views : {
+					'main' : {
+						templateUrl : '/html/archived-jobs.html',
+						controller  : 'archivedJobsCtrl'
+					}
+				}
+			})
 			.state('guide', {
 				url : '/guide',
 				views : {

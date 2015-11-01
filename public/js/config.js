@@ -19,6 +19,9 @@ angular
 				'Jobs'    : '/data/jobs',
 				'JobInterested' : '/data/job/interested',
 				'JobUninterested' : '/data/job/uninterested',
+				'JobArchive' : '/data/job/archive',
+				'JobUnarchive' : '/data/job/unarchive',
+				'JobsArchived' : '/data/jobs/archived',
 				'InterestJobs' : '/data/interest/jobs',
 				'InterestApplicants' : '/data/interest/applicants',
 				'publicData' : {

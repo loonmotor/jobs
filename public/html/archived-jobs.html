@@ -1,0 +1,13 @@
+<h3>Archived Jobs</h3>
+<hr>
+
+<div class="well" ng-if="jobs && jobs.length > 0">
+	<ul>
+		<li ng-repeat="job in jobs">
+			{{ job.title }} -
+			{{ job.location }}
+			&nbsp;
+			<a href="" ng-click="unarchiveJob({ id : job._id, companyId : job.companyId })">Unarchive</a>
+		</li>
+	</ul>
+</div>

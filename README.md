@@ -136,6 +136,7 @@ Job
 			userId : ObjectId
 		}
 	]
-	companyId   	: ObjectId
+	companyId   	: ObjectId,
+	userId			: userId
 }
 ```

@@ -10,6 +10,9 @@ angular
 		apis.Jobs = $resource(config['resourceUrl']['Jobs']);
 		apis.JobInterested = $resource(config['resourceUrl']['JobInterested']);
 		apis.JobUninterested = $resource(config['resourceUrl']['JobUninterested']);
+		apis.JobArchive = $resource(config['resourceUrl']['JobArchive']);
+		apis.JobUnarchive = $resource(config['resourceUrl']['JobUnarchive']);
+		apis.JobsArchived = $resource(config['resourceUrl']['JobsArchived']);
 		apis.InterestJobs = $resource(config['resourceUrl']['InterestJobs']);
 		apis.InterestApplicants = $resource(config['resourceUrl']['InterestApplicants']);
 		apis.publicData = {
