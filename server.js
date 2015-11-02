@@ -91,4 +91,4 @@ app.use(function (err, req, res, next) { // production error handler
 		.send(err.message);
 });
 
-app.listen(3008);
+app.listen(config['port']);
