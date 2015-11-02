@@ -25,6 +25,8 @@ var
 require('./setup/passport')(); // passport
 require('./setup/restfulApi'); // restful api
 
+app.enable('trust proxy');
+
 app.engine('ejs', require('ejs').__express); // use ejs templating engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
