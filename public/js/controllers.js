@@ -23,7 +23,8 @@ angular
 			done();
 		});
 		$scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-			if (fromState.name === 'rootSignIn.signIn') {
+			if (['rootSignIn.signIn',
+				 'rootSignIn.signUp'].indexOf(fromState.name) > -1) {
 				return;
 			}
 			$state.prev = fromState.name || config['successSignInRedirectToState'];
