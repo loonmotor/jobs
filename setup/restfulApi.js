@@ -1,12 +1,14 @@
 var
-restfulApi = require('../modules/restfulApi')
-, db = require('./mongojs')
-, async = require('async')
-, objectid = require('objectid')
-, elasticsearch = require('elasticsearch')
-, esClient = new elasticsearch.Client({
+	restfulApi = require('../modules/restfulApi')
+	, db = require('./mongojs')
+	, async = require('async')
+	, objectid = require('objectid')
+	, elasticsearch = require('elasticsearch')
+	, esClient = new elasticsearch.Client({
 
-});
+	})
+	, esJobPicker = require('../modules/util').pick(['title', 'company.name', 'location'])
+	, logger = require('../modules/logger');
 
 restfulApi.use(['template.Profile', 
 	'template.Company', 
@@ -357,10 +359,33 @@ restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
 				}
 			};
 			db.Job.update({ companyId : company._id.toString() }, updateCommand, { multi : true }, function (err, results) {
+				console.log(results);
 				if (err) {
 					return ok(err);
 				}
-				ok();
+				ok(null, company);
+			});
+		},
+		function (company, ok) {
+			db.Job.find({ companyId : company._id.toString() }, function (err, results) {
+				if (err) {
+					return ok(err);
+				}
+
+				async.each(results, function (job, k) {
+					esClient.index({
+						index : 'db',
+						type : 'jobs',
+						id : job._id.toString(),
+						body : esJobPicker(job)
+					}, function (err) {
+						k();
+					});
+				}, function (err, results) {
+					logger.error(err);
+					ok();
+				});
+
 			});
 		},
 		function (ok) {
@@ -379,10 +404,6 @@ restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
 		}
 		done();
 	});
-
-
-
-	
 
 });
 
@@ -408,6 +429,9 @@ restfulApi.use('Company', 'DELETE', function (resourceName, req, res, done) {
 				ok();
 			});
 		},
+
+	
+
 		function (ok) {
 			db.Company.find({ userId : req.user._id }, function (err, companies) {
 				if (err) {
@@ -487,22 +511,33 @@ restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 				if (err) {
 					return ok(err);
 				}
-				ok();
+				ok(null, job);
 			});
 
 		},
-		], function (err, results) {
-			if (err) {
-				return done(err);
-			}
-			done();
-		});
+		function (job, ok) {
+			esClient.index({
+				index : 'db',
+				type : 'jobs',
+				id : job._id.toString(),
+				body : esJobPicker(job)
+			}, function (err) {
+				logger.error(err);
+				ok();
+			});
+		}
+	], function (err, results) {
+		if (err) {
+			return done(err);
+		}
+		done();
+	});
 
 });
 
 restfulApi.use('Job', 'DELETE', function (resourceName, req, res, done) {
 
-	async.series([
+	async.waterfall([
 		function (ok) {
 			db.Company.findOne({ _id : objectid(req.query.companyId) }, function (err, company) {
 				if (err) {
@@ -519,32 +554,64 @@ restfulApi.use('Job', 'DELETE', function (resourceName, req, res, done) {
 		});
 		},
 		function (ok) {
-			db.Job.remove({ _id : objectid(req.params.id) }, function (err, doc) {
+			db.Job.findAndModify({
+				query : { _id : objectid(req.params.id) },
+				remove : true
+			}, function (err, doc) {
 				if (err) {
 					return ok(err);
 				}
+				ok(null, doc);
+			});
+		},
+		function (job, ok) {
+			esClient.delete({
+				index : 'db',
+				type : 'jobs',
+				id : job._id.toString(),
+			}, function (err, response) {
+				logger.error(err);
 				ok();
 			});
 		}
-		], function (err) {
-			if (err) {
-				return done(err);
-			}
-			done();
-		});
+	], function (err) {
+		if (err) {
+			return done(err);
+		}
+		done();
+	});
 
 });
 
 restfulApi.use('Job.Archive', 'POST', function (resourceName, req, res, done) {
 
-	db.Job.findAndModify({
-		query : { _id : objectid(req.body.id), userId : req.user._id },
-		update : {
-			'$set' : {
-				'archived' : true
-			}
+	async.waterfall([
+		function (ok) {
+			db.Job.findAndModify({
+				query : { _id : objectid(req.body.id), userId : req.user._id },
+				update : {
+					'$set' : {
+						'archived' : true
+					}
+				}
+			}, function (err, job) {
+				if (err) {
+					return ok(err);
+				}
+				ok(null, job);
+			});
+		},
+		function (job, ok) {
+			esClient.delete({
+				index : 'db',
+				type : 'jobs',
+				id : job._id.toString(),
+			}, function (err, response) {
+				logger.error(err);
+				ok();
+			});
 		}
-	}, function (err, job) {
+	], function (err, results) {
 		if (err) {
 			return done(err);
 		}
@@ -854,14 +921,35 @@ restfulApi.use('publicData.Profile', 'GET', function (resourceName, req, res, do
 
 restfulApi.use('Job.Unarchive', 'POST', function (resourceName, req, res, done) {
 
-	db.Job.findAndModify({
-		query : { _id : objectid(req.body.id), userId : req.user._id },
-		update : {
-			'$set' : {
-				'archived' : false
-			}
+	async.waterfall([
+		function (ok) {
+			db.Job.findAndModify({
+				query : { _id : objectid(req.body.id), userId : req.user._id },
+				update : {
+					'$set' : {
+						'archived' : false
+					}
+				},
+				new : true
+			}, function (err, job) {
+				if (err) {
+					return ok(err);
+				}
+				ok(null, job);
+			});
+		},
+		function (job, ok) {
+			esClient.index({
+				index : 'db',
+				type : 'jobs',
+				id : job._id.toString(),
+				body : esJobPicker(job)
+			}, function (err) {
+				logger.error(err);
+				ok();
+			});
 		}
-	}, function (err, job) {
+	], function (err, results) {
 		if (err) {
 			return done(err);
 		}
@@ -908,13 +996,13 @@ restfulApi.use('publicData.Search', 'GET', function (resourceName, req, res, don
 						"multi_match" : {
 							"query" : req.params.query,
 							"type" : "cross_fields",
-							"fields" : ["jobTitle.ngram", "companyName.ngram", "location.ngram"]
+							"fields" : ["title.ngram", "companyName.ngram", "location.ngram"]
 						}  
 					},
 					"should" : [
 					{
 						"match" : {
-							"jobTitle.shingle" : {
+							"title.shingle" : {
 								"query" : req.params.query,
 								"boost" : 5
 							}
