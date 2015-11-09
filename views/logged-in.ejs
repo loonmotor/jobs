@@ -2,6 +2,6 @@
   <li role="presentation" ng-class="$state.includes('home') ? 'active' : ''"><a ui-sref="home">Home <span class="badge"></span></a></li>
   <li role="presentation" ng-class="$state.includes('rootControl') ? 'active' : ''"><a ui-sref="rootControl">Administration</a></li>
   <li role="presentation" ng-class="$state.includes('guide') ? 'active' : ''"><a ui-sref="guide">Guide</a></li>
-  <li role="presentation" class="pull-right"><a href="/auth/sign-out">Sign Out <span class="badge"></span></a></li>
+  <li role="presentation" class="pull-right"><a ui-sref="signOut">Sign Out <span class="badge"></span></a></li>
   <li role="presentation" class="pull-right"><a ui-sref="rootControl.profile">Logged in as <%= user.email %></a></li>
 </ul>

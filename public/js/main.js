@@ -125,6 +125,15 @@ angular
 						controller 	: 'profileViewCtrl'
 					}
 				}
+			})
+			.state('signOut', {
+				url : '/sign-out',
+				views : {
+					'main' : {
+						templateUrl : '/html/sign-out.html',
+						controller : 'signOutCtrl'
+					}
+				}
 			});
 
 		ngToastProvider.configure({

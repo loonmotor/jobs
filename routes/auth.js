@@ -4,7 +4,8 @@ var
 	express = require('express')
 	, router = express.Router()
 	, passport = require('passport')
-	, config = require('../config');
+	, config = require('../config')
+	, path = require('path');
 
 router.get('/google/:return?', passport.authenticate('google', {
 	successRedirect : config['auth.google.successRedirect'],
@@ -57,7 +58,14 @@ router.post('/local-signin', function (req, res, next) {
 
 router.get('/sign-out', function (req, res) {
 	req.logout();
-	res.redirect(config['auth.signOutRedirect']);
+	res.json({
+		code : 'successSignOut',
+		msg : 'You have been signed out'
+	});
+});
+
+router.get('/oauth-success', function (req, res) {
+	res.sendFile('success.html', { root : path.join(__dirname, '../public', 'html') });
 });
 
 module.exports = router;

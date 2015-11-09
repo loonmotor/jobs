@@ -1,23 +1,32 @@
 angular
 	.module('jobs')
-	.controller('rootCtrl', ['$scope', '$http', 'pubsub', 'config', '$state', 'ngToast', '$sce', 'resources', function ($scope, $http, pubsub, config, $state, ngToast, $sce, resources) {
+	.controller('rootCtrl', ['$scope', '$http', 'pubsub', 'config', '$state', 'ngToast', '$sce', 'resources', '$window', function ($scope, $http, pubsub, config, $state, ngToast, $sce, resources, $window) {
 		$scope.root = {};
 		$scope.root.templateUrl = config['templateUrl'];
 		$scope.$state = $state;
 		pubsub.subscribe('ajaxResponse', 'to check authentication state', function (args, done) {
-			if (args
-				&& (args.code == 'notauthenticated'
-				|| args.code == 'successSignIn'
-				|| args.code == 'successSignUp')) {
+			if (args && 
+				[ 'notauthenticated',
+				  'successSignIn',
+				  'successSignUp',
+				  'successSignOut'
+				].indexOf(args.code) > -1) {
 				$scope.root.templateUrl.loggedInState = $scope.root.templateUrl.loggedInState + '?time=' + Date.now();
 			}
-			if (args.code == 'notauthenticated') {
+			if (args &&
+				['notauthenticated'].indexOf(args.code) > -1) {
 				ngToast.info({
 					content : $sce.trustAsHtml('<a ui-sref="rootSignIn.signIn">Please sign in</a>'),
 					compileContent : true
 				});
 			}
 			done();
+		});
+		$scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+			if (fromState.name === 'rootSignIn.signIn') {
+				return;
+			}
+			$state.prev = fromState.name || config['successSignInRedirectToState'];
 		});
 		$scope.getImage = function (imageSrc) {
 			if (!imageSrc) {
@@ -36,6 +45,10 @@ angular
 				}, function (err) {
 					console.log(err);
 				});
+		}
+		$window.successRedirect = function () {
+			pubsub.publish('ajaxResponse', { code : 'successSignIn' });
+			$state.go($state.prev);
 		}
 	}])
 	.controller('homeCtrl', ['$scope', 'resources', 'config', 'ngToast', '$sce', function ($scope, resources, config, ngToast, $sce) {
@@ -94,7 +107,7 @@ angular
 		}
 
 	}])
-	.controller('signInCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', '$timeout', function ($scope, $http, config, ngToast, $location, $timeout) {
+	.controller('signInCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', '$timeout', '$state', function ($scope, $http, config, ngToast, $location, $timeout, $state) {
 		$scope.root.title = ['Sign In', config.siteName].join(' | ');
 
 		$scope.signIn = function ($event, formData) {
@@ -103,7 +116,7 @@ angular
 				return;
 			}
 			$http
-				.post('/auth/local-signin', formData)
+				.post(config['authUrl']['local']['signIn'], formData)
 				.success(function (user) {
 					ngToast.success({
 						content : 'Sign in is successful'
@@ -111,9 +124,7 @@ angular
 					ngToast.success({
 						content : 'Redirecting...'
 					});
-					$timeout(function () {
-						$location.path(config['localSignInRedirect']);
-					}, 500);
+					$state.go($state.prev);
 
 				})
 				.error(function (err) {
@@ -123,7 +134,7 @@ angular
 				});
 		}
 	}])
-	.controller('signUpCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', '$timeout', function ($scope, $http, config, ngToast, $location, $timeout) {
+	.controller('signUpCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', '$timeout', '$state', function ($scope, $http, config, ngToast, $location, $timeout, $state) {
 		$scope.root.title = ['Sign Up', config.siteName].join(' | ');
 		$scope.signUp = function ($event, formData) {
 			if ($scope.signUpForm.$invalid) {
@@ -131,7 +142,7 @@ angular
 				return;
 			}
 			$http
-				.post('/auth/local-signup', formData)
+				.post(config['authUrl']['local']['signUp'], formData)
 				.success(function (data) {
 					ngToast.success({
 						content : data.msg
@@ -139,9 +150,7 @@ angular
 					ngToast.success({
 						content : 'Redirecting...'
 					});
-					$timeout(function () {
-						$location.path('/');
-					}, 3000);
+					$state.go($state.prev);
 
 				})
 				.error(function (err) {
@@ -644,4 +653,19 @@ angular
 				});
 		}
 
+	}])
+	.controller('signOutCtrl', ['$scope', '$state', 'config', '$http', 'ngToast', function ($scope, $state, config, $http, ngToast) {
+		$http
+			.get(config['authUrl']['signOut'])
+			.success(function (data) {
+				ngToast.success({
+					content : data.msg
+				});
+				$state.go(config['successSignOutRedirectToState']);
+			})
+			.error(function (err) {
+				ngToast.danger({
+					content : err.data.msg
+				});
+			});
 	}]);

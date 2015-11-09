@@ -33,6 +33,14 @@ angular
 					"Search" : '/public/data/search/:query'
 				}
 			},
-			'localSignInRedirect' : '/'
+			'authUrl' : {
+				'local' : {
+					'signIn' : '/auth/local-signin',
+					'signUp' : '/auth/local-signup'
+				}, 
+				'signOut' : '/auth/sign-out'
+			},
+			'successSignInRedirectToState' : 'home',
+			'successSignOutRedirectToState' : 'home'
 		};
 	}]);
