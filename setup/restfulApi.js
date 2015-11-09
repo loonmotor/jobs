@@ -311,49 +311,78 @@ restfulApi.use('Company', 'GET', function (resourceName, req, res, done) {
 });
 
 restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
-	var
-	query = { userId : req.user._id, modified : req.body.modified }
-	, updateCommand;
 
-	updateCommand = {
-		'$set' : {
-			'name'     : req.body.name,
-			'logo'     : req.body.logo,
-			'website'  : req.body.website,
-			'phones'   : (function () {
-				return req.body.phones && req.body.phones.map(function (phone) {
-					return phone.text;
+	async.waterfall([
+		function (ok) {
+			var updateCommand = {
+				'$set' : {
+					'name'     : req.body.name,
+					'logo'     : req.body.logo,
+					'website'  : req.body.website,
+					'phones'   : (function () {
+						return req.body.phones && req.body.phones.map(function (phone) {
+							return phone.text;
+						});
+					})(),
+					'email'	   : req.body.email,
+					'location' : req.body.location,
+					'markets'  : req.body.markets,
+					'teamSize' : req.body.teamSize,
+					'slogan'   : req.body.slogan,
+					'whyus'    : req.body.whyus,
+					'product'  : req.body.product,
+					'modified' : Date.now().toString()
+				}
+			};
+
+			db.Company.findAndModify({
+				query  : { userId : req.user._id, modified : req.body.modified },
+				update : updateCommand,
+				upsert : true,
+				new : true,
+			}, function (err, company) {
+				if (err) {
+					return ok(err);
+				}
+				ok(null, company);
+			});
+		},
+		function (company, ok) {
+			var updateCommand = {
+				'$set' : {
+					'company.name' : company.name,
+					'company.logo' : company.logo,
+					'company.website' : company.website,
+					'company.teamSize' : company.teamSize
+				}
+			};
+			db.Job.update({ companyId : company._id.toString() }, updateCommand, { multi : true }, function (err, results) {
+				if (err) {
+					return ok(err);
+				}
+				ok();
+			});
+		},
+		function (ok) {
+			db.Company.find({ userId : req.user._id }, function (err, companies) {
+				res.json({
+					code : 'updatesuccess',
+					msg  : 'Saved successfully',
+					companies : companies
 				});
-			})(),
-			'email'	   : req.body.email,
-			'location' : req.body.location,
-			'markets'  : req.body.markets,
-			'teamSize' : req.body.teamSize,
-			'slogan'   : req.body.slogan,
-			'whyus'    : req.body.whyus,
-			'product'  : req.body.product,
-			'modified' : Date.now().toString()
+				ok();
+			});
 		}
-	};
-
-	db.Company.findAndModify({
-		query  : query,
-		update : updateCommand,
-		upsert : true,
-		new : true,
-	}, function (err, company) {
+	], function (err, results) {
 		if (err) {
 			return done(err);
 		}
-		db.Company.find({ userId : req.user._id }, function (err, companies) {
-			res.json({
-				code : 'updatesuccess',
-				msg  : 'Saved successfully',
-				companies : companies
-			})
-			done();
-		});
+		done();
 	});
+
+
+
+	
 
 });
 
