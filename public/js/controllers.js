@@ -30,15 +30,8 @@ angular
 				.get({ query : query })
 				.$promise
 				.then(function (data) {
-					console.log(data.hits.hits.map(function (item) {
-						return item._source.jobTitle;
-					}))
 					return data.hits.hits.map(function (item) {
-						return {
-							jobTitle : item._source.jobTitle,
-							companyName : item._source.companyName,
-							location : item._source.location
-						};
+						return item._source;
 					});
 				}, function (err) {
 					console.log(err);
