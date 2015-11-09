@@ -20,7 +20,8 @@ angular
 			Job  : $resource(config['resourceUrl']['publicData']['Job']),
 			Company : $resource(config['resourceUrl']['publicData']['Company']),
 			CompanyJobs : $resource(config['resourceUrl']['publicData']['CompanyJobs']),
-			Profile : $resource(config['resourceUrl']['publicData']['Profile'])
+			Profile : $resource(config['resourceUrl']['publicData']['Profile']),
+			Search : $resource(config['resourceUrl']['publicData']['Search'])
 		};
 
 		return apis;

@@ -23,11 +23,33 @@
 			</div>
 		</div>
 
+		<div class="row">
+			<div class="col-sm-12">
+				<form class="form">
+					<div class="form-group">
+						<input type="text" ng-model="query" placeholder="" typeahead="(query.jobTitle + ', ' + query.companyName + ', ' + query.location) as query for query in search($viewValue)" typeahead-loading="true" typeahead-wait-ms="500" typeahead-template-url="search-results.html" class="form-control">
+						<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+					</div>
+					<button type="submit" class="btn btn-default">Search</button>
+				</form>
+				<div class="clearfix"></div>
+				<br>
+			</div>
+		</div>
+
 		<div ui-view="main"></div>
 
-	</div>	
+	</div>
 
 	<toast></toast>
+
+	<script type="text/ng-template" id="search-results.html">
+		<a>
+			<div ng-bind-template="{{ match.label.jobTitle }}"></div>
+			<div ng-bind-template="{{ match.label.companyName }}"></div>
+			<div ng-bind-template="{{ match.label.location }}"></div>
+		</a>
+	</script>
 
 	<script src="/js/external/angular.min.js"></script>
 	<script src="/js/external/angular-ui-router.min.js"></script>

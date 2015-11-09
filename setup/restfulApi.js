@@ -1,58 +1,62 @@
 var
-	restfulApi = require('../modules/restfulApi')
-	, db = require('./mongojs')
-	, async = require('async')
-	, objectid = require('objectid');
+restfulApi = require('../modules/restfulApi')
+, db = require('./mongojs')
+, async = require('async')
+, objectid = require('objectid')
+, elasticsearch = require('elasticsearch')
+, esClient = new elasticsearch.Client({
+
+});
 
 restfulApi.use(['template.Profile', 
-				'template.Company', 
-				'template.JobForm', 
-				'template.Interest',
-				'Profile',
-				'Company', 
-				'Jobs',
-				'Job',
-				'Interest',
-				'Interest.Jobs',
-				'Interest.Applicants',
-				'Jobs.Archived'], 'GET', function (resourceName, req, res, done) {
-	if (!req.isAuthenticated()) {
-		return done({
-			code : 'notauthenticated',
-			msg  : 'Not authenticated'
-		});
-	}
-	done();
-});
+	'template.Company', 
+	'template.JobForm', 
+	'template.Interest',
+	'Profile',
+	'Company', 
+	'Jobs',
+	'Job',
+	'Interest',
+	'Interest.Jobs',
+	'Interest.Applicants',
+	'Jobs.Archived'], 'GET', function (resourceName, req, res, done) {
+		if (!req.isAuthenticated()) {
+			return done({
+				code : 'notauthenticated',
+				msg  : 'Not authenticated'
+			});
+		}
+		done();
+	});
 
 restfulApi.use(['Profile', 
-				'Company', 
-				'Jobs',
-				'Job',
-				'Job.Interested',
-				'Job.Uninterested',
-				'Job.Archive',
-				'Job.Unarchive'], 'POST', function (resourceName, req, res, done) {
-	if (!req.isAuthenticated()) {
-		return done({
-			code : 'notauthenticated',
-			msg  : 'Not authenticated'
-		});
-	}
-	done();
-});
+	'Company', 
+	'Jobs',
+	'Job',
+	'Job.Interested',
+	'Job.Uninterested',
+	'Job.Archive',
+	'Job.Unarchive'], 'POST', function (resourceName, req, res, done) {
+		if (!req.isAuthenticated()) {
+			return done({
+				code : 'notauthenticated',
+				msg  : 'Not authenticated'
+			});
+		}
+		done();
+	});
 
 restfulApi.use(['Profile',
-				'Company',
-				'Job'], 'DELETE', function (resourceName, req, res, done) {
-	if (!req.isAuthenticated()) {
-		return done({
-			code : 'notauthenticated',
-			msg  : 'Not authenticated'
-		});
-	}
-	done();
-});
+	'Company',
+	'Job'], 'DELETE', function (resourceName, req, res, done) {
+		if (!req.isAuthenticated()) {
+			return done({
+				code : 'notauthenticated',
+				msg  : 'Not authenticated'
+			});
+		}
+		done();
+	});
 
 restfulApi.use('template.LoggedInState', 'GET', function (resourceName, req, res, done) {
 	if (!req.isAuthenticated()) {
@@ -119,8 +123,8 @@ restfulApi.use('Profile', 'GET', function (resourceName, req, res, done) {
 
 restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 	var 
-		query = { userId : req.user._id }
-		, updateCommand;
+	query = { userId : req.user._id }
+	, updateCommand;
 
 	if (req.body.saveExperience) {
 		if (req.body.experience.modified) {
@@ -243,8 +247,8 @@ restfulApi.use('Profile', 'POST', function (resourceName, req, res, done) {
 
 restfulApi.use('Profile', 'DELETE', function (resourceName, req, res, done) {
 	var
-		query = { userId : req.user._id }
-		, updateCommand;
+	query = { userId : req.user._id }
+	, updateCommand;
 
 	if (req.query.removeExperience) {
 		updateCommand = {
@@ -308,8 +312,8 @@ restfulApi.use('Company', 'GET', function (resourceName, req, res, done) {
 
 restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
 	var
-		query = { userId : req.user._id, modified : req.body.modified }
-		, updateCommand;
+	query = { userId : req.user._id, modified : req.body.modified }
+	, updateCommand;
 
 	updateCommand = {
 		'$set' : {
@@ -388,18 +392,18 @@ restfulApi.use('Company', 'DELETE', function (resourceName, req, res, done) {
 				ok();
 			});
 		}
-	], function (err) {
-		if (err) {
-			return done(err);
-		}
-		done();
-	});
+		], function (err) {
+			if (err) {
+				return done(err);
+			}
+			done();
+		});
 
 });
 
 restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 	var
-		updateCommand;
+	updateCommand;
 
 	async.waterfall([
 		function (ok) {
@@ -458,12 +462,12 @@ restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 			});
 
 		},
-	], function (err, results) {
-		if (err) {
-			return done(err);
-		}
-		done();
-	});
+		], function (err, results) {
+			if (err) {
+				return done(err);
+			}
+			done();
+		});
 
 });
 
@@ -481,9 +485,9 @@ restfulApi.use('Job', 'DELETE', function (resourceName, req, res, done) {
 						code : 'jobremovefailed',
 						msg  : 'Failed to remove job'
 					});
-				}
-				ok();
-			});
+			}
+			ok();
+		});
 		},
 		function (ok) {
 			db.Job.remove({ _id : objectid(req.params.id) }, function (err, doc) {
@@ -493,12 +497,12 @@ restfulApi.use('Job', 'DELETE', function (resourceName, req, res, done) {
 				ok();
 			});
 		}
-	], function (err) {
-		if (err) {
-			return done(err);
-		}
-		done();
-	});
+		], function (err) {
+			if (err) {
+				return done(err);
+			}
+			done();
+		});
 
 });
 
@@ -583,15 +587,15 @@ restfulApi.use('Job.Interested', 'POST', function (resourceName, req, res, done)
 
 restfulApi.use('Job.Interested', 'POST', function (resourceName, req, res, done) {
 	var
-		profile = req.results
-		, updateCommand = {
-			'$addToSet' : {
-				'interests' : {
-					'userId' : req.user._id,
-					'name'   : profile.name
-				}
+	profile = req.results
+	, updateCommand = {
+		'$addToSet' : {
+			'interests' : {
+				'userId' : req.user._id,
+				'name'   : profile.name
 			}
-		};
+		}
+	};
 
 	db.Job.findAndModify({
 		query  : { _id : objectid(req.body.id), 'interests' : { '$ne' : req.user._id }},
@@ -613,13 +617,13 @@ restfulApi.use('Job.Interested', 'POST', function (resourceName, req, res, done)
 
 restfulApi.use('Job.Uninterested', 'POST', function (resourceName, req, res, done) {
 	var
-		updateCommand = {
-			'$pull' : {
-				'interests' : {
-					'userId' : req.user._id
-				}
+	updateCommand = {
+		'$pull' : {
+			'interests' : {
+				'userId' : req.user._id
 			}
-		};
+		}
+	};
 	db.Job.findAndModify({
 		query  : { _id : objectid(req.body.id) },
 		update : updateCommand,
@@ -665,7 +669,7 @@ restfulApi.use('Interest.Applicants', 'GET', function (resourceName, req, res, d
 
 restfulApi.use('Interest.Applicants', 'GET', function (resourceName, req, res, done) {
 	var
-		companies = req.results;
+	companies = req.results;
 
 	async.map(companies, function (company, ok) {
 		db.Job.find({ companyId : company._id.toString(), archived : false }, function (err, jobs) {
@@ -697,15 +701,15 @@ restfulApi.use('publicData.Jobs', 'GET', function (resourceName, req, res, done)
 		},
 		listing : function (ok) {
 			db.Job
-				.find({ archived : false })
-				.limit(req.params.limit)
-				.sort({ $natural : -1 })
-				.skip(req.params.offset * req.params.limit, function (err, jobs) {					
-					if (err) {
-						return ok(err);
-					}
-					return ok(null, jobs);
-				});
+			.find({ archived : false })
+			.limit(req.params.limit)
+			.sort({ $natural : -1 })
+			.skip(req.params.offset * req.params.limit, function (err, jobs) {					
+				if (err) {
+					return ok(err);
+				}
+				return ok(null, jobs);
+			});
 		}
 	}, function (err, results) {
 		if (err) {
@@ -760,7 +764,7 @@ restfulApi.use('publicData.Job', 'GET', function (resourceName, req, res, done) 
 
 restfulApi.use('publicData.Job', 'GET', function (resourceName, req, res, done) {
 	var
-		job = req.results;
+	job = req.results;
 
 	if (!req.isAuthenticated()) {
 		res.json(req.results);
@@ -844,6 +848,7 @@ restfulApi.use(['Jobs.Archived', 'Job.Unarchive'], ['GET', 'POST'], function (re
 			return done(err);
 		}
 		req.results = jobs;
+
 		done();
 	});
 
@@ -861,4 +866,57 @@ restfulApi.use('Job.Unarchive', 'POST', function (resourceName, req, res, done) 
 		jobs : req.results
 	});
 	done();
+});
+
+restfulApi.use('publicData.Search', 'GET', function (resourceName, req, res, done) {
+	esClient.search({
+		index : 'db',
+		type : 'jobs',
+		body : {
+			"query" : {
+				"bool" : {
+					"must" : {
+						"multi_match" : {
+							"query" : req.params.query,
+							"type" : "cross_fields",
+							"fields" : ["jobTitle.ngram", "companyName.ngram", "location.ngram"]
+						}  
+					},
+					"should" : [
+					{
+						"match" : {
+							"jobTitle.shingle" : {
+								"query" : req.params.query,
+								"boost" : 5
+							}
+						}
+					},
+					{
+						"match" : {
+							"companyName.shingle" : {
+								"query" : req.params.query,
+								"boost" : 3
+							}
+						}
+					},
+					{
+						"match" : {
+							"location.shingle" : {
+								"query" : req.params.query,
+								"boost" : 1
+							}
+						}
+					}
+					]
+				}
+			}
+		}
+	}, function (err, results) {
+		if (err) {
+			return done(err);
+		}
+		console.log(results);
+		res.json(results);
+		done();
+	});
 });

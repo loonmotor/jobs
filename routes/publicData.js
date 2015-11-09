@@ -13,4 +13,6 @@ router.all('/company/jobs/:id', restfulApi.restful('publicData.CompanyJobs'));
 
 router.all('/profile/:id', restfulApi.restful('publicData.Profile'));
 
+router.all('/search/:query', restfulApi.restful('publicData.Search'));
+
 module.exports = router;

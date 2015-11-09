@@ -1,6 +1,6 @@
 angular
 	.module('jobs')
-	.controller('rootCtrl', ['$scope', '$http', 'pubsub', 'config', '$state', 'ngToast', '$sce', function ($scope, $http, pubsub, config, $state, ngToast, $sce) {
+	.controller('rootCtrl', ['$scope', '$http', 'pubsub', 'config', '$state', 'ngToast', '$sce', 'resources', function ($scope, $http, pubsub, config, $state, ngToast, $sce, resources) {
 		$scope.root = {};
 		$scope.root.templateUrl = config['templateUrl'];
 		$scope.$state = $state;
@@ -24,6 +24,25 @@ angular
 				return '//:0';
 			}
 			return imageSrc;
+		}
+		$scope.search = function (query) {
+			return resources.publicData.Search
+				.get({ query : query })
+				.$promise
+				.then(function (data) {
+					console.log(data.hits.hits.map(function (item) {
+						return item._source.jobTitle;
+					}))
+					return data.hits.hits.map(function (item) {
+						return {
+							jobTitle : item._source.jobTitle,
+							companyName : item._source.companyName,
+							location : item._source.location
+						};
+					});
+				}, function (err) {
+					console.log(err);
+				});
 		}
 	}])
 	.controller('homeCtrl', ['$scope', 'resources', 'config', 'ngToast', '$sce', function ($scope, resources, config, ngToast, $sce) {

@@ -29,7 +29,8 @@ angular
 					'Job'  : '/public/data/job/:id',
 					'Company' : '/public/data/company/:id',
 					'CompanyJobs' : '/public/data/company/jobs/:id',
-					'Profile' : '/public/data/profile/:id'
+					'Profile' : '/public/data/profile/:id',
+					"Search" : '/public/data/search/:query'
 				}
 			},
 			'localSignInRedirect' : '/'
