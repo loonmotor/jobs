@@ -27,7 +27,6 @@ angular
 				 'rootSignIn.signUp'].indexOf(fromState.name) > -1) {
 				return;
 			}
-			console.log(fromState);
 			$state.prev = fromState.name || config['successSignInRedirectToState'];
 			$state.prevParams = fromParams;
 		});
