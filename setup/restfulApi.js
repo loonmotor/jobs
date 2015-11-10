@@ -7,7 +7,7 @@ var
 	, esClient = new elasticsearch.Client({
 
 	})
-	, esJobPicker = require('../modules/util').pick(['title', 'company.name', 'location'])
+	, esJobPicker = require('../modules/util').pick(['title', 'company.name', 'location', 'companyId'])
 	, logger = require('../modules/logger');
 
 restfulApi.use(['template.Profile', 
@@ -372,7 +372,6 @@ restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
 				if (err) {
 					return ok(err);
 				}
-
 				async.each(results, function (job, k) {
 					esClient.index({
 						index : 'db',
@@ -999,15 +998,18 @@ restfulApi.use('Job.Unarchive', 'POST', function (resourceName, req, res, done) 
 });
 
 restfulApi.use('publicData.Search', 'GET', function (resourceName, req, res, done) {
+	console.log(req.params.offset, req.params.limit);
 	esClient.search({
 		index : 'db',
 		type : 'jobs',
+		from : req.params.offset,
+		size : req.params.limit,
 		body : {
 			"query" : {
 				"bool" : {
 					"must" : {
 						"multi_match" : {
-							"query" : req.params.query,
+							"query" : req.params.id,
 							"type" : "cross_fields",
 							"fields" : ["title.ngram", "companyName.ngram", "location.ngram"]
 						}  
@@ -1016,7 +1018,7 @@ restfulApi.use('publicData.Search', 'GET', function (resourceName, req, res, don
 					{
 						"match" : {
 							"title.shingle" : {
-								"query" : req.params.query,
+								"query" : req.params.id,
 								"boost" : 5
 							}
 						}
@@ -1024,7 +1026,7 @@ restfulApi.use('publicData.Search', 'GET', function (resourceName, req, res, don
 					{
 						"match" : {
 							"companyName.shingle" : {
-								"query" : req.params.query,
+								"query" : req.params.id,
 								"boost" : 3
 							}
 						}
@@ -1032,7 +1034,7 @@ restfulApi.use('publicData.Search', 'GET', function (resourceName, req, res, don
 					{
 						"match" : {
 							"location.shingle" : {
-								"query" : req.params.query,
+								"query" : req.params.id,
 								"boost" : 1
 							}
 						}
@@ -1045,8 +1047,12 @@ restfulApi.use('publicData.Search', 'GET', function (resourceName, req, res, don
 		if (err) {
 			return done(err);
 		}
-		console.log(results);
 		res.json(results);
 		done();
 	});
+});
+
+restfulApi.use('template.Search', 'GET', function (resourceName, req, res, done) {
+	res.render('search', { user : req.user });
+	done();
 });

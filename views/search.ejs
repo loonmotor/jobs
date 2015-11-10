@@ -1,0 +1,34 @@
+<div class="row" id="home-job-listing">
+	
+	<div class="col-sm-6 col-md-3" ng-repeat="job in jobs.listing track by job._id">
+		<div class="thumbnail">
+			<div class="caption">
+				<h3 ng-bind-template="{{ job.title }}"></h3>
+				<p>
+					<a ui-sref="companyView({ id : job.companyId })">
+						<span class="label label-primary" ng-bind-template="{{ job.companyName }}"></span>
+					</a>
+				</p>
+				<p>
+					in <b ng-bind-template="{{ job.location }}"></b>
+				</p>
+				<p>
+					<a ui-sref="jobView({ id : job._id })" class="btn btn-default" role="button">View</a>
+				</p>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="row">
+	<div class="col-sm-12 col-xs-12">
+		<div class="pagination-container">
+			<div class="center-outer">
+				<div class="center-inner">
+					<pagination total-items="jobs.count" ng-model="currentPage" ng-change="getListing(currentPage - 1, <%= config['jobListing.search.paginationSize'] %>)" ng-init="getListing(0, <%= config['jobListing.search.paginationSize'] %>)" items-per-page="<%= config['jobListing.search.paginationSize'] %>" class="pagination-sm text-center" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -38,7 +38,7 @@ angular
 		}
 		$scope.search = function (query) {
 			return resources.publicData.Search
-				.get({ query : query })
+				.get({ id : query })
 				.$promise
 				.then(function (data) {
 					return data.hits.hits.map(function (item) {
@@ -686,4 +686,25 @@ angular
 					content : err.data.msg
 				});
 			});
+	}])
+	.controller('searchCtrl', ['$scope', 'resources', '$stateParams', 'ngToast', '$sce', function ($scope, resources, $stateParams, ngToast, $sce) {
+
+		$scope.getListing = function (offset, limit) {
+			resources.publicData.Search
+				.get({ id : $stateParams.id, offset : offset, limit : limit })
+				.$promise
+				.then(function (data) {
+					$scope.jobs = {};
+					$scope.jobs.count = data.hits.total;
+					$scope.jobs.listing = data.hits.hits.map(function (item) {
+						item._source._id = item._id;
+						return item._source;
+					});
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
+		}
+
 	}]);

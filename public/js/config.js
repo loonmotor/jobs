@@ -10,7 +10,9 @@ angular
 				'jobForm' : '/template/job-form',
 				'home' : '/template/home',
 				'jobView' : '/template/job-view',
-				'interest' : '/template/interest'
+				'interest' : '/template/interest',
+				'searchForm' : '/html/search-form.html',
+				'search' : '/template/search'
 			},
 			'resourceUrl' : {
 				'Profile' : '/data/profile',
@@ -30,7 +32,7 @@ angular
 					'Company' : '/public/data/company/:id',
 					'CompanyJobs' : '/public/data/company/jobs/:id',
 					'Profile' : '/public/data/profile/:id',
-					"Search" : '/public/data/search/:query'
+					"Search" : '/public/data/search/:id/:offset/:limit'
 				}
 			},
 			'authUrl' : {

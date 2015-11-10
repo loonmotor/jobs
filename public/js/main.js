@@ -134,6 +134,15 @@ angular
 						controller : 'signOutCtrl'
 					}
 				}
+			})
+			.state('search', {
+				url : '/search/:id',
+				views : {
+					'main' : {
+						templateUrl : '/html/search.html',
+						controller : 'searchCtrl'
+					}
+				}
 			});
 
 		ngToastProvider.configure({

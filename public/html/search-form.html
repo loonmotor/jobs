@@ -1,0 +1,21 @@
+<form class="form">
+	<div class="row">
+		<div class="col-xs-9">
+				<div class="form-group">
+					<input type="text" ng-model="query" placeholder="" typeahead="(query.title + ', ' + query.companyName + ', ' + query.location) as query for query in search($viewValue)" typeahead-loading="true" typeahead-wait-ms="500" typeahead-template-url="search-results.html" class="form-control">
+					<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+				</div>
+		</div>
+		<div class="col-xs-3">
+			<a ui-sref="search({ id : query })" class="btn btn-default">Search</a>
+		</div>
+	</div>
+</form>
+
+<script type="text/ng-template" id="search-results.html">
+	<a>
+		<div ng-bind-template="{{ match.label.title }}"></div>
+		<div ng-bind-template="{{ match.label.companyName }}"></div>
+		<div ng-bind-template="{{ match.label.location }}"></div>
+	</a>
+</script>
