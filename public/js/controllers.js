@@ -27,6 +27,7 @@ angular
 				 'rootSignIn.signUp'].indexOf(fromState.name) > -1) {
 				return;
 			}
+			console.log(fromState);
 			$state.prev = fromState.name || config['successSignInRedirectToState'];
 		});
 		$scope.getImage = function (imageSrc) {
@@ -526,7 +527,7 @@ angular
 						content : data.msg
 					});
 				}, function (err) {
-					if (err.data.msg == 'profilerequired') {
+					if (err.data.code == 'profilerequired') {
 						ngToast.danger({
 							content : $sce.trustAsHtml('<a ui-sref="rootControl.profile">' + err.data.msg + '</a>'),
 							compileContent : true
