@@ -655,6 +655,22 @@ angular
 				});
 		}
 
+		$scope.removeJob = function (job) {
+			resources.JobArchive
+				.remove(job)
+				.$promise
+				.then(function (data) {
+					ngToast.success({
+						content : data.msg
+					});
+					$scope.jobs = data.jobs;
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
+		}
+
 	}])
 	.controller('signOutCtrl', ['$scope', '$state', 'config', '$http', 'ngToast', function ($scope, $state, config, $http, ngToast) {
 		$http

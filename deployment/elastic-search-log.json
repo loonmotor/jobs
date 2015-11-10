@@ -1,12 +1,8 @@
 [
+    null,
     [
         {
-            "acknowledged": true
-        },
-        200
-    ],
-    [
-        {
+            "ok": true,
             "acknowledged": true
         },
         200

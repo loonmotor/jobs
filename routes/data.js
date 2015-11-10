@@ -11,7 +11,7 @@ router.all('/job/interested', restfulApi.restful('Job.Interested'));
 
 router.all('/job/uninterested', restfulApi.restful('Job.Uninterested'));
 
-router.all('/job/archive', restfulApi.restful('Job.Archive'));
+router.all('/job/archive/:id?', restfulApi.restful('Job.Archive'));
 
 router.all('/job/unarchive', restfulApi.restful('Job.Unarchive'));
 

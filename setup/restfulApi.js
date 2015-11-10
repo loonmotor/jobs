@@ -50,7 +50,8 @@ restfulApi.use(['Profile',
 
 restfulApi.use(['Profile',
 	'Company',
-	'Job'], 'DELETE', function (resourceName, req, res, done) {
+	'Job',
+	'Job.Archive'], 'DELETE', function (resourceName, req, res, done) {
 		if (!req.isAuthenticated()) {
 			return done({
 				code : 'notauthenticated',
@@ -539,23 +540,8 @@ restfulApi.use('Job', 'DELETE', function (resourceName, req, res, done) {
 
 	async.waterfall([
 		function (ok) {
-			db.Company.findOne({ _id : objectid(req.query.companyId) }, function (err, company) {
-				if (err) {
-					return ok(err);
-				}
-				if (!company
-					|| company.userId !== req.user._id) {
-					return ok({
-						code : 'jobremovefailed',
-						msg  : 'Failed to remove job'
-					});
-			}
-			ok();
-		});
-		},
-		function (ok) {
 			db.Job.findAndModify({
-				query : { _id : objectid(req.params.id) },
+				query : { _id : objectid(req.params.id), userId : req.user._id },
 				remove : true
 			}, function (err, doc) {
 				if (err) {
@@ -620,7 +606,23 @@ restfulApi.use('Job.Archive', 'POST', function (resourceName, req, res, done) {
 
 });
 
-restfulApi.use(['Jobs', 'Job', 'Job.Archive'], ['GET', 'DELETE', 'POST'], function (resourceName, req, res, done) {
+restfulApi.use('Job.Archive', 'DELETE', function (resourceName, req, res, done) {
+
+	db.Job.findAndModify({
+		query : { _id : objectid(req.params.id), userId : req.user._id },
+		remove : true
+	}, function (err, doc) {
+		if (err) {
+			return done(err);
+		}
+		done();
+	});
+
+});
+
+restfulApi.use([{'Jobs':'GET'},
+				{'Job':['POST', 'DELETE']},
+				{'Job.Archive':'POST'}], function (resourceName, req, res, done) {
 
 	db.Job.find({ userId : req.user._id, archived : false }, function (err, jobs) {
 		if (err) {
@@ -958,7 +960,9 @@ restfulApi.use('Job.Unarchive', 'POST', function (resourceName, req, res, done) 
 
 });
 
-restfulApi.use(['Jobs.Archived', 'Job.Unarchive'], ['GET', 'POST'], function (resourceName, req, res, done) {
+restfulApi.use([{'Jobs.Archived':'GET'},
+				{'Job.Unarchive':'POST'},
+				{'Job.Archive':'DELETE'}], function (resourceName, req, res, done) {
 
 	db.Job.find({ userId : req.user._id, archived : true }, function (err, jobs) {
 		if (err) {
@@ -969,6 +973,15 @@ restfulApi.use(['Jobs.Archived', 'Job.Unarchive'], ['GET', 'POST'], function (re
 		done();
 	});
 
+});
+
+restfulApi.use('Job.Archive', 'DELETE', function (resourceName, req, res, done) {
+	res.json({
+		code : 'deletesuccess',
+		msg  : 'Removed successfully',
+		jobs : req.results
+	});
+	done();
 });
 
 restfulApi.use('Jobs.Archived', 'GET', function (resourceName, req,res, done) {

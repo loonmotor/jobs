@@ -12,21 +12,53 @@ var
 			middlewares[resourceName][methodName] = [];
 		}
 	}
-	, async = require('async');
-
-apis.use = function (resourceNames, methodNames, methodCallback) {
-	if (!(Object.prototype.toString.call(resourceNames) === '[object Array]')) {
-		resourceNames = [resourceNames];
-	}
-	if (!(Object.prototype.toString.call(methodNames) === '[object Array]')) {
-		methodNames = [methodNames];
-	}
-	resourceNames.forEach(function (resourceName) {
-		methodNames.forEach(function (methodName) {
-			initializeResource(resourceName, methodName);
-			middlewares[resourceName][methodName].push(methodCallback);
+	, async = require('async')
+	, use1 = function (resourceNames, methodNames, methodCallback) {
+		if (!(Object.prototype.toString.call(resourceNames) === '[object Array]')) {
+			resourceNames = [resourceNames];
+		}
+		if (!(Object.prototype.toString.call(methodNames) === '[object Array]')) {
+			methodNames = [methodNames];
+		}
+		resourceNames.forEach(function (resourceName) {
+			methodNames.forEach(function (methodName) {
+				initializeResource(resourceName, methodName);
+				middlewares[resourceName][methodName].push(methodCallback);
+			});
 		});
-	});
+	}
+	, use2 = function (resourceAndMethodNames, methodCallback) {
+		if (!(Object.prototype.toString.call(resourceAndMethodNames) === '[object Array]')) {
+			resourceAndMethodNames = [resourceAndMethodNames];
+		}
+		resourceAndMethodNames.forEach(function (resourceAndMethodName) {
+			var
+				resourceName = Object.keys(resourceAndMethodName).pop()
+				, methodNames = resourceAndMethodName[resourceName];
+			if (Object.prototype.toString.call(methodNames) !== '[object Array]') {
+				methodNames = [methodNames];
+			}
+			methodNames.forEach(function (methodName) {
+				initializeResource(resourceName, methodName);
+				middlewares[resourceName][methodName].push(methodCallback);
+			});
+		});
+	}
+
+apis.use = function () { // overloaded
+
+	var
+		params = Array.prototype.slice.call(arguments);
+
+	switch (params.length) {
+		case 2 :
+			use2.apply(null, params);
+		break;
+		case 3 :
+			use1.apply(null, params);
+		break;
+	}
+
 };
 
 // API External Methods
