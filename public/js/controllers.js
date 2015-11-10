@@ -29,6 +29,7 @@ angular
 			}
 			console.log(fromState);
 			$state.prev = fromState.name || config['successSignInRedirectToState'];
+			$state.prevParams = fromParams;
 		});
 		$scope.getImage = function (imageSrc) {
 			if (!imageSrc) {
@@ -50,7 +51,7 @@ angular
 		}
 		$window.successRedirect = function () {
 			pubsub.publish('ajaxResponse', { code : 'successSignIn' });
-			$state.go($state.prev);
+			$state.go($state.prev, $state.prevParams);
 		}
 	}])
 	.controller('homeCtrl', ['$scope', 'resources', 'config', 'ngToast', '$sce', function ($scope, resources, config, ngToast, $sce) {
@@ -80,7 +81,7 @@ angular
 					});
 				}, function (err) {
 					if (err.data.code == 'profilerequired') {
-						ngToast.danger({
+						ngToast.success({
 							content : $sce.trustAsHtml('<a ui-sref="rootControl.profile">' + err.data.msg + '</a>'),
 							compileContent : true
 						});
@@ -126,7 +127,7 @@ angular
 					ngToast.success({
 						content : 'Redirecting...'
 					});
-					$state.go($state.prev);
+					$state.go($state.prev, $state.prevParams);
 
 				})
 				.error(function (err) {
@@ -152,7 +153,7 @@ angular
 					ngToast.success({
 						content : 'Redirecting...'
 					});
-					$state.go($state.prev);
+					$state.go($state.prev, $state.prevParams);
 
 				})
 				.error(function (err) {
@@ -528,7 +529,7 @@ angular
 					});
 				}, function (err) {
 					if (err.data.code == 'profilerequired') {
-						ngToast.danger({
+						ngToast.success({
 							content : $sce.trustAsHtml('<a ui-sref="rootControl.profile">' + err.data.msg + '</a>'),
 							compileContent : true
 						});
