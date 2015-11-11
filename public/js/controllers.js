@@ -48,6 +48,9 @@ angular
 					console.log(err);
 				});
 		}
+		$scope.submitSearch = function (query) {
+			$state.go('search', { id : query });
+		}
 		$window.successRedirect = function () {
 			pubsub.publish('ajaxResponse', { code : 'successSignIn' });
 			$state.go($state.prev, $state.prevParams);
@@ -688,7 +691,7 @@ angular
 			});
 	}])
 	.controller('searchCtrl', ['$scope', 'resources', '$stateParams', 'ngToast', '$sce', function ($scope, resources, $stateParams, ngToast, $sce) {
-
+		$scope.query = $stateParams.id;
 		$scope.getListing = function (offset, limit) {
 			resources.publicData.Search
 				.get({ id : $stateParams.id, offset : offset, limit : limit })
