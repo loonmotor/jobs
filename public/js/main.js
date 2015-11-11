@@ -9,7 +9,7 @@ angular
 				url : '/',
 				views : {
 					'main' : {
-						templateUrl : '/html/home.html',
+						templateUrl : 'html/home.html',
 						controller : 'homeCtrl'
 					}
 				}
@@ -18,7 +18,7 @@ angular
 				url : '/sign-in',
 				views : {
 					'main' : {
-						templateUrl : '/html/root-sign-in.html'
+						templateUrl : 'html/root-sign-in.html'
 					}
 				}
 			})
@@ -26,7 +26,7 @@ angular
 				url : '/',
 				views : {
 					'main' : {
-						templateUrl : '/html/sign-in-form.html',
+						templateUrl : 'html/sign-in-form.html',
 						controller  : 'signInCtrl'
 					}
 				}
@@ -35,7 +35,7 @@ angular
 				url : '/sign-up',
 				views : {
 					'main' : {
-						templateUrl : '/html/sign-up-form.html',
+						templateUrl : 'html/sign-up-form.html',
 						controller  : 'signUpCtrl'
 					}
 				}
@@ -44,7 +44,7 @@ angular
 				url : '/control',
 				views : {
 					'main' : {
-						templateUrl : '/html/root-control.html'
+						templateUrl : 'html/root-control.html'
 					}
 				}
 			})
@@ -52,7 +52,7 @@ angular
 				url : '/profile',
 				views : {
 					'main' : {
-						templateUrl : '/html/profile.html'
+						templateUrl : 'html/profile.html'
 					}
 				}
 			})
@@ -60,7 +60,7 @@ angular
 				url : '/company',
 				views : {
 					'main' : {
-						templateUrl : '/html/company.html'
+						templateUrl : 'html/company.html'
 					}
 				}
 			})
@@ -68,7 +68,7 @@ angular
 				url : '/job-form',
 				views : {
 					'main' : {
-						templateUrl : '/html/job-form.html'
+						templateUrl : 'html/job-form.html'
 					}
 				}
 			})
@@ -76,7 +76,7 @@ angular
 				url : '/interest',
 				views : {
 					'main' : {
-						templateUrl : '/html/interest.html',
+						templateUrl : 'html/interest.html',
 						controller  : 'interestCtrl'
 					}
 				}
@@ -85,7 +85,7 @@ angular
 				url : '/archived-jobs',
 				views : {
 					'main' : {
-						templateUrl : '/html/archived-jobs.html',
+						templateUrl : 'html/archived-jobs.html',
 						controller  : 'archivedJobsCtrl'
 					}
 				}
@@ -94,7 +94,7 @@ angular
 				url : '/guide',
 				views : {
 					'main' : {
-						templateUrl : '/html/guide.html',
+						templateUrl : 'html/guide.html',
 						controller  : 'guideCtrl'
 					}
 				}
@@ -103,7 +103,7 @@ angular
 				url : '/job-view/:id',
 				views : {
 					'main' : {
-						templateUrl : '/html/job-view.html',
+						templateUrl : 'html/job-view.html',
 						controller  : 'jobViewCtrl'
 					}
 				}
@@ -112,7 +112,7 @@ angular
 				url : '/company-view/:id',
 				views : {
 					'main' : {
-						templateUrl : '/html/company-view.html',
+						templateUrl : 'html/company-view.html',
 						controller : 'companyViewCtrl'
 					}
 				}
@@ -121,7 +121,7 @@ angular
 				url : '/profile-view/:id',
 				views : {
 					'main' : {
-						templateUrl : '/html/profile-view.html',
+						templateUrl : 'html/profile-view.html',
 						controller 	: 'profileViewCtrl'
 					}
 				}
@@ -130,7 +130,7 @@ angular
 				url : '/sign-out',
 				views : {
 					'main' : {
-						templateUrl : '/html/sign-out.html',
+						templateUrl : 'html/sign-out.html',
 						controller : 'signOutCtrl'
 					}
 				}
@@ -139,7 +139,7 @@ angular
 				url : '/search/:id',
 				views : {
 					'main' : {
-						templateUrl : '/html/search.html',
+						templateUrl : 'html/search.html',
 						controller : 'searchCtrl'
 					}
 				}
