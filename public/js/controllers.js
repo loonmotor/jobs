@@ -612,6 +612,22 @@ angular
 				});
 			});
 
+		$scope.uninterested = function (id, index) {
+			resources.JobUninterested
+				.save({ id : id })
+				.$promise
+				.then(function (data) {
+					$scope.interestJobs.splice(index, 1);
+					ngToast.success({
+						content : data.msg
+					});
+				}, function (err) {
+					ngToast.danger({
+						content : err.data.msg
+					});
+				});
+		}
+
 	}])
 	.controller('profileViewCtrl', ['$scope', 'config', 'resources', 'ngToast', '$stateParams', function ($scope, config, resources, ngToast, $stateParams) {
 		$scope.root.title = ['Profile', config.siteName].join(' | ');

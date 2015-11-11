@@ -3,8 +3,10 @@
 
 <div class="well" ng-if="interestJobs.length > 0">
 	<ul>
-		<li ng-repeat="interestJob in interestJobs">
+		<li ng-repeat="interestJob in interestJobs track by interestJob._id">
 			<a ui-sref="jobView({ id : interestJob._id })">{{ interestJob.title }}</a>
+			&nbsp;
+			<a href="" ng-click="uninterested(interestJob._id, $index)">Remove interest</a>
 		</li>
 	</ul>
 </div>

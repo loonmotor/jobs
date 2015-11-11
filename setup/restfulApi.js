@@ -729,13 +729,20 @@ restfulApi.use('Job.Uninterested', 'POST', function (resourceName, req, res, don
 		if (err) {
 			return done(err);
 		}
-		res.json({
-			code : 'jobuninterested',
-			msg  : job.title + ' has been removed from your interest list',
-			job  : job
-		});
+		req.results = job;
 		done();
 	});
+});
+
+restfulApi.use('Job.Uninterested', 'POST', function (resourceName, req, res, done) {
+	var
+		job = req.results;
+	res.json({
+		code : 'jobuninterested',
+		msg  : job.title + ' has been removed from your interest list',
+		job  : job
+	});
+	done();
 });
 
 restfulApi.use('Interest.Jobs', 'GET', function (resourceName, req, res, done) {
