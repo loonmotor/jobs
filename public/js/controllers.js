@@ -38,7 +38,7 @@ angular
 		}
 		$scope.search = function (query) {
 			return resources.publicData.Search
-				.get({ id : query })
+				.get({ id : query, offset : 0, limit : 10 })
 				.$promise
 				.then(function (data) {
 					return data.hits.hits.map(function (item) {

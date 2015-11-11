@@ -1002,7 +1002,7 @@ restfulApi.use('publicData.Search', 'GET', function (resourceName, req, res, don
 	esClient.search({
 		index : 'db',
 		type : 'jobs',
-		from : req.params.offset,
+		from : req.params.offset * req.params.limit,
 		size : req.params.limit,
 		body : {
 			"query" : {
