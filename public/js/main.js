@@ -1,5 +1,5 @@
 angular
-	.module('jobs', ['ui.router', 'ui.bootstrap', 'ngToast', 'ngMessages', 'ngResource', 'ngTagsInput'])
+	.module('jobs', ['ui.router', 'ui.bootstrap', 'ngToast', 'ngMessages', 'ngResource', 'ngTagsInput', 'ui.router.title'])
 	.config(['$urlRouterProvider', '$stateProvider', 'ngToastProvider', function ($urlRouterProvider, $stateProvider, ngToastProvider) {
 
 		$urlRouterProvider.otherwise('/');
@@ -12,6 +12,9 @@ angular
 						templateUrl : 'html/home.html',
 						controller : 'homeCtrl'
 					}
+				},
+				resolve : {
+					$title : function () { return 'Home'; }
 				}
 			})
 			.state('rootSignIn', {
@@ -20,6 +23,9 @@ angular
 					'main' : {
 						templateUrl : 'html/root-sign-in.html'
 					}
+				},
+				resolve : {
+					$title : function () { return 'Sign In'; }
 				}
 			})
 			.state('rootSignIn.signIn', {
@@ -29,6 +35,9 @@ angular
 						templateUrl : 'html/sign-in-form.html',
 						controller  : 'signInCtrl'
 					}
+				},
+				resolve : {
+					$title : function () { return 'Sign In'; }
 				}
 			})
 			.state('rootSignIn.signUp', {
@@ -38,6 +47,9 @@ angular
 						templateUrl : 'html/sign-up-form.html',
 						controller  : 'signUpCtrl'
 					}
+				},
+				resolve : {
+					$title : function () { return 'Sign Up'; }
 				}
 			})
 			.state('rootControl', {
@@ -46,6 +58,9 @@ angular
 					'main' : {
 						templateUrl : 'html/root-control.html'
 					}
+				},
+				resolve : {
+					$title : function () { return 'Administration'; }
 				}
 			})
 			.state('rootControl.profile', {
@@ -54,6 +69,9 @@ angular
 					'main' : {
 						templateUrl : 'html/profile.html'
 					}
+				},
+				resolve : {
+					$title : function () { return 'Profile'; }
 				}
 			})
 			.state('rootControl.company', {
@@ -62,6 +80,9 @@ angular
 					'main' : {
 						templateUrl : 'html/company.html'
 					}
+				},
+				resolve : {
+					$title : function () { return 'Company'; }
 				}
 			})
 			.state('rootControl.job', {
@@ -70,6 +91,9 @@ angular
 					'main' : {
 						templateUrl : 'html/job-form.html'
 					}
+				},
+				resolve : {
+					$title : function () { return 'Job Form'; }
 				}
 			})
 			.state('rootControl.interest', {
@@ -79,6 +103,9 @@ angular
 						templateUrl : 'html/interest.html',
 						controller  : 'interestCtrl'
 					}
+				},
+				resolve : {
+					$title : function () { return 'Job Interests'; }
 				}
 			})
 			.state('rootControl.archivedJobs', {
@@ -88,6 +115,9 @@ angular
 						templateUrl : 'html/archived-jobs.html',
 						controller  : 'archivedJobsCtrl'
 					}
+				},
+				resolve : {
+					$title : function () { return 'Archived Jobs'; }
 				}
 			})
 			.state('guide', {
@@ -97,6 +127,9 @@ angular
 						templateUrl : 'html/guide.html',
 						controller  : 'guideCtrl'
 					}
+				},
+				resolve : {
+					$title : function () { return 'Guide'; }
 				}
 			})
 			.state('jobView', {
@@ -106,6 +139,9 @@ angular
 						templateUrl : 'html/job-view.html',
 						controller  : 'jobViewCtrl'
 					}
+				},
+				resolve : {
+					$title : function () { return 'Job View'; }
 				}
 			})
 			.state('companyView', {
@@ -115,6 +151,9 @@ angular
 						templateUrl : 'html/company-view.html',
 						controller : 'companyViewCtrl'
 					}
+				},
+				resolve : {
+					$title : function () { return 'Company View'; }
 				}
 			})
 			.state('profileView', {
@@ -124,6 +163,9 @@ angular
 						templateUrl : 'html/profile-view.html',
 						controller 	: 'profileViewCtrl'
 					}
+				},
+				resolve : {
+					$title : function () { return 'Profile View'; }
 				}
 			})
 			.state('signOut', {
@@ -142,6 +184,9 @@ angular
 						templateUrl : 'html/search.html',
 						controller : 'searchCtrl'
 					}
+				},
+				resolve : {
+					$title : function () { return 'Search'; }
 				}
 			});
 

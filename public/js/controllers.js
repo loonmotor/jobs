@@ -57,7 +57,6 @@ angular
 		}
 	}])
 	.controller('homeCtrl', ['$scope', 'resources', 'config', 'ngToast', '$sce', function ($scope, resources, config, ngToast, $sce) {
-		$scope.root.title = ['Home', config.siteName].join(' | ');
 
 		$scope.getListing = function (offset, limit) {
 			resources.publicData.Jobs
@@ -113,7 +112,6 @@ angular
 
 	}])
 	.controller('signInCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', '$timeout', '$state', function ($scope, $http, config, ngToast, $location, $timeout, $state) {
-		$scope.root.title = ['Sign In', config.siteName].join(' | ');
 
 		$scope.signIn = function ($event, formData) {
 			if ($scope.signInForm.$invalid) {
@@ -140,7 +138,6 @@ angular
 		}
 	}])
 	.controller('signUpCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', '$timeout', '$state', function ($scope, $http, config, ngToast, $location, $timeout, $state) {
-		$scope.root.title = ['Sign Up', config.siteName].join(' | ');
 		$scope.signUp = function ($event, formData) {
 			if ($scope.signUpForm.$invalid) {
 				$scope.displayValidation = true;
@@ -166,7 +163,6 @@ angular
 		}
 	}])
 	.controller('profileCtrl', ['$scope', 'config', 'resources', 'ngToast', function ($scope, config, resources, ngToast) {
-		$scope.root.title = ['Profile', config.siteName].join(' | ');
 		$scope.embeddedJsonData = JSON.parse(document.getElementById('embeddedJsonData').text);
 		$scope.profile = $scope.embeddedJsonData.profile;
 		$scope.displayValidation = {};
@@ -352,7 +348,6 @@ angular
 
 	}])
 	.controller('companyCtrl', ['$scope', 'config', 'resources', 'ngToast', function ($scope, config, resources, ngToast) {
-		$scope.root.title = ['Company', config.siteName].join(' | ');
 		$scope.embeddedJsonData = JSON.parse(document.getElementById('embeddedJsonData').text);
 		$scope.displayValidation = {};
 		$scope.toggle = {};
@@ -413,7 +408,6 @@ angular
 		}
 	}])
 	.controller('jobCtrl', ['$scope', 'config', 'resources', 'ngToast', function ($scope, config, resources, ngToast) {
-		$scope.root.title = ['Job', config.siteName].join(' | ');
 		$scope.embeddedJsonData = JSON.parse(document.getElementById('embeddedJsonData').text);
 		$scope.displayValidation = {};
 		$scope.toggle = {};
@@ -502,17 +496,14 @@ angular
 		}
 	}])
 	.controller('guideCtrl', ['$scope', 'config', function ($scope, config) {
-		$scope.root.title = ['Guide', config.siteName].join(' | ');
 	}])
 	.controller('jobViewCtrl', ['$scope', 'config', '$stateParams', 'resources', 
 	'ngToast', '$sce', function ($scope, config, $stateParams, resources, ngToast, $sce) {
-		$scope.root.title = ['Job View', config.siteName].join(' | ');
 
 		resources.publicData.Job
 			.get({ id : $stateParams.id })
 			.$promise
 			.then(function (data) {
-				$scope.root.title = ['Job View', data.title, config.siteName].join(' | ');
 				$scope.job = data;
 			}, function (err) {
 				ngToast.danger({
@@ -560,14 +551,12 @@ angular
 		}
 	}])
 	.controller('companyViewCtrl', ['$scope', 'config', '$stateParams', 'resources', function ($scope, config, $stateParams, resources, ngToast) {
-		$scope.root.title = ['Company View', config.siteName].join(' | ');
 
 		resources.publicData.Company
 			.get({ id : $stateParams.id })
 			.$promise
 			.then(function (data) {
 				$scope.company = data;
-				$scope.root.title = ['Company View', data.name, config.siteName].join(' | ');
 			}, function (err) {
 				ngToast.danger({
 					content : err.data.msg
@@ -588,7 +577,6 @@ angular
 
 	}])
 	.controller('interestCtrl', ['$scope', 'config', 'resources', 'ngToast', function ($scope, config, resources, ngToast) {
-		$scope.root.title = ['Interest', config.siteName].join(' | ');
 
 		resources.InterestJobs
 			.query()
@@ -630,13 +618,11 @@ angular
 
 	}])
 	.controller('profileViewCtrl', ['$scope', 'config', 'resources', 'ngToast', '$stateParams', function ($scope, config, resources, ngToast, $stateParams) {
-		$scope.root.title = ['Profile', config.siteName].join(' | ');
 
 		resources.publicData.Profile
 			.get({ id : $stateParams.id })
 			.$promise
 			.then(function (data) {
-				$scope.root.title = ['Profile', data.name, config.siteName].join(' | ');
 				$scope.profile = data;
 			}, function (err) {
 				ngToast.danger({
