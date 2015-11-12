@@ -2,7 +2,7 @@
 <html lang="en" ng-app="jobs" ng-controller="rootCtrl">
 <head>
 	<meta charset="UTF-8">
-	<title>{{ root.title || 'Jobs' }}</title>
+	<title ng-bind="$title + ' | Jobs'"></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="css/ng-tags-input.css">
 	<link rel="stylesheet" href="css/style.css">
 
-	<base href="/jobs/">
+	<base href="/">
 </head>
 <body>
 
@@ -27,6 +27,12 @@
 
 		<div ui-view="main"></div>
 
+		<div class="row">
+			<div class="col-sm-12">
+				
+			</div>
+		</div>
+
 	</div>
 
 	<toast></toast>
@@ -36,6 +42,7 @@
 	<script src="js/external/angular-sanitize.min.js"></script>
 	<script src="js/external/angular-messages.min.js"></script>
 	<script src="js/external/angular-resource.min.js"></script>
+	<script src="js/external/angular-ui-router-title.js"></script>
 	<script src="js/external/ngToast.min.js"></script>
 	<script src="js/external/ui-bootstrap-tpls-0.13.4.min.js"></script>
 	<script src="js/external/ng-tags-input.min.js"></script>
