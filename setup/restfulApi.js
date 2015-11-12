@@ -360,7 +360,6 @@ restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
 				}
 			};
 			db.Job.update({ companyId : company._id.toString() }, updateCommand, { multi : true }, function (err, results) {
-				console.log(results);
 				if (err) {
 					return ok(err);
 				}
@@ -1005,7 +1004,7 @@ restfulApi.use('Job.Unarchive', 'POST', function (resourceName, req, res, done) 
 });
 
 restfulApi.use('publicData.Search', 'GET', function (resourceName, req, res, done) {
-	console.log(req.params.offset, req.params.limit);
+	
 	esClient.search({
 		index : 'db',
 		type : 'jobs',
@@ -1052,6 +1051,7 @@ restfulApi.use('publicData.Search', 'GET', function (resourceName, req, res, don
 		}
 	}, function (err, results) {
 		if (err) {
+			console.log(err);
 			return done(err);
 		}
 		res.json(results);

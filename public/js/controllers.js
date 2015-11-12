@@ -720,9 +720,7 @@ angular
 						return item._source;
 					});
 				}, function (err) {
-					ngToast.danger({
-						content : err.data.msg
-					});
+					console.log(err);
 				});
 		}
 
