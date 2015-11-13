@@ -1,5 +1,5 @@
 angular
-	.module('jobs', ['ui.router', 'ui.bootstrap', 'ngToast', 'ngMessages', 'ngResource', 'ngTagsInput', 'ui.router.title'])
+	.module('jobs', ['ui.router', 'ui.bootstrap', 'ngToast', 'ngMessages', 'ngResource', 'ngTagsInput', 'ui.router.title', 'ui.router.fromState'])
 	.config(['$urlRouterProvider', '$stateProvider', 'ngToastProvider', function ($urlRouterProvider, $stateProvider, ngToastProvider) {
 
 		$urlRouterProvider.otherwise('/');
@@ -25,7 +25,8 @@ angular
 					}
 				},
 				resolve : {
-					$title : function () { return 'Sign In'; }
+					$title : function () { return 'Sign In'; },
+					$disablePrevState : function () { return true; }
 				}
 			})
 			.state('rootSignIn.signIn', {
@@ -37,7 +38,8 @@ angular
 					}
 				},
 				resolve : {
-					$title : function () { return 'Sign In'; }
+					$title : function () { return 'Sign In'; },
+					$disablePrevState : function () { return true; }
 				}
 			})
 			.state('rootSignIn.signUp', {
@@ -49,7 +51,8 @@ angular
 					}
 				},
 				resolve : {
-					$title : function () { return 'Sign Up'; }
+					$title : function () { return 'Sign Up'; },
+					$disablePrevState : function () { return true; }
 				}
 			})
 			.state('rootControl', {
@@ -175,6 +178,9 @@ angular
 						templateUrl : 'html/sign-out.html',
 						controller : 'signOutCtrl'
 					}
+				},
+				resove : {
+					$disablePrevState : function () { return true; }
 				}
 			})
 			.state('search', {

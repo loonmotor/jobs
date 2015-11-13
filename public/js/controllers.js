@@ -53,7 +53,7 @@ angular
 		}
 		$window.successRedirect = function () {
 			pubsub.publish('ajaxResponse', { code : 'successSignIn' });
-			$state.go($state.prev, $state.prevParams);
+			$state.go($state.from.name || config['successSignInRedirectToState'], $state.from.params);
 		}
 	}])
 	.controller('homeCtrl', ['$scope', 'resources', 'config', 'ngToast', '$sce', function ($scope, resources, config, ngToast, $sce) {
@@ -112,7 +112,6 @@ angular
 
 	}])
 	.controller('signInCtrl', ['$scope', '$http', 'config', 'ngToast', '$location', '$timeout', '$state', function ($scope, $http, config, ngToast, $location, $timeout, $state) {
-
 		$scope.signIn = function ($event, formData) {
 			if ($scope.signInForm.$invalid) {
 				$scope.displayValidation = true;
@@ -127,7 +126,8 @@ angular
 					ngToast.success({
 						content : 'Redirecting...'
 					});
-					$state.go($state.prev, $state.prevParams);
+					console.log($state.from.name);
+					$state.go($state.from.name || config['successSignInRedirectToState'], $state.from.params);
 
 				})
 				.error(function (err) {
@@ -151,8 +151,8 @@ angular
 					});
 					ngToast.success({
 						content : 'Redirecting...'
-					});
-					$state.go($state.prev, $state.prevParams);
+					});					
+					$state.go($state.from.name || config['successSignInRedirectToState'], $state.from.params);
 
 				})
 				.error(function (err) {
