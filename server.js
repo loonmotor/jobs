@@ -22,6 +22,10 @@ var
 	, favicon         = require('serve-favicon')
 	, htmlSanitizer   = require('./middlewares/htmlSanitizer');
 
+if (app.get('env') === 'production') {
+	config = require('./production.config');
+}
+
 require('./setup/passport')(); // passport
 require('./setup/restfulApi'); // restful api
 
