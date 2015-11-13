@@ -1,7 +1,7 @@
 module.exports = {
 	"siteName" : "Jobs",
-	"host" : "http://localhost/jobs",
-	"port" : 3008,
+	"host" : "http://localhost/",
+	"port" : 3070,
 	"logPath" : "logs",
 	"logFile" : "logs.log",
 	"staticPath" : "public",
@@ -11,11 +11,11 @@ module.exports = {
 	"auth.google.clientID"     : "1088557290877-k1h93vl0kvdjkrn3rurc50dbt66g8gbr.apps.googleusercontent.com",
 	"auth.google.clientSecret" : "spv_ZDhNRvQhMcKTdgYYQcES",
 	"auth.google.callbackURL"  : "/auth/google/return",
-	"auth.google.successRedirect" : "/jobs/auth/oauth-success",
+	"auth.google.successRedirect" : "/auth/oauth-success",
 	"auth.facebook.clientID"     : "1139553276073524",
 	"auth.facebook.clientSecret" : "cb02a0964ec1891c2d6a743dba0d30ec",
 	"auth.facebook.callbackURL"  : "/auth/facebook/return",
-	"auth.facebook.successRedirect" : "/jobs/auth/oauth-success",
+	"auth.facebook.successRedirect" : "/auth/oauth-success",
 	"auth.signOutRedirect" : "/",
 	"session.secret" : "1FRlUu7Jledo1JOp6otFhCIFddUHEY2m",
 	"session.maxAge" : 604800000,
@@ -71,5 +71,5 @@ module.exports = {
 	"urlencoded.limit" : "1mb",
 	"jsonencoded.limit" : "1mb",
 	"jobListing.home.paginationSize" : 12,
-	"jobListing.search.paginationSize" : 2
+	"jobListing.search.paginationSize" : 12
 };

@@ -14,11 +14,6 @@ var
 
 async.series([
 	function (ok) {
-		client.indices.delete({
-			index : 'db'
-		}, ok);
-	},
-	function (ok) {
 		client.indices.create({
 			index : 'db',
 			body : {
