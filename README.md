@@ -19,7 +19,8 @@ Single page app for finding and/or posting jobs.
 * NginX
 
 # Walkthrough
-Quick walkthrough with the assumption that you are developers who are going to maintain this app.
+There are many ways to introduce this app.
+I prefer to walk you through with the assumption that you are developers who are going to maintain this app.
 ## Overview
 
 ## Web Server
