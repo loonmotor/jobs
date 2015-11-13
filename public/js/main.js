@@ -1,5 +1,5 @@
 angular
-	.module('jobs', ['ui.router', 'ui.bootstrap', 'ngToast', 'ngMessages', 'ngResource', 'ngTagsInput', 'ui.router.title', 'ui.router.fromState'])
+	.module('jobs', ['ui.router', 'ui.bootstrap', 'ngToast', 'ngMessages', 'ngResource', 'ngTagsInput', 'ui.router.title', 'ui.router.fromState', 'util'])
 	.config(['$urlRouterProvider', '$stateProvider', 'ngToastProvider', function ($urlRouterProvider, $stateProvider, ngToastProvider) {
 
 		$urlRouterProvider.otherwise('/');

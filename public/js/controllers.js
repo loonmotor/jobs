@@ -1,34 +1,28 @@
 angular
 	.module('jobs')
-	.controller('rootCtrl', ['$scope', '$http', 'pubsub', 'config', '$state', 'ngToast', '$sce', 'resources', '$window', function ($scope, $http, pubsub, config, $state, ngToast, $sce, resources, $window) {
+	.controller('rootCtrl', ['$scope', '$http', 'pubsub', 'config', '$state', 'ngToast', '$sce', 'resources', '$window', '$filter', '$timeout', 'once', function ($scope, $http, pubsub, config, $state, ngToast, $sce, resources, $window, $filter, $timeout, once) {
 		$scope.root = {};
 		$scope.root.templateUrl = config['templateUrl'];
 		$scope.$state = $state;
 		pubsub.subscribe('ajaxResponse', 'to check authentication state', function (args, done) {
-			if (args && 
-				[ 'notauthenticated',
-				  'successSignIn',
-				  'successSignUp',
-				  'successSignOut'
-				].indexOf(args.code) > -1) {
-				$scope.root.templateUrl.loggedInState = $scope.root.templateUrl.loggedInState + '?time=' + Date.now();
-			}
-			if (args &&
-				['notauthenticated'].indexOf(args.code) > -1) {
-				ngToast.info({
-					content : $sce.trustAsHtml('<a ui-sref="rootSignIn.signIn">Please sign in</a>'),
-					compileContent : true
-				});
-			}
-			done();
-		});
-		$scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-			if (['rootSignIn.signIn',
-				 'rootSignIn.signUp'].indexOf(fromState.name) > -1) {
+			if (!args) {
 				return;
 			}
-			$state.prev = fromState.name || config['successSignInRedirectToState'];
-			$state.prevParams = fromParams;
+			switch (args.code) {
+				case 'successSignIn'    :
+				case 'successSignUp'    :
+				case 'successSignOut'   :
+				case 'notauthenticated' :
+					$scope.root.templateUrl.loggedInState = $filter('timeStamp')($scope.root.templateUrl.loggedInState);
+				case 'notauthenticated' :
+					once(function () {
+						ngToast.info({
+							content : $sce.trustAsHtml('<a ui-sref="rootSignIn.signIn">Please sign in</a>'),
+							compileContent : true
+						});
+					}, 1000);
+			}
+			done();
 		});
 		$scope.getImage = function (imageSrc) {
 			if (!imageSrc) {
