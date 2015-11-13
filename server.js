@@ -23,7 +23,7 @@ var
 	, htmlSanitizer   = require('./middlewares/htmlSanitizer');
 
 if (app.get('env') === 'production') {
-	config = require('./production.config');
+	config = require('./config.production');
 }
 
 require('./setup/passport')(); // passport
