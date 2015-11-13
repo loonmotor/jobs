@@ -1,6 +1,3 @@
-(function (angular) {
-'use strict';
-
 angular
 	.module('ui.router.fromState', [])
 	.run(['$rootScope', '$state', function ($rootScope, $state) {
@@ -29,7 +26,4 @@ angular
 
 		});
 
-
 	}]);
-
-})(window.angular);
