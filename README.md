@@ -1,6 +1,6 @@
 # Jobs
 
-Single page app for finding and/or posting a job.
+Single page app for finding and/or posting jobs.
 
 **Demo**
 &nbsp;<a href="https://jasoncheng.ninja/jobs" target="_blank">https://jasoncheng.ninja/jobs</a>
@@ -11,6 +11,7 @@ Single page app for finding and/or posting a job.
 
 
 # Technology Stack
+* Bootstrap CSS
 * AngularJS
 * NodeJS
 * MongoDB
@@ -18,16 +19,16 @@ Single page app for finding and/or posting a job.
 * NginX
 
 # Walkthrough
+Quick walkthrough with the assumption that you are developers who are going to maintain this app.
 ## Overview
 
 ## Web Server
-
 
 ## Front End
 
 ## Back End
 
-## Database
+### Database
 
 ## Workflow
 
