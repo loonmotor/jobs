@@ -1,5 +1,37 @@
+# Jobs
+
+Single page app for finding and/or posting a job.
+
+**Demo**
+&nbsp;<a href="https://jasoncheng.ninja/jobs" target="_blank">https://jasoncheng.ninja/jobs</a>
+
+<a href="https://www.jasoncheng.ninja/jobs/#/guide" target="_blank">Read the guide</a> for use cases.
 
 
+
+
+# Technology Stack
+* AngularJS
+* NodeJS
+* MongoDB
+* Elasticsearch
+* NginX
+
+# Walkthrough
+## Overview
+
+## Web Server
+
+
+## Front End
+
+## Back End
+
+## Database
+
+## Workflow
+
+## Deployment
 
 
 Collections and Their Schemas
