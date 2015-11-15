@@ -79,9 +79,11 @@ I had written a **[restfulApi](modules/restfulApi.js)** module to make it a bree
 This example shows how to setup the api to retrieve all jobs created by the signed in user and return them in JSON.
 
 1) Bind **Jobs** resource to a route in [routes/data.js](routes/data.js)
+
 	```	
 	router.all('/jobs/:offset?/:limit?', restfulApi.restful('Jobs'));
 	```
+
 2) Register resource handlers in [setup/restfulApi.js](setup/restfulApi.js)
 - Use method can accept an array of resources that are sharing the same handler for the **GET** request. Here it checks whether the request is from a signed in user, if yes continues to next handler, if not return an error.
 
