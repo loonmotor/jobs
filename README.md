@@ -110,7 +110,7 @@ This example shows how to setup the api to retrieve all jobs created by the sign
 		});
 	```
 
-- **Use** method can register multiple handlers for the same resource and each of them will be executed asynchronously in series. The snippet below shows an overloaded version of **use** method that allow you to specify resource and methods pairs in an object array. You can pass results to subsequent handler by populating req object with arbitrary properties.
+- **Use** method can register multiple handlers for the same resource and each of them will be executed asynchronously in series. The snippet below shows an overloaded version of **use** method that allows you to specify resource and methods pairs in an object array. You can pass results to subsequent handler by populating req object with arbitrary properties.
 
 	```
 	restfulApi.use([{'Jobs':'GET'},
@@ -288,13 +288,13 @@ Index script is available in [deployment/mongodb.setupIndices.js](deployment/mon
 Execute the script via Mongo shell to build database indexes.
 
 ## Workflow
-Grunt as the development workflow automation tool.
+Grunt as the development automation tool.
 * [Grunt watch](https://github.com/gruntjs/grunt-contrib-watch) is used to monitor file changes and reload page.
 
 ## Deployment
 This app had been deployed on DigitalOcean cloud hosting.
 
-Miscellaneuos deployment scripts are available at [deployment](deployment), they are used to carry out one-time deployment setup.
+Miscellaneuos deployment scripts are available in [deployment](deployment), they are used to carry out one-time deployment setup.
 * [elasticSearch.setupSettingsAndMappings.js](deployment/elasticSearch.setupSettingsAndMappings.js)
 * [mongodb.setupIndices.js](deployment/mongodb.setupIndices.js)
 * [nginx.jasoncheng.ninja.conf](deployment/nginx.jasoncheng.ninja.conf)
