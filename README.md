@@ -85,7 +85,7 @@ This example shows how to setup the api to retrieve all jobs created by the sign
 	`
 
 2) Register resource handlers in [setup/restfulApi.js](setup/restfulApi.js)
-- **Use** method can accept an array of resources that are sharing the same handler for requests of the same method. Here it checks whether the request is from a signed in user, if yes continues to next handler, if not return an error.
+- **Use** method can accept an array of resources that are sharing the same handler for certain HTTP method. Here it checks whether the request is from a signed in user, if yes continues to the next handler, if not return an error.
 
 	```
 	restfulApi.use(['template.Profile', 
