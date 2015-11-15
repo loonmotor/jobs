@@ -75,6 +75,9 @@ I had written a **[restfulApi](modules/restfulApi.js)** module to make it a bree
 
 **Example Usage**
 
+[routes/data.js](routes/data.js)
+
+<script src="https://gist.github.com/jasonvitagen/69d7227095ea1ae32ad2.js"></script>
 
 
 #### Authentication

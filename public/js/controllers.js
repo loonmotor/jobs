@@ -1,6 +1,6 @@
 angular
 	.module('jobs')
-	.controller('rootCtrl', ['$scope', '$http', 'pubsub', 'config', '$state', 'ngToast', '$sce', 'resources', '$window', '$filter', '$timeout', 'once', function ($scope, $http, pubsub, config, $state, ngToast, $sce, resources, $window, $filter, $timeout, once) {
+	.controller('rootCtrl', ['$scope', '$http', 'pubsub', 'config', '$state', 'ngToast', '$sce', 'resources', '$window', '$filter', '$timeout', 'once', 'pubsub', function ($scope, $http, pubsub, config, $state, ngToast, $sce, resources, $window, $filter, $timeout, once, pubsub) {
 		$scope.root = {};
 		$scope.root.templateUrl = config['templateUrl'];
 		$scope.$state = $state;
