@@ -75,14 +75,70 @@ I had written a **[restfulApi](modules/restfulApi.js)** module to make it a bree
 
 **Example Usage**
 
-[routes/data.js](routes/data.js)
+This example shows how to setup the api to retrieve all jobs created by the signed in user and return them in JSON.
 
-<script src="https://gist.github.com/jasonvitagen/69d7227095ea1ae32ad2.js"></script>
+1) Bind **Jobs** resource to a route in [routes/data.js](routes/data.js)
+
+	```
+	router.all('/jobs/:offset?/:limit?', restfulApi.restful('Jobs'));
+	```
+2) Register resource handlers in [setup/restfulApi.js](setup/restfulApi.js)
+	* **Use** method can accept an array of resources that are sharing the same handler for the **GET** request. Here it checks whether the request is from a signed in user, if yes continues to next handler, if not return an error.
+	```
+	restfulApi.use(['template.Profile', 
+		'template.Company', 
+		'template.JobForm', 
+		'template.Interest',
+		'Profile',
+		'Company', 
+		'Jobs',
+		'Job',
+		'Interest',
+		'Interest.Jobs',
+		'Interest.Applicants',
+		'Jobs.Archived'], 'GET', function (resourceName, req, res, done) {
+			if (!req.isAuthenticated()) {
+				return done({
+					code : 'notauthenticated',
+					msg  : 'Not authenticated'
+				});
+			}
+			done();
+		});
+	```
+	* **Use** method can register multiple handlers for the same resource and each of them will be executed asynchronously in series. The below snippet shows an overloaded version of **use** method that allow you to specify resource and methods pairs in an object array. You can pass results to subsequent handler by populating req object with arbitrary properties.
+	```
+	restfulApi.use([{'Jobs':'GET'},
+				{'Job':['POST', 'DELETE']},
+				{'Job.Archive':'POST'}], function (resourceName, req, res, done) {
+
+		db.Job.find({ userId : req.user._id, archived : false }, function (err, jobs) {
+			if (err) {
+				return ok(err);
+			}
+			req.results = jobs;
+			done();
+		});
+	});
+	```
+	* In the final handler, return the JSON result. 
+	```
+	restfulApi.use('Jobs', 'GET', function (resourceName, req, res, done) {
+		res.json(req.results);
+	});
+	```
+
+
 
 
 #### Authentication
+Authentication is powered by [passport](http://passportjs.org/) module.
+
+All setup of authentication strategies are encapsulated into [setup/passport.js](setup/passport.js)
+
 
 #### Security Measure
+I had written a [htmlSanitizer](middlewares/htmlSanitizer.js) middleware to sanitize user's POST data.
 
 ### Database
 MongoDB as the database. The database for this app is named **jobs**.
