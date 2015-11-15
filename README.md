@@ -58,14 +58,14 @@ ExpressJS as the web application framework.
 
 #### Code Organization
 * Development configuration is available in [config.js](config.js)
-* Production configuration is available in [config.production.js](config.productin.js)
-* Standard NPM modules are available in [node_modules](node_modules)
+* Production configuration is available in [config.production.js](config.production.js)
+* Standard NPM modules are available in [node_modules](node_modules) (Git ignored)
 * Custom NodeJS modules are available in [modules](modules)
 * Static contents are available in [public](public)
 * Middlewares are available in [middlewares](middlewares)
-* Logs are available in [logs](logs)
+* Logs are available in [logs](logs) (Git ingored)
 * Templates are available in [views](views)
-* All initialization code are available in [setup](setup)
+* Initialization code are available in [setup](setup)
 
 #### RESTful APIs
 I had written a **[restfulApi](modules/restfulApi.js)** module to make it a breeze to add and modify RESTful apis.
