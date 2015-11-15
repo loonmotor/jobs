@@ -35,6 +35,7 @@ Maintainability was put into mind while developing this app, so I had applied so
 ## Web Server
 NginX as the web server.
 * Reverse proxy to NodeJS app
+* Handle SSL 
 * Serve static contents (e.g. : html, javascript, css, font, image)
 * Configuration file is available at [deployment/nginx.jasoncheng.ninja.conf](deployment/nginx.jasoncheng.ninja.conf)
 
@@ -52,13 +53,41 @@ AngularJS as the front end Javascript framework.
 
 ## Back End
 
+ExpressJS as the web application framework. 
+
+#### Code Organization
+* Development configuration is available in [config.js](config.js)
+* Production configuration is available in [config.production.js](config.productin.js)
+* Standard NPM modules are available in [node_modules](node_modules)
+* Custom NodeJS modules are available in [modules](modules)
+* Static contents are available in [public](public)
+* Middlewares are available in [middlewares](middlewares)
+* Logs are available in [logs](logs)
+* Templates are available in [views](views)
+* All initialization code are available in [setup](setup)
+
+#### RESTful APIs
+I had written a **[restfulApi](modules/restfulApi.js)** module to make it a breeze to add and modify RESTful apis.
+
+**restfulApi** exposes 2 methods, namely :
+* restful : used to bind a route with a resource
+* use : used to register handlers for a specific resource
+
+**Example Usage**
+
+
+
+#### Authentication
+
+#### Security Measure
+
 ### Database
 MongoDB as the database. The database for this app is named **jobs**.
 
 #### Driver
 [MongoJS](https://www.npmjs.com/package/mongojs) is used as the driver to connect to MongoDB from Nodejs.
 
-Configuration is available in [setup/mongojs.js](setup/mongojs.js)
+Configuration is available in [setup/mongojs.js](setup/mongojs.js).
 
 #### Collections and Schemas
 
@@ -197,3 +226,9 @@ Grunt as the development workflow automation tool.
 * [Grunt watch](https://github.com/gruntjs/grunt-contrib-watch) is used to monitor file changes and reload page.
 
 ## Deployment
+This app had been deployed on DigitalOcean cloud hosting.
+
+Miscellaneuos deployment scripts are available at [deployment](deployment), they are used to carry out one-time deployment setup.
+* [elasticSearch.setupSettingsAndMappings.js](deployment/elasticSearch.setupSettingsAndMappings.js)
+* [mongodb.setupIndices.js](deployment/mongodb.setupIndices.js)
+* [nginx.jasoncheng.ninja.conf](deployment/nginx.jasoncheng.ninja.conf)
