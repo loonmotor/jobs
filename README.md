@@ -22,7 +22,7 @@ Single page app for finding and/or posting jobs.
 # Code Walkthrough
 
 ## Overview
-**Jobs** is a RESTful web app
+**Jobs** is a RESTful web app.
 * AngularJS as the front end Javascript framework
 * MongoDB as the database
 * RESTful APIs are powered by Nodejs and the ExpressJS framework.
@@ -31,11 +31,13 @@ Single page app for finding and/or posting jobs.
 * NginX functions as a reverse proxy
 
 Maintainability was put into mind while developing this app, so I had applied some patterns and techniques. They will be covered and mentioned in detail in the corresponding subsections below. The aim is not to over-engineer stuff, rather to produce an app with balanced and flexible design.
+
 ## Web Server
-NginX as the web server :
+NginX as the web server.
 * Reverse proxy to NodeJS app
 * Serve static contents (e.g. : html, javascript, css, font, image)
 * Configuration file is available at [deployment/nginx.jasoncheng.ninja.conf](deployment/nginx.jasoncheng.ninja.conf)
+
 ## Front End
 AngularJS as the front end Javascript framework.
 * [AngularUI Router](https://github.com/angular-ui/ui-router) provides the routing support
@@ -191,5 +193,7 @@ Index script is available in [deployment/mongodb.setupIndices.js](blob/master/de
 Execute the script via Mongo shell to build database indexes.
 
 ## Workflow
+Grunt as the development workflow automation tool.
+* [Grunt watch](https://github.com/gruntjs/grunt-contrib-watch) is used to monitor file changes and reload page.
 
 ## Deployment
