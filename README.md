@@ -43,6 +43,7 @@ NginX as the web server.
 AngularJS as the front end Javascript framework.
 * [AngularUI Router](https://github.com/angular-ui/ui-router) provides the routing support
 * [Angular ngResource](https://docs.angularjs.org/api/ngResource/service/$resource) provides interaction support with RESTful services
+
 ### Code Organization
 * Source code is available in [public/js](public/js)
  * The main module is called **Jobs** and is declared in [public/js/main.js](public/js/main.js)
