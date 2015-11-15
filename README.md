@@ -20,11 +20,15 @@ Single page app for finding and/or posting jobs.
 * Redis
 
 # Code Walkthrough
-There are many ways to introduce this app.
-I prefer to walk you through with the assumption that you are the developer who is going to maintain this app, as doing so gives a better context to carry out the explanation.
+
 ## Overview
-**Jobs** is a RESTful web app, with AngularJS as the front end Javascript framework, MongoDB as the database, whereas the RESTful APIs are powered by Nodejs and the ExpressJS framework.
-Redis is used as session store as it provides scalability, Elasticsearch allows for tunable query and NginX functions as a reverse proxy.
+**Jobs** is a RESTful web app
+* AngularJS as the front end Javascript framework
+* MongoDB as the database
+* RESTful APIs are powered by Nodejs and the ExpressJS framework.
+* Redis is used as session store
+* Elasticsearch powers the tunable query
+* NginX functions as a reverse proxy
 
 Maintainability was put into mind while developing this app, so I had applied some patterns and techniques. They will be covered and mentioned in detail in the corresponding subsections below. The aim is not to over-engineer stuff, rather to produce an app with balanced and flexible design.
 ## Web Server
@@ -34,23 +38,27 @@ NginX as the web server :
 * Configuration file is available at [deployment/nginx.jasoncheng.ninja.conf](deployment/nginx.jasoncheng.ninja.conf)
 ## Front End
 AngularJS as the front end Javascript framework.
-
+* [AngularUI Router](https://github.com/angular-ui/ui-router) provides the routing support
+* [Angular ngResource](https://docs.angularjs.org/api/ngResource/service/$resource) provides interaction support with RESTful services
 ### Code Organization
 * Source code is available in [public/js](tree/master/public/js)
  * The main module is called **Jobs** and is declared in [public/js/main.js](blob/master/public/js/main.js)
  * Third party modules are located in [public/js/external](tree/master/public/js/external)
  * Custom modules are located in [public/js/modules](tree/master/public/js/modules)
  * [Controllers](blob/master/public/js/controllers.js), [directives](blob/master/public/js/directives.js), [filters](blob/master/public/js/filters.js), and [services](blob/master/public/js/services.js) had been organized into their respective file
- * Configuration is available at [public/js/config.js](blob/master/public/js/config.js)
+ * Configuration is available in [public/js/config.js](blob/master/public/js/config.js)
 
 ## Back End
 
 ### Database
-MongoDB as the NoSQL database.
+MongoDB as the database. The database for this app is named **jobs**.
 
-The database for this app is called **jobs**.
+#### Driver
+[MongoJS](https://www.npmjs.com/package/mongojs) is used as the driver to connect to MongoDB from Nodejs.
 
-#### Collections and Their Schemas
+Configuration is available in [setup/mongojs.js](blob/master/setup/mongojs.js)
+
+#### Collections and Schemas
 
 User
 ```
@@ -178,7 +186,7 @@ Job
 }
 ```
 #### Indexing
-Index script is available in [blob/master/deployment/mongodb.setupIndices.js](blob/master/deployment/mongodb.setupIndices.js).
+Index script is available in [deployment/mongodb.setupIndices.js](blob/master/deployment/mongodb.setupIndices.js).
 
 Execute the script via Mongo shell to build database indexes.
 
