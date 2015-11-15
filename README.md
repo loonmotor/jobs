@@ -59,11 +59,11 @@ ExpressJS as the web application framework.
 #### Code Organization
 * Development configuration is available in [config.js](config.js)
 * Production configuration is available in [config.production.js](config.production.js)
-* Standard NPM modules are available in [node_modules](node_modules) (Git ignored)
+* Standard NPM modules are available in node_modules (Git ignored)
 * Custom NodeJS modules are available in [modules](modules)
 * Static contents are available in [public](public)
 * Middlewares are available in [middlewares](middlewares)
-* Logs are available in [logs](logs) (Git ingored)
+* Logs are available in (Git ingored)
 * Templates are available in [views](views)
 * Initialization code are available in [setup](setup)
 
@@ -85,6 +85,7 @@ This example shows how to setup the api to retrieve all jobs created by the sign
 	```
 2) Register resource handlers in [setup/restfulApi.js](setup/restfulApi.js)
 	* **Use** method can accept an array of resources that are sharing the same handler for the **GET** request. Here it checks whether the request is from a signed in user, if yes continues to next handler, if not return an error.
+
 	```
 	restfulApi.use(['template.Profile', 
 		'template.Company', 
