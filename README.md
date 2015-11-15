@@ -108,7 +108,9 @@ This example shows how to setup the api to retrieve all jobs created by the sign
 			done();
 		});
 	```
+
 	* **Use** method can register multiple handlers for the same resource and each of them will be executed asynchronously in series. The below snippet shows an overloaded version of **use** method that allow you to specify resource and methods pairs in an object array. You can pass results to subsequent handler by populating req object with arbitrary properties.
+
 	```
 	restfulApi.use([{'Jobs':'GET'},
 				{'Job':['POST', 'DELETE']},
@@ -123,7 +125,9 @@ This example shows how to setup the api to retrieve all jobs created by the sign
 		});
 	});
 	```
+
 	* In the final handler, return the JSON result. 
+
 	```
 	restfulApi.use('Jobs', 'GET', function (resourceName, req, res, done) {
 		res.json(req.results);
