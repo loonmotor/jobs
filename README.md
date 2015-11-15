@@ -84,7 +84,7 @@ This example shows how to setup the api to retrieve all jobs created by the sign
 	router.all('/jobs/:offset?/:limit?', restfulApi.restful('Jobs'));
 	```
 2) Register resource handlers in [setup/restfulApi.js](setup/restfulApi.js)
-	* Use method can accept an array of resources that are sharing the same handler for the **GET** request. Here it checks whether the request is from a signed in user, if yes continues to next handler, if not return an error.
+- Use method can accept an array of resources that are sharing the same handler for the **GET** request. Here it checks whether the request is from a signed in user, if yes continues to next handler, if not return an error.
 
 	```
 	restfulApi.use(['template.Profile', 
@@ -109,7 +109,7 @@ This example shows how to setup the api to retrieve all jobs created by the sign
 		});
 	```
 
-	* Use method can register multiple handlers for the same resource and each of them will be executed asynchronously in series. The below snippet shows an overloaded version of **use** method that allow you to specify resource and methods pairs in an object array. You can pass results to subsequent handler by populating req object with arbitrary properties.
+- Use method can register multiple handlers for the same resource and each of them will be executed asynchronously in series. The below snippet shows an overloaded version of **use** method that allow you to specify resource and methods pairs in an object array. You can pass results to subsequent handler by populating req object with arbitrary properties.
 
 	```
 	restfulApi.use([{'Jobs':'GET'},
@@ -126,7 +126,7 @@ This example shows how to setup the api to retrieve all jobs created by the sign
 	});
 	```
 
-	* In the final handler, return the JSON result. 
+- In the final handler, return the JSON result. 
 
 	```
 	restfulApi.use('Jobs', 'GET', function (resourceName, req, res, done) {
