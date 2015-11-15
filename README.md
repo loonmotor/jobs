@@ -43,12 +43,12 @@ AngularJS as the front end Javascript framework.
 * [AngularUI Router](https://github.com/angular-ui/ui-router) provides the routing support
 * [Angular ngResource](https://docs.angularjs.org/api/ngResource/service/$resource) provides interaction support with RESTful services
 ### Code Organization
-* Source code is available in [public/js](tree/master/public/js)
- * The main module is called **Jobs** and is declared in [public/js/main.js](blob/master/public/js/main.js)
- * Third party modules are located in [public/js/external](tree/master/public/js/external)
- * Custom modules are located in [public/js/modules](tree/master/public/js/modules)
- * [Controllers](blob/master/public/js/controllers.js), [directives](blob/master/public/js/directives.js), [filters](blob/master/public/js/filters.js), and [services](blob/master/public/js/services.js) had been organized into their respective file
- * Configuration is available in [public/js/config.js](blob/master/public/js/config.js)
+* Source code is available in [public/js](public/js)
+ * The main module is called **Jobs** and is declared in [public/js/main.js](public/js/main.js)
+ * Third party modules are located in [public/js/external](public/js/external)
+ * Custom modules are located in [public/js/modules](public/js/modules)
+ * [Controllers](blob/master/public/js/controllers.js), [directives](public/js/directives.js), [filters](blob/master/public/js/filters.js), and [services](public/js/services.js) had been organized into their respective file
+ * Configuration is available in [public/js/config.js](public/js/config.js)
 
 ## Back End
 
