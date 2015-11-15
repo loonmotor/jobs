@@ -294,7 +294,7 @@ Grunt as the development automation tool.
 ## Deployment
 This app had been deployed on DigitalOcean cloud hosting.
 
-Miscellaneuos deployment scripts are available in [deployment](deployment), they are used to carry out one-time deployment setup.
+Miscellaneous deployment scripts are available in [deployment](deployment), they are used to carry out one-time deployment setup.
 * [elasticSearch.setupSettingsAndMappings.js](deployment/elasticSearch.setupSettingsAndMappings.js)
 * [mongodb.setupIndices.js](deployment/mongodb.setupIndices.js)
 * [nginx.jasoncheng.ninja.conf](deployment/nginx.jasoncheng.ninja.conf)
