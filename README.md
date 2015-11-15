@@ -47,7 +47,7 @@ AngularJS as the front end Javascript framework.
  * The main module is called **Jobs** and is declared in [public/js/main.js](public/js/main.js)
  * Third party modules are located in [public/js/external](public/js/external)
  * Custom modules are located in [public/js/modules](public/js/modules)
- * [Controllers](blob/master/public/js/controllers.js), [directives](public/js/directives.js), [filters](blob/master/public/js/filters.js), and [services](public/js/services.js) had been organized into their respective file
+ * [Controllers](public/js/controllers.js), [directives](public/js/directives.js), [filters](public/js/filters.js), and [services](public/js/services.js) had been organized into their respective file
  * Configuration is available in [public/js/config.js](public/js/config.js)
 
 ## Back End
@@ -58,7 +58,7 @@ MongoDB as the database. The database for this app is named **jobs**.
 #### Driver
 [MongoJS](https://www.npmjs.com/package/mongojs) is used as the driver to connect to MongoDB from Nodejs.
 
-Configuration is available in [setup/mongojs.js](blob/master/setup/mongojs.js)
+Configuration is available in [setup/mongojs.js](setup/mongojs.js)
 
 #### Collections and Schemas
 
@@ -188,7 +188,7 @@ Job
 }
 ```
 #### Indexing
-Index script is available in [deployment/mongodb.setupIndices.js](blob/master/deployment/mongodb.setupIndices.js).
+Index script is available in [deployment/mongodb.setupIndices.js](deployment/mongodb.setupIndices.js).
 
 Execute the script via Mongo shell to build database indexes.
 
