@@ -1,6 +1,6 @@
 module.exports = {
 	"siteName" : "Jobs",
-	"host" : "http://jasoncheng.ninja/",
+	"host" : "http://www.jasoncheng.ninja/",
 	"port" : 3070,
 	"logPath" : "logs",
 	"logFile" : "logs.log",
