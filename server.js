@@ -25,7 +25,8 @@ var
 if (app.get('env') === 'production') {
 	config = require('./config.production');
 }
-
+console.log(config['auth.facebook.clientID']);
+console.log(config['auth.facebook.clientSecret']);
 require('./setup/passport')(); // passport
 require('./setup/restfulApi'); // restful api
 
