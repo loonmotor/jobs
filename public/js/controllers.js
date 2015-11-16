@@ -8,20 +8,23 @@ angular
 			if (!args) {
 				return;
 			}
-			switch (args.code) {
-				case 'successSignIn'    :
-				case 'successSignUp'    :
-				case 'successSignOut'   :
-				case 'notauthenticated' :
-					$scope.root.templateUrl.loggedInState = $filter('timeStamp')($scope.root.templateUrl.loggedInState);
-				case 'notauthenticated' :
-					once(function () {
-						ngToast.info({
-							content : $sce.trustAsHtml('<a ui-sref="rootSignIn.signIn">Please sign in</a>'),
-							compileContent : true
-						});
-					}, 1000);
+			if (args
+				&& ['successSignIn',
+					'successSignUp',
+					'successSignOut',
+					'notauthenticated'].indexOf(args.code) > -1) {
+				$scope.root.templateUrl.loggedInState = $filter('timeStamp')($scope.root.templateUrl.loggedInState);
 			}
+			if (args
+				&& ['notauthenticated'].indexOf(args.code) > -1) {
+				once(function () {
+					ngToast.info({
+						content : $sce.trustAsHtml('<a ui-sref="rootSignIn.signIn">Please sign in</a>'),
+						compileContent : true
+					});
+				}, 1000);
+			}
+				
 			done();
 		});
 		$scope.getImage = function (imageSrc) {

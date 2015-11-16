@@ -8,7 +8,7 @@ if (app.get('env') === 'production') {
 }
 module.exports = {
 	"siteName" : "Jobs",
-	"host" : "http://localhost/",
+	"host" : "http://localhost:3070/",
 	"port" : 3070,
 	"logPath" : "logs",
 	"logFile" : "logs.log",
@@ -18,11 +18,11 @@ module.exports = {
 	"mongodb.databaseName" : "jobs",
 	"auth.google.clientID"     : "1088557290877-k1h93vl0kvdjkrn3rurc50dbt66g8gbr.apps.googleusercontent.com",
 	"auth.google.clientSecret" : "spv_ZDhNRvQhMcKTdgYYQcES",
-	"auth.google.callbackURL"  : "/auth/google/return",
+	"auth.google.callbackURL"  : "auth/google/return",
 	"auth.google.successRedirect" : "/auth/oauth-success",
 	"auth.facebook.clientID"     : "1139553276073524",
 	"auth.facebook.clientSecret" : "cb02a0964ec1891c2d6a743dba0d30ec",
-	"auth.facebook.callbackURL"  : "/auth/facebook/return",
+	"auth.facebook.callbackURL"  : "auth/facebook/return",
 	"auth.facebook.successRedirect" : "/auth/oauth-success",
 	"auth.signOutRedirect" : "/",
 	"session.secret" : "1FRlUu7Jledo1JOp6otFhCIFddUHEY2m",
