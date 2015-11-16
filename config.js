@@ -1,3 +1,7 @@
+if (app.get('env') === 'production') {
+	module.exports = require('./config.production');
+	return;
+}
 module.exports = {
 	"siteName" : "Jobs",
 	"host" : "http://localhost/",
