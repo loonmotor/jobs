@@ -289,7 +289,7 @@ Execute the script via Mongo shell to build database indexes.
 
 ## Workflow
 Grunt as the development automation tool.
-* [Grunt watch](https://github.com/gruntjs/grunt-contrib-watch) is used to monitor file changes and reload page.
+* [Grunt watch](https://github.com/gruntjs/grunt-contrib-watch) is used to monitor file changes and reload page
 
 Configuration is available in [Gruntfile.js](Gruntfile.js).
 
@@ -297,6 +297,14 @@ Configuration is available in [Gruntfile.js](Gruntfile.js).
 This app had been deployed on Linode cloud hosting.
 
 Miscellaneous deployment scripts are available in [deployment](deployment), they are used to carry out one-time deployment setup.
-* [elasticSearch.setupSettingsAndMappings.js](deployment/elasticSearch.setupSettingsAndMappings.js)
-* [mongodb.setupIndices.js](deployment/mongodb.setupIndices.js)
-* [nginx.jasoncheng.ninja.conf](deployment/nginx.jasoncheng.ninja.conf)
+
+#### Mock Data
+Mock data generation runs on NodeJS cluster to take advantage of multiple processors.
+
+[ZMQ](http://zeromq.org/) messaging library is used.
+
+To generate mock data :
+* Start [deployment/mock.testDataCluster.js](deployment/mock.testDataCluster.js) in a Node process
+* Start [deployment/mock.testDataClient.js](deployment/mock.testDataClient.js) in a Node process
+
+Configuration is available in [deployment/mock.testDataConfig.js](deployment/mock.testDataConfig.js).
