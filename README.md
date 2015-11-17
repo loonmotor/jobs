@@ -305,4 +305,10 @@ To generate mock data :
 * Start [deployment/mock.testDataCluster.js](deployment/mock.testDataCluster.js) in a Node process
 * Start [deployment/mock.testDataClient.js](deployment/mock.testDataClient.js) in a Node process
 
+Demo account :
+
+Email : jasoncheng@live.com.my
+
+Password : Password
+
 Configuration is available in [deployment/mock.testDataConfig.js](deployment/mock.testDataConfig.js).
