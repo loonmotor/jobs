@@ -43,7 +43,7 @@ module.exports = {
 		{ "name" : 'Sales', group : 'Sales' },
 		{ "name" : 'UI/UX Designer', group : 'Designer' },
 		{ "name" : 'Visual Designer', group : 'Designer' },
-		{ "name" : 'User Researcher', group : 'Designer' },
+		{ "name" : 'User Researcher', group : 'Designer' }
 	],
 	"profile.jobTypes" : [
 		"Full-time Employee",
