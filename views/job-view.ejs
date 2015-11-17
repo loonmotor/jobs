@@ -45,7 +45,7 @@
 			<td>Approximate salary</td>
 			<td>{{ job.salaryCurrency + job.salary }}</td>
 		</tr>
-		<tr>
+		<tr ng-if="job.expiry">
 			<td>End on</td>
 			<td>{{ job.expiry | date:'dd/MM/yyyy' }}</td>
 		</tr>
