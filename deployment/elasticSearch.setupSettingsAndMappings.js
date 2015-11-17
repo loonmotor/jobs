@@ -12,7 +12,23 @@ var
 	}
 	, async = require('async');
 
-async.series([
+async.waterfall([
+	function (ok) {
+		client.indices.exists({
+			index : 'db'
+		}, function (err, result) {
+			ok(null, result);
+		});
+	},
+	function (exists, ok) {
+		if (!exists) {
+			return ok();
+		}
+		client.indices.delete({
+			index : 'db',
+			type : 'jobs'
+		}, ok);
+	},
 	function (ok) {
 		client.indices.create({
 			index : 'db',
