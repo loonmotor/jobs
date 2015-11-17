@@ -25,7 +25,7 @@
 			<td>Hiring in</td>
 			<td>{{ job.location }}</td>
 		</tr>
-		<tr ng-if="job.coworkers">
+		<tr ng-if="job.coworkers.length <= 0">
 			<td>Coworkers</td>
 			<td>{{ job.coworkers.join(', ') }}</td>
 		</tr>
