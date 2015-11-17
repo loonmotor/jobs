@@ -79,7 +79,8 @@ apis.generateACompany = function (user) {
 		slogan : testData.companies.slogan[random(0, testData.companies.slogan.length - 1)].slogan,
 		whyus : testData.companies.whyus[random(0, testData.companies.whyus.length - 1)].whyus,
 		product : testData.companies.product[random(0, testData.companies.product.length - 1)].product,
-		userId : user._id.toString()
+		userId : user._id.toString(),
+		modified : (Date.now() + random(0, 99999)).toString()
 	};
 }
 apis.generateAJob = function (user, company) {
@@ -107,7 +108,7 @@ apis.generateAJob = function (user, company) {
 		})(),
 		salary : testData.jobs.salary[random(0, testData.jobs.salary.length - 1)].salary,
 		salaryCurrency : testData.jobs.salaryCurrency[random(0, testData.jobs.salaryCurrency.length - 1)].value,
-		modified : Date.now() + random(0, 99999),
+		modified : (Date.now() + random(0, 99999)).toString(),
 		company : {
 			name : company.name,
 			logo : company.logo,
