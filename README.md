@@ -291,6 +291,8 @@ Execute the script via Mongo shell to build database indexes.
 Grunt as the development automation tool.
 * [Grunt watch](https://github.com/gruntjs/grunt-contrib-watch) is used to monitor file changes and reload page.
 
+Configuration is available in [Gruntfile.js](Gruntfile.js).
+
 ## Deployment
 This app had been deployed on DigitalOcean cloud hosting.
 
