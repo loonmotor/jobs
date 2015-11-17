@@ -241,7 +241,7 @@ Company
 	phones		: [String],
 	email		: String,
 	location 	: String,
-	markets 	: Array,
+	markets 	: [String],
 	teamSize 	: String,
 	slogan		: String,
 	whyus		: String,
@@ -259,10 +259,10 @@ Job
 	role 			: String,
 	jobType			: String,
 	location 		: String,
-	coworkers 		: Array,
+	coworkers 		: [String],
 	canRemote		: Boolean,
 	visaSponsor 	: Boolean,
-	skills 			: Array,
+	skills 			: [String],
 	salary 			: String,
 	salaryCurrency 	: String,
 	modified		: String,
@@ -294,7 +294,7 @@ Grunt as the development automation tool.
 Configuration is available in [Gruntfile.js](Gruntfile.js).
 
 ## Deployment
-This app had been deployed on DigitalOcean cloud hosting.
+This app had been deployed on Linode cloud hosting.
 
 Miscellaneous deployment scripts are available in [deployment](deployment), they are used to carry out one-time deployment setup.
 * [elasticSearch.setupSettingsAndMappings.js](deployment/elasticSearch.setupSettingsAndMappings.js)
