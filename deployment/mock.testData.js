@@ -111,10 +111,8 @@ apis.generateAJob = function (user, company) {
 		modified : (Date.now() + random(0, 99999)).toString(),
 		company : {
 			name : company.name,
-			logo : company.logo,
 			location : company.location,
-			website : company.website,
-			teamSize : company.teamSize
+			website : company.website
 		},
 		expiry : new Date(),
 		location : company.location,

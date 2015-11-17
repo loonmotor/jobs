@@ -25,7 +25,7 @@
 			<td>Hiring in</td>
 			<td>{{ job.location }}</td>
 		</tr>
-		<tr ng-if="job.coworkers.length <= 0">
+		<tr ng-if="job.coworkers.length > 0">
 			<td>Coworkers</td>
 			<td>{{ job.coworkers.join(', ') }}</td>
 		</tr>
@@ -53,9 +53,6 @@
 			<td>Company</td>
 			<td>
 				<a ui-sref="companyView({ id : job.companyId })">{{ job.company.name }}</a>
-				<a ui-sref="companyView({ id : job.companyId })">
-				<img ng-src="{{ job.company.logo }}" alt="{{ job.company.name }}" class="logo">
-			</a>
 			</td>
 		</tr>
 	</table>

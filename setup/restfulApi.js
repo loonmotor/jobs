@@ -494,7 +494,6 @@ restfulApi.use('Job', 'POST', function (resourceName, req, res, done) {
 					'companyId' : req.body.companyId,
 					'company.name'     : company.name,
 					'company.location' : company.location,
-					'company.logo'     : company.logo,
 					'company.website'  : company.website,
 					'userId'		   : req.user._id,
 					'archived'		   : false
