@@ -63,7 +63,7 @@ ExpressJS as the web application framework.
 * Custom NodeJS modules are available in [modules](modules)
 * Static contents are available in [public](public)
 * Middlewares are available in [middlewares](middlewares)
-* Logs are available in (Git ingored)
+* Logs are available in logs (Git ingored)
 * Templates are available in [views](views)
 * Initialization code are available in [setup](setup)
 
