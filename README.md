@@ -3,7 +3,7 @@
 Single page app for finding and/or posting jobs.
 
 **Demo**
-&nbsp;<a href="https://jasoncheng.ninja/jobs" target="_blank">https://jasoncheng.ninja/jobs</a>
+&nbsp;<a href="https://www.jasoncheng.ninja/jobs" target="_blank">https://www.jasoncheng.ninja/jobs</a>
 
 <a href="https://www.jasoncheng.ninja/jobs/#/guide" target="_blank">Read the guide</a> for use cases.
 
