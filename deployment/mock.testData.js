@@ -1,11 +1,13 @@
 var
-	testData = {
+	config = require('./mock.testDataConfig')
+	, bcrypt = require('bcrypt-nodejs')
+	, testData = {
 		users : [
 			{
-				"email" : "jasoncheng@live.com.my",
+				"email" : config['user.local.email'],
 				"local" : {
-					"email" : "jasoncheng@live.com.my",
-					"password" : "$2a$10$i5nWT1T12vKQ7dnDdBrij.9F9AMt74Xkurxl8EjIxnPm1fMSoX.Mq"
+					"email" : config['user.local.email'],
+					"password" : bcrypt.hashSync(config['user.local.password'])
 				}
 			}
 		],
@@ -36,7 +38,6 @@ var
 			salaryCurrency : [{ "name" : "United States Dollars ($)", "symbol" : "$", value : "USD" }, { "name" : "Euros (€)", "symbol" : "€", value : "EUR" }, { "name" : "British Pounds (£)", "symbol" : "£", value : "GBP" }, { "name" : "Canadian Dollars ($)", "symbol" : "$", value : "CAD" }, { "name" : "Japanese Yens (¥)", "symbol" : "¥", value : "JPY" }, { "name" : "Chinese Renminbi Yuans (¥)", "symbol" : "¥", value : "CNY" }, { "name" : "Indian Rupees (₹)", "symbol" : "₹", value : "INR" }, { "name" : "Singapore Dollars ($)", "symbol" : "$", value : "SGD" } ]
 		}
 	}
-	, config = require('./mock.testDataConfig')
 	, apis = {}
 	, random = function (min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;

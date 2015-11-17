@@ -1,4 +1,6 @@
 module.exports = {
+	'user.local.email' : 'jasoncheng@live.com.my',
+	'user.local.password' : 'Password',
 	'company.phones.min' : 1,
 	'company.phones.max' : 3,
 	'company.markets.min' : 1,
