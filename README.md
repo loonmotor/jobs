@@ -5,6 +5,12 @@ Single page app for finding and/or posting jobs.
 **Demo**
 &nbsp;<a href="https://www.jasoncheng.ninja/jobs" target="_blank">https://www.jasoncheng.ninja/jobs</a>
 
+**Admin Demo** [https://www.jasoncheng.ninja/jobs/#/control](https://www.jasoncheng.ninja/jobs/#/control)
+
+<small>Email : jasoncheng@live.com.my
+
+Password : Password</small>
+
 <a href="https://www.jasoncheng.ninja/jobs/#/guide" target="_blank">Read the guide</a> for use cases.
 
 
@@ -304,11 +310,5 @@ Mock data generation runs on NodeJS cluster to take advantage of multiple proces
 To generate mock data :
 * Start [deployment/mock.testDataCluster.js](deployment/mock.testDataCluster.js) in a Node process
 * Start [deployment/mock.testDataClient.js](deployment/mock.testDataClient.js) in a Node process
-
-Demo account :
-
-Email : jasoncheng@live.com.my
-
-Password : Password
 
 Configuration is available in [deployment/mock.testDataConfig.js](deployment/mock.testDataConfig.js).
