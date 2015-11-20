@@ -5,9 +5,11 @@ Single page app for finding and/or posting jobs.
 **Demo**
 &nbsp;<a href="https://www.jasoncheng.ninja/jobs" target="_blank">https://www.jasoncheng.ninja/jobs</a>
 
-Email : jasoncheng@live.com.my
+**Admin Demo** [https://www.jasoncheng.ninja/jobs/#/control](https://www.jasoncheng.ninja/jobs/#/control)
 
-Password : Password
+<small>Email : jasoncheng@live.com.my
+
+Password : Password</small>
 
 <a href="https://www.jasoncheng.ninja/jobs/#/guide" target="_blank">Read the guide</a> for use cases.
 
