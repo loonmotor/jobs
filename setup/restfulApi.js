@@ -354,9 +354,8 @@ restfulApi.use('Company', 'POST', function (resourceName, req, res, done) {
 			var updateCommand = {
 				'$set' : {
 					'company.name' : company.name,
-					'company.logo' : company.logo,
+					'company.location' : company.location,
 					'company.website' : company.website,
-					'company.teamSize' : company.teamSize
 				}
 			};
 			db.Job.update({ companyId : company._id.toString() }, updateCommand, { multi : true }, function (err, results) {
